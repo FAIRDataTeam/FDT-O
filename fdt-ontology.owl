@@ -92,11 +92,44 @@
     
 
 
-    <!-- https://w3id.org/fdp/fdt-o#resourceDistribution -->
+    <!-- https://w3id.org/fdp/fdt-o#hasPayload -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#resourceDistribution">
-        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#resource_distribution"/>
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#hasPayload">
+        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#ComputationalArtifact"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#Payload"/>
+        <rdfs:comment>Relation which links computational artifacts to its payload</rdfs:comment>
+        <rdfs:label>has payload</rdfs:label>
     </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#payloadDownloadURL -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#payloadDownloadURL">
+        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#ComputationalArtifact"/>
+        <rdfs:comment>Downloadable location of payload</rdfs:comment>
+        <rdfs:label>payload download url</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#payloadContent -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/fdp/fdt-o#payloadContent">
+        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#Payload"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
     
 
 
@@ -111,24 +144,26 @@
     
 
 
-    <!-- https://w3id.org/fdp/fdt-o#Payload -->
+    <!-- http://www.w3.org/ns/dcat#Resource -->
 
-    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Payload"/>
+    <owl:Class rdf:about="http://www.w3.org/ns/dcat#Resource"/>
     
 
 
-    <!-- https://w3id.org/fdp/fdt-o#computational_artifact -->
+    <!-- https://w3id.org/fdp/fdt-o#ComputationalArtifact -->
 
-    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#computational_artifact">
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#ComputationalArtifact">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
         <rdfs:label xml:lang="en">Computational Artifact</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdp/fdt-o#resource_distribution -->
+    <!-- https://w3id.org/fdp/fdt-o#Payload -->
 
-    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#resource_distribution">
-        <rdfs:label xml:lang="en">Distribution of a resource</rdfs:label>
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Payload">
+        <rdfs:comment>Actually payload of the computational artifact. e.g query string, script, docker image file</rdfs:comment>
+        <rdfs:comment>Payload</rdfs:comment>
     </owl:Class>
     
 
