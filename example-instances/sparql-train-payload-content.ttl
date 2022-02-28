@@ -1,0 +1,21 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix fdto: <https://w3id.org/fdp/fdt-o#>.
+@prefix : <http://example.com/trains/>.
+
+:sparql-train-distribution a fdto:Payload;
+  rdfs:label "SPARQL query";
+  fdto:payloadMediaType "application/sparql-query";
+  fdto:payloadContent """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX covid19: <http://covid19.squirrel.link/ontology#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+SELECT DISTINCT ?municipality ?confirmed_cases ?reported_date {
+
+VALUES ?municipality {<http://www.wikidata.org/entity/Q10006>}
+
+    # GET reported covid cases per municipality
+    ?covid_dataset a covid19:Dataset;
+                  covid19:confirmed ?confirmed_cases;
+                  covid19:date ?reported_date;
+				  obo:IAO_0000136 ?municipality.
+} GROUP BY ?municipality ?confirmed_cases ?reported_date""" .

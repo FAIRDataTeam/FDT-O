@@ -1,0 +1,8 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix fdto: <https://w3id.org/fdp/fdt-o#>.
+@prefix : <http://example.com/trains/>.
+
+:sparql-train-distribution a fdto:Payload;
+  rdfs:label "SPARQL query";
+  fdto:payloadDownloadURL <https://raw.githubusercontent.com/rajaram5/zin-waiting-list-project/main/queries/count-covid-cases-per-municipality.rq?token=GHSAT0AAAAAABL3ZMN7332QZJNC4NA5ZO5AYQTOM4Q>;
+  fdto:payloadMediaType "application/sparql-query".
