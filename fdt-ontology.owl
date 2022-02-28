@@ -171,6 +171,7 @@
     <!-- https://w3id.org/fdp/fdt-o#Payload -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Payload">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
         <rdfs:comment>Actually payload of the computational artifact. e.g query string, script, docker image file</rdfs:comment>
         <rdfs:comment>Payload</rdfs:comment>
     </owl:Class>
