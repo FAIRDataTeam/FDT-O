@@ -1,11 +1,12 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix fdto: <https://w3id.org/fdp/fdt-o#>.
+@prefix fdt-o: <https://w3id.org/fdp/fdt-o#>.
 @prefix : <http://example.com/trains/>.
 
-:sparql-train a dcat:Resource, fdto:computational_artifact;
-  <http://www.w3.org/2000/01/rdf-schema#label> "SPARQL query to retrive covid 19 data";
+:sparql-train a dcat:Resource, fdt-o:Train;
+  <http://www.w3.org/2000/01/rdf-schema#label> "SPARQL query to retrieve COVID 19 data";
+  fdt-o:hasTrainType fdt-o:SPARQLTrain;
   dcterms:hasVersion "1.0";
   dcterms:type <http://www.wikidata.org/entity/Q62522500>;
   dcterms:license <https://creativecommons.org/licenses/by/4.0>;
@@ -16,4 +17,4 @@
   dcat:keyword "COVID-19 data", "SPARQL query", "count cases";
   dcat:theme <http://edamontology.org/format_3790>, <http://purl.obolibrary.org/obo/DOID_0080600>,
     <http://purl.obolibrary.org/obo/APOLLO_SV_00000033>, <http://www.wikidata.org/entity/Q62522500>;
-  fdto:hasPayload :sparql-train-payload.
+  fdt-o:hasPayload :sparql-train-payload.
