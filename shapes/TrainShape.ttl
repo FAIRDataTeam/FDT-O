@@ -1,0 +1,33 @@
+@prefix :         <http://fairdatapoint.org/> .
+@prefix dash:     <http://datashapes.org/dash#> .
+@prefix dcat:     <http://www.w3.org/ns/dcat#> .
+@prefix dct:      <http://purl.org/dc/terms/> .
+@prefix sh:       <http://www.w3.org/ns/shacl#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix fdt-o: <https://w3id.org/fdp/fdt-o#>.
+
+:TrainShape a sh:NodeShape ;
+  sh:targetClass fdt-o:Train ;
+  sh:property [
+    sh:path dct:type;
+    sh:nodeKind sh:IRI ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ],[
+    sh:path fdt-o:hasTrainType ;
+    sh:nodeKind sh:IRI ;
+    sh:maxCount 1 ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ], [
+    sh:path dcat:theme ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ], [
+    sh:path dcat:keyword ;
+    sh:nodeKind sh:Literal ;
+    dash:editor dash:TextFieldEditor ;
+    dash:viewer dash:LiteralViewer ;
+  ].
