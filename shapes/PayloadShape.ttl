@@ -11,13 +11,14 @@
   sh:property [
     sh:path fdt-o:payloadDownloadURL ;
     sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
     sh:maxCount 1 ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ], [
     sh:path fdt-o:payloadMediaType ;
-    sh:nodeKind sh:IRI ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
     sh:maxCount 1 ;
-    dash:editor dash:URIEditor ;
-    dash:viewer dash:LabelViewer ;
+    dash:editor dash:TextFieldEditor ;
   ].
