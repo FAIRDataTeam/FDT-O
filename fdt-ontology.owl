@@ -103,6 +103,15 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#hasRequirement -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#hasRequirement">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:label xml:lang="en">has requirement</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#hasTrainType -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#hasTrainType">
@@ -128,6 +137,15 @@
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#supportsTrainType">
         <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#DataStation"/>
         <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#TrainType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#http://purl.obolibrary.org/obo/BFO_0000051 -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#http://purl.obolibrary.org/obo/BFO_0000051">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:label xml:lang="en">has part</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -203,6 +221,15 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#ComputationalEnvironmentRequirement -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#ComputationalEnvironmentRequirement">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#TrainRequirement"/>
+        <rdfs:label xml:lang="en">Computational Environment Requirement</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#ContainerTrain -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#ContainerTrain">
@@ -215,6 +242,15 @@
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#DataStation">
         <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#DataService"/>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#DatasetRequirement -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#DatasetRequirement">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#TrainRequirement"/>
+        <rdfs:label xml:lang="en">Dataset Requirement</rdfs:label>
     </owl:Class>
     
 
@@ -232,6 +268,15 @@
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#FHIRTrain">
         <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#APITrain"/>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#OutputRequirement -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#OutputRequirement">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#TrainRequirement"/>
+        <rdfs:label xml:lang="en">Output Requirement</rdfs:label>
     </owl:Class>
     
 
@@ -307,6 +352,14 @@
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Train">
         <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#ComputationalArtifact"/>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#TrainRequirement -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#TrainRequirement">
+        <rdfs:label xml:lang="en">Train Requirement</rdfs:label>
     </owl:Class>
     
 

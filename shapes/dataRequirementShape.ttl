@@ -1,0 +1,18 @@
+@prefix :         <http://example.com/mytrain/datasetRequirement/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix sh:       <http://www.w3.org/ns/shacl#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix covid19: <http://covid19.squirrel.link/ontology#>
+
+:covidDatasetShape a sh:NodeShape ;
+  sh:targetClass covid19:Dataset;
+  sh:property [
+    sh:path obo:IAO_0000136 ;
+    sh:nodeKind sh:IRI ;
+  ], [
+    sh:path covid19:confirmed ;
+    sh:nodeKind sh:Literal ;
+  ], [
+    sh:path covid19:date ;
+    sh:nodeKind sh:Literal ;
+  ].
