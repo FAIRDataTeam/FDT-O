@@ -92,6 +92,15 @@
     
 
 
+    <!-- http://purl.org/dc/terms/creator -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/dc/terms/creator">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#DataStation"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#hasPayload -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#hasPayload">
@@ -112,6 +121,14 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#hasStationOwner -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#hasStationOwner">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/creator"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#hasTrainType -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#hasTrainType">
@@ -122,12 +139,32 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#implementsInteractionMechanism -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#implementsInteractionMechanism">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#TrainType"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#payloadDownloadURL -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#payloadDownloadURL">
         <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#Payload"/>
         <rdfs:comment>Downloadable location of payload</rdfs:comment>
         <rdfs:label>payload download url</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#supportsInteractionMechanism -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#supportsInteractionMechanism">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#DataStation"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
     </owl:ObjectProperty>
     
 
@@ -161,6 +198,26 @@
     
 
 
+    <!-- http://purl.org/dc/terms/date -->
+
+    <owl:DatatypeProperty rdf:about="http://purl.org/dc/terms/date">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#endDate -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/fdp/fdt-o#endDate">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/date"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#DataStation"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTimeStamp"/>
+        <owl:propertyDisjointWith rdf:resource="https://w3id.org/fdp/fdt-o#startDate"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#payloadContent -->
 
     <owl:DatatypeProperty rdf:about="https://w3id.org/fdp/fdt-o#payloadContent">
@@ -175,6 +232,14 @@
     <owl:DatatypeProperty rdf:about="https://w3id.org/fdp/fdt-o#payloadMediaType">
         <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#Payload"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#startDate -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/fdp/fdt-o#startDate">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/date"/>
     </owl:DatatypeProperty>
     
 
@@ -201,6 +266,14 @@
     <!-- http://www.w3.org/ns/dcat#Resource -->
 
     <owl:Class rdf:about="http://www.w3.org/ns/dcat#Resource"/>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#API -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#API">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+    </owl:Class>
     
 
 
@@ -255,6 +328,15 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#Docker -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Docker">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Executable_Container"/>
+        <rdfs:label xml:lang="en">Docker Container</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#DockerTrain -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#DockerTrain">
@@ -264,11 +346,43 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#Executable_Container -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Executable_Container">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#FHIRTrain -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#FHIRTrain">
         <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#APITrain"/>
     </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#FHIR_API -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#FHIR_API">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#API"/>
+        <rdfs:label xml:lang="en">FHIR API</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#GraphQL -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#GraphQL">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Query"/>
+        <rdfs:label xml:lang="en">GraphQL</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#Interaction_Mechanism -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
     
 
 
@@ -300,10 +414,27 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#Query -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Query">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#QueryTrain -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#QueryTrain">
         <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#TrainType"/>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#REST_API -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#REST_API">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#API"/>
+        <rdfs:label xml:lang="en">REST API</rdfs:label>
     </owl:Class>
     
 
@@ -316,10 +447,28 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#SPARQL -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#SPARQL">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Query"/>
+        <rdfs:label xml:lang="en">SPARQL</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#SPARQLTrain -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#SPARQLTrain">
         <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#QueryTrain"/>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#SQL -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#SQL">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Query"/>
+        <rdfs:label xml:lang="en">SQL</rdfs:label>
     </owl:Class>
     
 
@@ -340,10 +489,28 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#Singularity -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Singularity">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Executable_Container"/>
+        <rdfs:label xml:lang="en">Singularity Container</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#SingularityTrain -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#SingularityTrain">
         <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#ContainerTrain"/>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#TPF -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#TPF">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Query"/>
+        <rdfs:label xml:lang="en">Triple Pattern Fragments</rdfs:label>
     </owl:Class>
     
 
