@@ -19,7 +19,10 @@
   dcat:theme <http://edamontology.org/format_3790>, <http://purl.obolibrary.org/obo/DOID_0080600>,
     <http://purl.obolibrary.org/obo/APOLLO_SV_00000033>, <http://www.wikidata.org/entity/Q62522500>;
   fdt-o:hasPayload :sparql-train-payload;
-  fdt-o:hasRequirement :datasetRequirement.
+  fdt-o:hasRequirement :datasetRequirement, :outputRequirement.
 
 :datasetRequirement a fdt-o:DatasetRequirement;
   obo:BFO_0000051  <http://example.com/mytrain/datasetRequirement/covidDatasetShape> .
+
+:outputRequirement a fdt-o:OutputRequirement;
+  obo:BFO_0000051  <http://example.com/mytrain/datasetRequirement/resultShape> .
