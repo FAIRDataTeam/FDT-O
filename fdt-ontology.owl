@@ -134,7 +134,7 @@
     <!-- https://w3id.org/fdp/fdt-o#hasPayload -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#hasPayload">
-        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#ComputationalArtifact"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#Train"/>
         <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#Payload"/>
         <rdfs:comment>Relation which links computational artifacts to its payload</rdfs:comment>
         <rdfs:label>has payload</rdfs:label>
@@ -165,7 +165,7 @@
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#implementsInteractionMechanism">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#Train"/>
-        <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
     </owl:ObjectProperty>
     
 
@@ -195,7 +195,7 @@
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#supportsInteractionMechanism">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#DataStation"/>
-        <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
     </owl:ObjectProperty>
     
 
@@ -331,7 +331,7 @@
     <!-- https://w3id.org/fdp/fdt-o#API -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#API">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
     </owl:Class>
     
 
@@ -375,7 +375,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://w3id.org/fdp/fdt-o#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#Executable_Container"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#ExecutableContainer"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -403,6 +403,12 @@
         <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#DataService"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/fdp/fdt-o#supportsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://w3id.org/fdp/fdt-o#http://purl.obolibrary.org/obo/BFO_0000051"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdp-o#FAIRDataPoint"/>
             </owl:Restriction>
@@ -423,7 +429,7 @@
     <!-- https://w3id.org/fdp/fdt-o#Docker -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Docker">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Executable_Container"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#ExecutableContainer"/>
         <rdfs:label xml:lang="en">Docker Container</rdfs:label>
     </owl:Class>
     
@@ -444,10 +450,19 @@
     
 
 
-    <!-- https://w3id.org/fdp/fdt-o#Executable_Container -->
+    <!-- https://w3id.org/fdp/fdt-o#ExecutableContainer -->
 
-    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Executable_Container">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#ExecutableContainer">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#FHIRAPI -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#FHIRAPI">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#API"/>
+        <rdfs:label xml:lang="en">FHIR API</rdfs:label>
     </owl:Class>
     
 
@@ -459,18 +474,9 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://w3id.org/fdp/fdt-o#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#FHIR_API"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#FHIRAPI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/fdp/fdt-o#FHIR_API -->
-
-    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#FHIR_API">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#API"/>
-        <rdfs:label xml:lang="en">FHIR API</rdfs:label>
     </owl:Class>
     
 
@@ -498,9 +504,9 @@
     
 
 
-    <!-- https://w3id.org/fdp/fdt-o#Interaction_Mechanism -->
+    <!-- https://w3id.org/fdp/fdt-o#InteractionMechanism -->
 
-    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
     
 
 
@@ -508,7 +514,7 @@
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Payload">
         <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
-        <rdfs:comment>Actually payload of the computational artifact. e.g query string, script, docker image file</rdfs:comment>
+        <rdfs:comment xml:lang="en">Actually payload of the Train, e.g. query string, script, docker image file</rdfs:comment>
         <rdfs:comment>Payload</rdfs:comment>
     </owl:Class>
     
@@ -540,7 +546,7 @@
     <!-- https://w3id.org/fdp/fdt-o#Query -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Query">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
     </owl:Class>
     
 
@@ -567,6 +573,15 @@
     
 
 
+    <!-- https://w3id.org/fdp/fdt-o#RESTAPI -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#RESTAPI">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#API"/>
+        <rdfs:label xml:lang="en">REST API</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/fdp/fdt-o#RESTTrain -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#RESTTrain">
@@ -574,18 +589,9 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://w3id.org/fdp/fdt-o#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#REST_API"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#RESTAPI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/fdp/fdt-o#REST_API -->
-
-    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#REST_API">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#API"/>
-        <rdfs:label xml:lang="en">REST API</rdfs:label>
     </owl:Class>
     
 
@@ -653,7 +659,7 @@
     <!-- https://w3id.org/fdp/fdt-o#Script -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Script">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
     </owl:Class>
     
 
@@ -675,7 +681,7 @@
     <!-- https://w3id.org/fdp/fdt-o#Singularity -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Singularity">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#Executable_Container"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#ExecutableContainer"/>
         <rdfs:label xml:lang="en">Singularity Container</rdfs:label>
     </owl:Class>
     
@@ -738,7 +744,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://w3id.org/fdp/fdt-o#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#Interaction_Mechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#InteractionMechanism"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
