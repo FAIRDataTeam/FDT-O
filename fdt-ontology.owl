@@ -123,6 +123,7 @@
         <owl:inverseOf rdf:resource="https://w3id.org/fdp/fdt-o#isControlledBy"/>
         <rdfs:domain rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
         <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
+        <dct:description xml:lang="en">This property represents the relation when an Agent has controlling rights over resources (data, services, etc.).</dct:description>
     </owl:ObjectProperty>
     
 
@@ -171,6 +172,7 @@
     <owl:ObjectProperty rdf:about="https://w3id.org/fdp/fdt-o#isControlledBy">
         <rdfs:domain rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
         <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+        <dct:description xml:lang="en">This relation represents the relation in which a resource is controlled by an agent.</dct:description>
     </owl:ObjectProperty>
     
 
@@ -387,6 +389,7 @@
                 <owl:someValuesFrom rdf:resource="http://www.w3.org/ns/dcat#Dataset"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dct:description xml:lang="en">Data Controller represents the Agent(s) (organization or person) who has controlling rights over datasets. Among these controlling rights we may have the right to modify, delete data, define the access conditions or consent access, among others.</dct:description>
     </owl:Class>
     
 
@@ -699,6 +702,7 @@
                 <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#DataStation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dct:description xml:lang="en">Station Owner represents the Agent(s) (organization or person) who is(are) responsible for the operations of the Data Station.</dct:description>
     </owl:Class>
     
 
@@ -748,6 +752,7 @@
                 <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#Train"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dct:description xml:lang="en">Train Owner represents the agent(s) (organization or person) who sent a Train to a Data Station. Therefore, the Train is visiting a Station on behalf of the Train Owner.</dct:description>
     </owl:Class>
     
 
@@ -756,6 +761,7 @@
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#TrainProvider">
         <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+        <dct:description xml:lang="en">Train Provider represents the agent(s) (organization or person) who created the Train.</dct:description>
     </owl:Class>
     
 
