@@ -4,8 +4,8 @@
 @prefix fdt-o: <https://w3id.org/fdp/fdt-o#>.
 @prefix : <http://example.com/trains/>.
 
-:sparql-train a dcat:Resource, fdt-o:SPARQLTrain;
-  <http://www.w3.org/2000/01/rdf-schema#label> "SPARQL query to retrieve COVID 19 data";
+:sparql-train a fdt-o:Train, fdt-o:SPARQLTrain;
+  dcterms:title "SPARQL query to retrieve COVID 19 data";
   fdt-o:implementsInteractionMechanism [a fdt-o:SPARQL];
   fdt-o:isControlledBy [a fdt-o:TrainOwner;
       foaf:name "Rajaram Kaliyaperumal"];
@@ -18,4 +18,10 @@
   dcat:keyword "COVID-19 data", "SPARQL query", "count cases";
   dcat:theme <http://edamontology.org/format_3790>, <http://purl.obolibrary.org/obo/DOID_0080600>,
     <http://purl.obolibrary.org/obo/APOLLO_SV_00000033>, <http://www.wikidata.org/entity/Q62522500>;
-  fdt-o:hasPayload :sparql-train-payload.
+  fdt-o:hasPayload :sparql-train-payload;
+fdt-o:generatesOutput :train-output.
+
+:train-output a dcat:Dataset;
+  dcterms:conformsTo  <http://example.com/mytrain/datasetRequirement/resultShape> .
+
+<http://example.com/mytrain/datasetRequirement/resultShape> a dcterms:Standard.

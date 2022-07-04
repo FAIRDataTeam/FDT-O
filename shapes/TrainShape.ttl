@@ -13,7 +13,7 @@
   sh:property  [
     sh:path rdf:type ;
     sh:nodeKind sh:IRI;
-    sh:in (fdt-o:APITrain fdt-o:ContainerTrain fdt-o:DockerTrain fdt-o:SingularityTrain fdt-o:FHIRTrain fdt-o:GraphQLTrain fdt-o:QueryTrain fdt-o:PythonTrain fdt-o:ScriptTrain fdt-o:RTrain fdt-o:RESTTrain fdt-o:SPARQLTrain fdt-o:SQLTrain fdt-o:TriplePatternFragmentTrain);
+    sh:in (fdt-o:Train fdt-o:APITrain fdt-o:ContainerTrain fdt-o:DockerTrain fdt-o:SingularityTrain fdt-o:FHIRTrain fdt-o:GraphQLTrain fdt-o:QueryTrain fdt-o:PythonTrain fdt-o:ScriptTrain fdt-o:RTrain fdt-o:RESTTrain fdt-o:SPARQLTrain fdt-o:SQLTrain fdt-o:TriplePatternFragmentTrain);
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[

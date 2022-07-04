@@ -5,8 +5,8 @@
 @prefix obo: <http://purl.obolibrary.org/obo/>.
 @prefix : <http://example.com/trains/>.
 
-:sparql-train a dcat:Resource, fdt-o:Train, fdt-o:SPARQLTrain;
-  <http://www.w3.org/2000/01/rdf-schema#label> "SPARQL query to retrieve COVID 19 data";
+:sparql-train a fdt-o:Train, fdt-o:SPARQLTrain;
+  dcterms:title "SPARQL query to retrieve COVID 19 data";
   fdt-o:implementsInteractionMechanism [a fdt-o:SPARQL];
   fdt-o:isControlledBy [a fdt-o:TrainOwner;
       foaf:name "Rajaram Kaliyaperumal"];

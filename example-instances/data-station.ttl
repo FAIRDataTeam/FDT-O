@@ -4,8 +4,8 @@
 @prefix fdt-o: <https://w3id.org/fdp/fdt-o#>.
 @prefix : <http://example.com/datastation/>.
 
-:data-station a dcat:Resource, fdt-o:DataStation;
-  <http://www.w3.org/2000/01/rdf-schema#label> "An exemplar data station";
+:data-station a fdt-o:DataStation;
+  dcterms:title "An exemplar data station";
   fdt-o:isControlledBy [a fdt-o:StationOwner;
       foaf:name "Rajaram Kaliyaperumal"];
   dcterms:hasVersion "1.0";
