@@ -4,11 +4,12 @@
 @prefix fdt-o: <https://w3id.org/fdp/fdt-o#>.
 @prefix : <http://example.com/trains/>.
 
-:sparql-train a dcat:Resource, fdt-o:Train;
+:sparql-train a dcat:Resource, fdt-o:SPARQLTrain;
   <http://www.w3.org/2000/01/rdf-schema#label> "SPARQL query to retrieve COVID 19 data";
-  fdt-o:hasTrainType fdt-o:SPARQLTrain;
+  fdt-o:implementsInteractionMechanism [a fdt-o:SPARQL];
+  fdt-o:isControlledBy [a fdt-o:TrainOwner;
+      foaf:name "Rajaram Kaliyaperumal"];
   dcterms:hasVersion "1.0";
-  dcterms:type <http://www.wikidata.org/entity/Q62522500>;
   dcterms:license <https://creativecommons.org/licenses/by/4.0>;
   dcterms:description """SPARQL query to retrive covid 19 cases per region in the netherlands""";
   dcterms:publisher [ a foaf:Agent;

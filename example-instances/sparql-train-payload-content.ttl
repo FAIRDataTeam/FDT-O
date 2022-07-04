@@ -2,7 +2,7 @@
 @prefix fdto: <https://w3id.org/fdp/fdt-o#>.
 @prefix : <http://example.com/trains/>.
 
-:sparql-train-distribution a fdto:Payload;
+:sparql-train-payload a fdto:Payload;
   rdfs:label "SPARQL query";
   fdto:payloadMediaType "application/sparql-query";
   fdto:payloadContent """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

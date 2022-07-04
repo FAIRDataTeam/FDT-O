@@ -5,29 +5,111 @@
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
 @prefix fdt-o: <https://w3id.org/fdp/fdt-o#>.
+@prefix foaf:     <http://xmlns.com/foaf/0.1/>.
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
 :TrainShape a sh:NodeShape ;
   sh:targetClass fdt-o:Train ;
-  sh:property [
-    sh:path dct:type;
+  sh:property  [
+    sh:path rdf:type ;
+    sh:nodeKind sh:IRI;
+    sh:in (fdt-o:APITrain fdt-o:ContainerTrain fdt-o:DockerTrain fdt-o:SingularityTrain fdt-o:FHIRTrain fdt-o:GraphQLTrain fdt-o:QueryTrain fdt-o:PythonTrain fdt-o:ScriptTrain fdt-o:RTrain fdt-o:RESTTrain fdt-o:SPARQLTrain fdt-o:SQLTrain fdt-o:TriplePatternFragmentTrain);
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ],[
+    sh:path fdt-o:implementsInteractionMechanism ;
+    sh:node :InteractionMechanismShape ;
+    dash:editor dash:BlankNodeEditor
+  ],[
+    sh:path fdt-o:isControlledBy ;
+    sh:node :StationOwnerShape ;
+    dash:editor dash:BlankNodeEditor
+  ],[
+    sh:path fdt-o:hasPayload ;
     sh:nodeKind sh:IRI ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[
-    sh:path fdt-o:hasTrainType ;
+    sh:path fdt-o:hasRequirement ;
     sh:nodeKind sh:IRI ;
-    sh:maxCount 1 ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
-  ], [
+  ],[
+    sh:path fdt-o:generatesOutput;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ],[
     sh:path dcat:theme ;
     sh:nodeKind sh:IRI ;
     sh:minCount 1 ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
-  ], [
+  ],[
     sh:path dcat:keyword ;
     sh:nodeKind sh:Literal ;
     dash:editor dash:TextFieldEditor ;
     dash:viewer dash:LiteralViewer ;
+  ],[
+    sh:path dct:title ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount  1 ;
+    dash:editor dash:TextFieldEditor ;
+  ],[
+    sh:path dct:description ;
+    sh:nodeKind sh:Literal ;
+    sh:maxCount 1 ;
+    dash:editor dash:TextAreaEditor ;
+  ],[
+    sh:path dct:publisher ;
+    sh:node :AgentShape ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    dash:editor dash:BlankNodeEditor ;
+  ],[
+    sh:path dct:hasVersion ;
+    sh:name "version" ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    dash:editor dash:TextFieldEditor ;
+    dash:viewer dash:LiteralViewer ;
+  ],[
+    sh:path dct:license ;
+    sh:nodeKind sh:IRI ;
+    sh:maxCount 1 ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
   ].
+
+  :AgentShape a sh:NodeShape ;
+  sh:targetClass foaf:Agent ;
+  sh:property [
+    sh:path foaf:name;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount  1 ;
+    dash:editor dash:TextFieldEditor ;
+  ] .
+
+  :InteractionMechanismShape a sh:NodeShape ;
+  sh:targetClass fdt-o:InteractionMechanism ;
+  sh:property  [
+    sh:path rdf:type ;
+    sh:nodeKind sh:IRI;
+    sh:in (fdt-o:API fdt-o:ExecutableContainer fdt-o:Docker fdt-o:FHIRAPI fdt-o:GraphQL fdt-o:Query fdt-o:Python fdt-o:Script fdt-o:R fdt-o:RESTAPI fdt-o:SPARQL fdt-o:SQL fdt-o:Singularity fdt-o:TPF);
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ] .
+
+  :StationOwnerShape a sh:NodeShape ;
+  sh:targetClass fdt-o:StationOwner ;
+  sh:property [
+    sh:path foaf:name;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount  1 ;
+    dash:editor dash:TextFieldEditor ;
+  ] .
