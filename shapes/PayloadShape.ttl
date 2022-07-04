@@ -9,6 +9,17 @@
 :PayloadShape a sh:NodeShape ;
   sh:targetClass fdt-o:Payload ;
   sh:property [
+    sh:path dct:title ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount  1 ;
+    dash:editor dash:TextFieldEditor ;
+  ],[
+    sh:path dct:description ;
+    sh:nodeKind sh:Literal ;
+    sh:maxCount 1 ;
+    dash:editor dash:TextAreaEditor ;
+  ], [
     sh:path fdt-o:payloadDownloadURL ;
     sh:nodeKind sh:IRI ;
     sh:minCount 1 ;
