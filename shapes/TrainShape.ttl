@@ -22,7 +22,7 @@
     dash:editor dash:BlankNodeEditor
   ],[
     sh:path fdt-o:isControlledBy ;
-    sh:node :StationOwnerShape ;
+    sh:node :TrainOwnerShape ;
     dash:editor dash:BlankNodeEditor
   ],[
     sh:path fdt-o:hasPayload ;
@@ -104,8 +104,8 @@
     dash:viewer dash:LabelViewer ;
   ] .
 
-  :StationOwnerShape a sh:NodeShape ;
-  sh:targetClass fdt-o:StationOwner ;
+  :TrainOwnerShape a sh:NodeShape ;
+  sh:targetClass fdt-o:TrainOwner ;
   sh:property [
     sh:path foaf:name;
     sh:nodeKind sh:Literal ;
