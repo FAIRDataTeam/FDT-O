@@ -16,3 +16,5 @@
   dcterms:publisher [ a foaf:Agent;
       foaf:name "Rajaram Kaliyaperumal"
     ].
+
+:data-station-metadata

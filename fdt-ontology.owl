@@ -17,9 +17,6 @@
      xmlns:schema="http://schema.org/">
     <owl:Ontology rdf:about="https://w3id.org/fdp/fdt-o#">
         <owl:versionIRI rdf:resource="https://w3id.org/fdp/fdt-o#"/>
-        <dct:creator rdf:resource="https://github.com/kburger"/>
-        <dct:creator rdf:resource="https://github.com/luizbonino"/>
-        <dct:creator rdf:resource="https://github.com/rajaram5"/>
         <dct:description xml:lang="en">This ontology describes the elements of the FAIR Data Train (FDT) and their relations. It serves as a reference model to annotate the metadata content of the FDTs.</dct:description>
         <dct:hasVersion xml:lang="en">0.2</dct:hasVersion>
         <dct:license rdf:resource="https://creativecommons.org/licenses/by/4.0/legalcode"/>
@@ -99,7 +96,8 @@
 
     <owl:ObjectProperty rdf:about="http://purl.org/dc/terms/creator">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/fdp/fdt-o#DataStation"/>
+        <rdfs:domain rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
+        <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
     </owl:ObjectProperty>
     
 
@@ -277,6 +275,14 @@
     
 
 
+    <!-- http://purl.org/dc/terms/Agent -->
+
+    <owl:Class rdf:about="http://purl.org/dc/terms/Agent">
+        <owl:equivalentClass rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+    </owl:Class>
+    
+
+
     <!-- http://www.w3.org/ns/dcat#DataService -->
 
     <owl:Class rdf:about="http://www.w3.org/ns/dcat#DataService">
@@ -417,15 +423,6 @@
     
 
 
-    <!-- https://w3id.org/fdp/fdt-o#DatasetRequirement -->
-
-    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#DatasetRequirement">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#TrainRequirement"/>
-        <rdfs:label xml:lang="en">Dataset Requirement</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/fdp/fdt-o#Docker -->
 
     <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#Docker">
@@ -500,6 +497,15 @@
                 <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdt-o#GraphQL"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/fdp/fdt-o#InputRequirement -->
+
+    <owl:Class rdf:about="https://w3id.org/fdp/fdt-o#InputRequirement">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdp/fdt-o#TrainRequirement"/>
+        <rdfs:label xml:lang="en">Input Requirement</rdfs:label>
     </owl:Class>
     
 
@@ -834,7 +840,11 @@
 
     <!-- https://w3id.org/fdp/fdt-o# -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdp/fdt-o#"/>
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdp/fdt-o#">
+        <dct:creator rdf:resource="https://github.com/kburger"/>
+        <dct:creator rdf:resource="https://github.com/luizbonino"/>
+        <dct:creator rdf:resource="https://github.com/rajaram5"/>
+    </owl:NamedIndividual>
     
 
 

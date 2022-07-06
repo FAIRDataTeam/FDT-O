@@ -23,8 +23,11 @@
   fdt-o:hasRequirement :datasetRequirement;
   fdt-o:generatesOutput :train-output.
 
-:datasetRequirement a fdt-o:DatasetRequirement;
-  obo:BFO_0000051  <http://example.com/mytrain/datasetRequirement/covidDatasetShape> .
+:datasetRequirement a fdt-o:InputRequirement;
+  obo:BFO_0000051  :input-dataset.
+
+:input-dataset a dcat:Dataset;
+  dcterms:conformsTo <http://example.com/mytrain/datasetRequirement/covidDatasetShape> .
 
 :train-output a dcat:Dataset;
   dcterms:conformsTo  <http://example.com/mytrain/datasetRequirement/resultShape> .
