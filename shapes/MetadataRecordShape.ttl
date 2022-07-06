@@ -9,17 +9,9 @@
 @prefix foaf:     <http://xmlns.com/foaf/0.1/>.
 @prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-:DataStationShape a sh:NodeShape ;
-  sh:targetClass fdt-o:DataStation ;
+:MetadataRecordShape a sh:NodeShape ;
+  sh:targetClass fdp-o:MetadataRecord ;
   sh:property [
-    sh:path fdt-o:supportsInteractionMechanism ;
-    sh:node :InteractionMechanismShape ;
-    dash:editor dash:BlankNodeEditor
-  ],[
-    sh:path fdt-o:isControlledBy ;
-    sh:node :StationOwnerShape ;
-    dash:editor dash:BlankNodeEditor
-  ],[
     sh:path dct:title ;
     sh:nodeKind sh:Literal ;
     sh:minCount 1 ;
@@ -31,7 +23,27 @@
     sh:maxCount 1 ;
     dash:editor dash:TextAreaEditor ;
   ],[
-    sh:path fdp-o:hasMetadata ;
+    sh:path dct:publisher ;
+    sh:node :AgentShape ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    dash:editor dash:BlankNodeEditor ;
+  ],[
+    sh:path dct:license ;
+    sh:nodeKind sh:IRI ;
+    sh:maxCount 1 ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ],[
+    sh:path dct:hasVersion ;
+    sh:name "version" ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    dash:editor dash:TextFieldEditor ;
+    dash:viewer dash:LiteralViewer ;
+  ],[
+    sh:path fdp-o:isMetadataOf ;
     sh:nodeKind sh:IRI ;
     sh:maxCount 1 ;
     dash:editor dash:URIEditor ;
@@ -40,26 +52,6 @@
 
   :AgentShape a sh:NodeShape ;
   sh:targetClass foaf:Agent ;
-  sh:property [
-    sh:path foaf:name;
-    sh:nodeKind sh:Literal ;
-    sh:minCount 1 ;
-    sh:maxCount  1 ;
-    dash:editor dash:TextFieldEditor ;
-  ] .
-
-  :InteractionMechanismShape a sh:NodeShape ;
-  sh:targetClass fdt-o:InteractionMechanism ;
-  sh:property  [
-    sh:path rdf:type ;
-    sh:nodeKind sh:IRI;
-    sh:in (fdt-o:API fdt-o:ExecutableContainer fdt-o:Docker fdt-o:FHIRAPI fdt-o:GraphQL fdt-o:Query fdt-o:Python fdt-o:Script fdt-o:R fdt-o:RESTAPI fdt-o:SPARQL fdt-o:SQL fdt-o:Singularity fdt-o:TPF);
-    dash:editor dash:URIEditor ;
-    dash:viewer dash:LabelViewer ;
-  ] .
-
-  :StationOwnerShape a sh:NodeShape ;
-  sh:targetClass fdt-o:StationOwner ;
   sh:property [
     sh:path foaf:name;
     sh:nodeKind sh:Literal ;
