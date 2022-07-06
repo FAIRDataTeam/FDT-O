@@ -2,6 +2,7 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix fdt-o: <https://w3id.org/fdp/fdt-o#>.
+@prefix fdp-o: <https://w3id.org/fdp/fdp-o#>.
 @prefix obo: <http://purl.obolibrary.org/obo/>.
 @prefix : <http://example.com/trains/>.
 
@@ -10,18 +11,23 @@
   fdt-o:implementsInteractionMechanism [a fdt-o:SPARQL];
   fdt-o:isControlledBy [a fdt-o:TrainOwner;
       foaf:name "Rajaram Kaliyaperumal"];
-  dcterms:hasVersion "1.0";
-  dcterms:license <https://creativecommons.org/licenses/by/4.0>;
   dcterms:description """SPARQL query to retrive covid 19 cases per region in the netherlands""";
-  dcterms:publisher [ a foaf:Agent;
-      foaf:name "Rajaram Kaliyaperumal"
-    ];
   dcat:keyword "COVID-19 data", "SPARQL query", "count cases";
   dcat:theme <http://edamontology.org/format_3790>, <http://purl.obolibrary.org/obo/DOID_0080600>,
     <http://purl.obolibrary.org/obo/APOLLO_SV_00000033>, <http://www.wikidata.org/entity/Q62522500>;
   fdt-o:hasPayload :sparql-train-payload;
+  fdp-o:hasMetadata :sparql-train-metadata;
   fdt-o:hasRequirement :datasetRequirement;
   fdt-o:generatesOutput :train-output.
+
+:sparql-train-metadata a fdp-o:MetadataRecord;
+    dcterms:title "Metadata of sparql-train";
+    dcterms:publisher [ a foaf:Agent;
+        foaf:name "Rajaram Kaliyaperumal"
+    ];
+    dcterms:hasVersion "1.0";
+    fdp-o:isMetadataOf :sparql-train;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0>.
 
 :datasetRequirement a fdt-o:InputRequirement;
   obo:BFO_0000051  :input-dataset.
