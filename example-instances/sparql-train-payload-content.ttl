@@ -1,9 +1,9 @@
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix fdto: <https://w3id.org/fdp/fdt-o#>.
+@prefix dct:      <http://purl.org/dc/terms/> .
 @prefix : <http://example.com/trains/>.
 
 :sparql-train-payload a fdto:Payload;
-  rdfs:label "SPARQL query";
+  dct:title "SPARQL query";
   fdto:payloadMediaType "application/sparql-query";
   fdto:payloadContent """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX covid19: <http://covid19.squirrel.link/ontology#>

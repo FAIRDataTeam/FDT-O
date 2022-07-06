@@ -14,22 +14,29 @@
     sh:minCount 1 ;
     sh:maxCount  1 ;
     dash:editor dash:TextFieldEditor ;
-  ],[
+  ];
+  sh:property[
     sh:path dct:description ;
     sh:nodeKind sh:Literal ;
     sh:maxCount 1 ;
     dash:editor dash:TextAreaEditor ;
-  ], [
-    sh:path fdt-o:payloadDownloadURL ;
-    sh:nodeKind sh:IRI ;
-    sh:minCount 1 ;
-    sh:maxCount 1 ;
-    dash:editor dash:URIEditor ;
-    dash:viewer dash:LabelViewer ;
-  ], [
-    sh:path fdt-o:payloadMediaType ;
-    sh:nodeKind sh:Literal ;
-    sh:minCount 1 ;
-    sh:maxCount 1 ;
-    dash:editor dash:TextFieldEditor ;
-  ].
+  ];
+  sh:property[
+  sh:or (
+      [
+        sh:path fdt-o:payloadDownloadURL ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        dash:editor dash:URIEditor ;
+        dash:viewer dash:LabelViewer ;
+      ]
+      [
+        sh:path fdt-o:payloadContent ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        dash:editor dash:TextFieldEditor ;
+        dash:viewer dash:TextFieldEditor ;
+      ]
+  )].
