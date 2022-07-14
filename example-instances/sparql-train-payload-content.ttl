@@ -1,4 +1,4 @@
-@prefix fdto: <https://w3id.org/fdp/fdt-o#>.
+@prefix fdto: <https://w3id.org/fdt#>.
 @prefix dct:      <http://purl.org/dc/terms/> .
 @prefix : <http://example.com/trains/>.
 
