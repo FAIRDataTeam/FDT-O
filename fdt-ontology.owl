@@ -848,113 +848,113 @@
     
 
 
-    <!-- https://w3id.org/fdt/instances/API -->
+    <!-- https://w3id.org/fdt/instances#API -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/API">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#API">
         <rdf:type rdf:resource="https://w3id.org/fdt#API"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/Docker -->
+    <!-- https://w3id.org/fdt/instances#Docker -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/Docker">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Docker">
         <rdf:type rdf:resource="https://w3id.org/fdt#Docker"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/ExecutableContainer -->
+    <!-- https://w3id.org/fdt/instances#ExecutableContainer -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/ExecutableContainer">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#ExecutableContainer">
         <rdf:type rdf:resource="https://w3id.org/fdt#ExecutableContainer"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/FHIRAPI -->
+    <!-- https://w3id.org/fdt/instances#FHIRAPI -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/FHIRAPI">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#FHIRAPI">
         <rdf:type rdf:resource="https://w3id.org/fdt#FHIRAPI"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/GraphQL -->
+    <!-- https://w3id.org/fdt/instances#GraphQL -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/GraphQL">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#GraphQL">
         <rdf:type rdf:resource="https://w3id.org/fdt#GraphQL"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/Python -->
+    <!-- https://w3id.org/fdt/instances#Python -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/Python">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Python">
         <rdf:type rdf:resource="https://w3id.org/fdt#Python"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/Query -->
+    <!-- https://w3id.org/fdt/instances#Query -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/Query">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Query">
         <rdf:type rdf:resource="https://w3id.org/fdt#Query"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/R -->
+    <!-- https://w3id.org/fdt/instances#R -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/R">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#R">
         <rdf:type rdf:resource="https://w3id.org/fdt#R"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/RESTAPI -->
+    <!-- https://w3id.org/fdt/instances#RESTAPI -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/RESTAPI">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#RESTAPI">
         <rdf:type rdf:resource="https://w3id.org/fdt#RESTAPI"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/SPARQL -->
+    <!-- https://w3id.org/fdt/instances#SPARQL -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/SPARQL">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#SPARQL">
         <rdf:type rdf:resource="https://w3id.org/fdt#SPARQL"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/SQL -->
+    <!-- https://w3id.org/fdt/instances#SQL -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/SQL">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#SQL">
         <rdf:type rdf:resource="https://w3id.org/fdt#SQL"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/Script -->
+    <!-- https://w3id.org/fdt/instances#Script -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/Script">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Script">
         <rdf:type rdf:resource="https://w3id.org/fdt#Script"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/Singularity -->
+    <!-- https://w3id.org/fdt/instances#Singularity -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/Singularity">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Singularity">
         <rdf:type rdf:resource="https://w3id.org/fdt#Singularity"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://w3id.org/fdt/instances/TPF -->
+    <!-- https://w3id.org/fdt/instances#TPF -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances/TPF">
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#TPF">
         <rdf:type rdf:resource="https://w3id.org/fdt#TPF"/>
     </owl:NamedIndividual>
     
