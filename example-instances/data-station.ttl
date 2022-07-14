@@ -2,6 +2,7 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix fdt-o: <https://w3id.org/fdt#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
 @prefix fdp-o: <https://w3id.org/fdp/fdp-o#>.
 @prefix : <http://example.com/datastation/>.
 
@@ -9,8 +10,8 @@
   dcterms:title "An exemplar data station";
   fdt-o:isControlledBy [a fdt-o:StationOwner;
       foaf:name "Rajaram Kaliyaperumal"];
-  fdt-o:supportsInteractionMechanism [a fdt-o:SPARQL];
-  fdt-o:supportsInteractionMechanism [a fdt-o:RESTAPI];
+  fdt-o:supportsInteractionMechanism fdt-inst:SPARQL;
+  fdt-o:supportsInteractionMechanism fdt-inst:RESTAPI;
   fdp-o:hasMetadata :data-station-metadata;
   dcterms:description """An exemplar data station which contents COVID 19 data. This station supports SPARQL interaction mechanism""".
 

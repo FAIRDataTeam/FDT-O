@@ -2,13 +2,14 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix fdt-o: <https://w3id.org/fdt#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
 @prefix fdp-o: <https://w3id.org/fdp/fdp-o#>.
 @prefix obo: <http://purl.obolibrary.org/obo/>.
 @prefix : <http://example.com/trains/>.
 
 :sparql-train a fdt-o:Train, fdt-o:SPARQLTrain;
   dcterms:title "SPARQL query to retrieve COVID 19 data";
-  fdt-o:implementsInteractionMechanism [a fdt-o:SPARQL];
+  fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
   fdt-o:isControlledBy [a fdt-o:TrainOwner;
       foaf:name "Rajaram Kaliyaperumal"];
   dcterms:description """SPARQL query to retrive covid 19 cases per region in the netherlands""";

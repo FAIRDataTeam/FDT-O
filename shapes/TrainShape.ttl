@@ -5,6 +5,7 @@
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
 @prefix fdt-o: <https://w3id.org/fdt#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
 @prefix fdp-o: <https://w3id.org/fdp/fdp-o#>.
 @prefix foaf:     <http://xmlns.com/foaf/0.1/>.
 @prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -19,8 +20,10 @@
     dash:viewer dash:LabelViewer ;
   ],[
     sh:path fdt-o:implementsInteractionMechanism ;
-    sh:node :InteractionMechanismShape ;
-    dash:editor dash:BlankNodeEditor
+    sh:in (fdt-inst:API fdt-inst:ExecutableContainer fdt-inst:Docker fdt-inst:FHIRAPI fdt-inst:GraphQL fdt-inst:Query fdt-inst:Python fdt-inst:Script fdt-inst:R fdt-inst:RESTAPI fdt-inst:SPARQL fdt-inst:SQL fdt-inst:Singularity fdt-inst:TPF);
+    sh:nodeKind sh:IRI;
+    sh:minCount 1;
+    dash:editor dash:URIEditor ;
   ],[
     sh:path fdt-o:isControlledBy ;
     sh:node :TrainOwnerShape ;
@@ -80,17 +83,7 @@
     sh:maxCount  1 ;
     dash:editor dash:TextFieldEditor ;
   ] .
-
-  :InteractionMechanismShape a sh:NodeShape ;
-  sh:targetClass fdt-o:InteractionMechanism ;
-  sh:property  [
-    sh:path rdf:type ;
-    sh:nodeKind sh:IRI;
-    sh:in (fdt-o:API fdt-o:ExecutableContainer fdt-o:Docker fdt-o:FHIRAPI fdt-o:GraphQL fdt-o:Query fdt-o:Python fdt-o:Script fdt-o:R fdt-o:RESTAPI fdt-o:SPARQL fdt-o:SQL fdt-o:Singularity fdt-o:TPF);
-    dash:editor dash:URIEditor ;
-    dash:viewer dash:LabelViewer ;
-  ] .
-
+  
   :TrainOwnerShape a sh:NodeShape ;
   sh:targetClass fdt-o:TrainOwner ;
   sh:property [
