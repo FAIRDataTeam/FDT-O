@@ -15,8 +15,8 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:fdp-o="http://purl.org/fdp/fdp-o#"
      xmlns:schema="http://schema.org/">
-    <owl:Ontology rdf:about="https://w3id.org/fdt#">
-        <owl:versionIRI rdf:resource="https://w3id.org/fdt#"/>
+    <owl:Ontology rdf:about="https://w3id.org/fdt/fdt-o#">
+        <owl:versionIRI rdf:resource="https://w3id.org/fdt/fdt-o#"/>
         <dct:creator rdf:resource="https://github.com/kburger"/>
         <dct:creator rdf:resource="https://github.com/luizbonino"/>
         <dct:creator rdf:resource="https://github.com/rajaram5"/>
@@ -121,20 +121,20 @@
     
 
 
-    <!-- https://w3id.org/fdt#generatesOutput -->
+    <!-- https://w3id.org/fdt/fdt-o#generatesOutput -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#generatesOutput">
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#generatesOutput">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#Train"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
         <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Dataset"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- https://w3id.org/fdt#hasControllingRights -->
+    <!-- https://w3id.org/fdt/fdt-o#hasControllingRights -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#hasControllingRights">
-        <owl:inverseOf rdf:resource="https://w3id.org/fdt#isControlledBy"/>
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#hasControllingRights">
+        <owl:inverseOf rdf:resource="https://w3id.org/fdt/fdt-o#isControlledBy"/>
         <rdfs:domain rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
         <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
         <dct:description xml:lang="en">This property represents the relation when an Agent has controlling rights over resources (data, services, etc.).</dct:description>
@@ -142,48 +142,48 @@
     
 
 
-    <!-- https://w3id.org/fdt#hasPayload -->
+    <!-- https://w3id.org/fdt/fdt-o#hasPayload -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#hasPayload">
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#Train"/>
-        <rdfs:range rdf:resource="https://w3id.org/fdt#Payload"/>
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#hasPayload">
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdt/fdt-o#Payload"/>
         <rdfs:comment>Relation which links computational artifacts to its payload</rdfs:comment>
         <rdfs:label>has payload</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- https://w3id.org/fdt#hasRequirement -->
+    <!-- https://w3id.org/fdt/fdt-o#hasRequirement -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#hasRequirement">
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#hasRequirement">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdfs:label xml:lang="en">has requirement</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- https://w3id.org/fdt#hasTrainType -->
+    <!-- https://w3id.org/fdt/fdt-o#hasTrainType -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#hasTrainType">
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#hasTrainType">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#Train"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- https://w3id.org/fdt#implementsInteractionMechanism -->
+    <!-- https://w3id.org/fdt/fdt-o#implementsInteractionMechanism -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#implementsInteractionMechanism">
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#Train"/>
-        <rdfs:range rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- https://w3id.org/fdt#isControlledBy -->
+    <!-- https://w3id.org/fdt/fdt-o#isControlledBy -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#isControlledBy">
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#isControlledBy">
         <rdfs:domain rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
         <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
         <dct:description xml:lang="en">This relation represents the relation in which a resource is controlled by an agent.</dct:description>
@@ -191,22 +191,22 @@
     
 
 
-    <!-- https://w3id.org/fdt#payloadDownloadURL -->
+    <!-- https://w3id.org/fdt/fdt-o#payloadDownloadURL -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#payloadDownloadURL">
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#Payload"/>
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#payloadDownloadURL">
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Payload"/>
         <rdfs:comment>Downloadable location of payload</rdfs:comment>
         <rdfs:label>payload download url</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- https://w3id.org/fdt#supportsInteractionMechanism -->
+    <!-- https://w3id.org/fdt/fdt-o#supportsInteractionMechanism -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#supportsInteractionMechanism">
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#supportsInteractionMechanism">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#DataStation"/>
-        <rdfs:range rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#DataStation"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
     </owl:ObjectProperty>
     
 
@@ -230,39 +230,39 @@
     
 
 
-    <!-- https://w3id.org/fdt#endDate -->
+    <!-- https://w3id.org/fdt/fdt-o#endDate -->
 
-    <owl:DatatypeProperty rdf:about="https://w3id.org/fdt#endDate">
+    <owl:DatatypeProperty rdf:about="https://w3id.org/fdt/fdt-o#endDate">
         <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/date"/>
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#DataStation"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#DataStation"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTimeStamp"/>
-        <owl:propertyDisjointWith rdf:resource="https://w3id.org/fdt#startDate"/>
+        <owl:propertyDisjointWith rdf:resource="https://w3id.org/fdt/fdt-o#startDate"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- https://w3id.org/fdt#payloadContent -->
+    <!-- https://w3id.org/fdt/fdt-o#payloadContent -->
 
-    <owl:DatatypeProperty rdf:about="https://w3id.org/fdt#payloadContent">
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#Payload"/>
+    <owl:DatatypeProperty rdf:about="https://w3id.org/fdt/fdt-o#payloadContent">
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Payload"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- https://w3id.org/fdt#payloadMediaType -->
+    <!-- https://w3id.org/fdt/fdt-o#payloadMediaType -->
 
-    <owl:DatatypeProperty rdf:about="https://w3id.org/fdt#payloadMediaType">
-        <rdfs:domain rdf:resource="https://w3id.org/fdt#Payload"/>
+    <owl:DatatypeProperty rdf:about="https://w3id.org/fdt/fdt-o#payloadMediaType">
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Payload"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- https://w3id.org/fdt#startDate -->
+    <!-- https://w3id.org/fdt/fdt-o#startDate -->
 
-    <owl:DatatypeProperty rdf:about="https://w3id.org/fdt#startDate">
+    <owl:DatatypeProperty rdf:about="https://w3id.org/fdt/fdt-o#startDate">
         <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/date"/>
     </owl:DatatypeProperty>
     
@@ -315,7 +315,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.org/dc/terms/creator"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#Train"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -338,67 +338,67 @@
     
 
 
-    <!-- https://w3id.org/fdt#API -->
+    <!-- https://w3id.org/fdt/fdt-o#API -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#API">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#API">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#APITrain -->
+    <!-- https://w3id.org/fdt/fdt-o#APITrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#APITrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Train"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#APITrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#API"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#API"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#ComputationalArtifact -->
+    <!-- https://w3id.org/fdt/fdt-o#ComputationalArtifact -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#ComputationalArtifact">
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#ComputationalArtifact">
         <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
         <rdfs:label xml:lang="en">Computational Artifact</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#ComputationalEnvironmentRequirement -->
+    <!-- https://w3id.org/fdt/fdt-o#ComputationalEnvironmentRequirement -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#ComputationalEnvironmentRequirement">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#TrainRequirement"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#ComputationalEnvironmentRequirement">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#TrainRequirement"/>
         <rdfs:label xml:lang="en">Computational Environment Requirement</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#ContainerTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#ContainerTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#ContainerTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Train"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#ContainerTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#ExecutableContainer"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#ExecutableContainer"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#DataController -->
+    <!-- https://w3id.org/fdt/fdt-o#DataController -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#DataController">
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#DataController">
         <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#hasControllingRights"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#hasControllingRights"/>
                 <owl:someValuesFrom rdf:resource="http://www.w3.org/ns/dcat#Dataset"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -407,9 +407,9 @@
     
 
 
-    <!-- https://w3id.org/fdt#DataStation -->
+    <!-- https://w3id.org/fdt/fdt-o#DataStation -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#DataStation">
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#DataStation">
         <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#DataService"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -419,110 +419,110 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#supportsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#supportsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#Docker -->
+    <!-- https://w3id.org/fdt/fdt-o#Docker -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#Docker">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#ExecutableContainer"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#Docker">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#ExecutableContainer"/>
         <rdfs:label xml:lang="en">Docker Container</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#DockerTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#DockerTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#DockerTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#ContainerTrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#DockerTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#ContainerTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#Docker"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#Docker"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="https://w3id.org/fdt#SingularityTrain"/>
+        <owl:disjointWith rdf:resource="https://w3id.org/fdt/fdt-o#SingularityTrain"/>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#ExecutableContainer -->
+    <!-- https://w3id.org/fdt/fdt-o#ExecutableContainer -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#ExecutableContainer">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#ExecutableContainer">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#FHIRAPI -->
+    <!-- https://w3id.org/fdt/fdt-o#FHIRAPI -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#FHIRAPI">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#API"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#FHIRAPI">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#API"/>
         <rdfs:label xml:lang="en">FHIR API</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#FHIRTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#FHIRTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#FHIRTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#APITrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#FHIRTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#APITrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#FHIRAPI"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#FHIRAPI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#GraphQL -->
+    <!-- https://w3id.org/fdt/fdt-o#GraphQL -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#GraphQL">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Query"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#GraphQL">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Query"/>
         <rdfs:label xml:lang="en">GraphQL</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#GraphQLTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#GraphQLTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#GraphQLTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#QueryTrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#GraphQLTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#QueryTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#GraphQL"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#GraphQL"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#InputRequirement -->
+    <!-- https://w3id.org/fdt/fdt-o#InputRequirement -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#InputRequirement">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#TrainRequirement"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#InputRequirement">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#TrainRequirement"/>
         <rdfs:label xml:lang="en">Input Requirement</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#InteractionMechanism -->
+    <!-- https://w3id.org/fdt/fdt-o#InteractionMechanism -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#InteractionMechanism"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
     
 
 
-    <!-- https://w3id.org/fdt#Payload -->
+    <!-- https://w3id.org/fdt/fdt-o#Payload -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#Payload">
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#Payload">
         <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
         <rdfs:comment xml:lang="en">Actually payload of the Train, e.g. query string, script, docker image file</rdfs:comment>
         <rdfs:comment>Payload</rdfs:comment>
@@ -530,195 +530,195 @@
     
 
 
-    <!-- https://w3id.org/fdt#Python -->
+    <!-- https://w3id.org/fdt/fdt-o#Python -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#Python">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Script"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#Python">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Script"/>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#PythonTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#PythonTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#PythonTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#ScriptTrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#PythonTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#ScriptTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#Python"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#Python"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="https://w3id.org/fdt#RTrain"/>
+        <owl:disjointWith rdf:resource="https://w3id.org/fdt/fdt-o#RTrain"/>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#Query -->
+    <!-- https://w3id.org/fdt/fdt-o#Query -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#Query">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#Query">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#QueryTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#QueryTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#QueryTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Train"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#QueryTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#Query"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#Query"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#R -->
+    <!-- https://w3id.org/fdt/fdt-o#R -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#R">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Script"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#R">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Script"/>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#RESTAPI -->
+    <!-- https://w3id.org/fdt/fdt-o#RESTAPI -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#RESTAPI">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#API"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#RESTAPI">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#API"/>
         <rdfs:label xml:lang="en">REST API</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#RESTTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#RESTTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#RESTTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#APITrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#RESTTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#APITrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#RESTAPI"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#RESTAPI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#RTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#RTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#RTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#ScriptTrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#RTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#ScriptTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#R"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#R"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#SPARQL -->
+    <!-- https://w3id.org/fdt/fdt-o#SPARQL -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#SPARQL">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Query"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#SPARQL">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Query"/>
         <rdfs:label xml:lang="en">SPARQL</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#SPARQLTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#SPARQLTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#SPARQLTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#QueryTrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#SPARQLTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#QueryTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#SPARQL"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#SPARQL"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#SQL -->
+    <!-- https://w3id.org/fdt/fdt-o#SQL -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#SQL">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Query"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#SQL">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Query"/>
         <rdfs:label xml:lang="en">SQL</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#SQLTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#SQLTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#SQLTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#QueryTrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#SQLTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#QueryTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#SQL"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#SQL"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#Script -->
+    <!-- https://w3id.org/fdt/fdt-o#Script -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#Script">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#Script">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#ScriptTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#ScriptTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#ScriptTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Train"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#ScriptTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#Script"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#Script"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#Singularity -->
+    <!-- https://w3id.org/fdt/fdt-o#Singularity -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#Singularity">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#ExecutableContainer"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#Singularity">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#ExecutableContainer"/>
         <rdfs:label xml:lang="en">Singularity Container</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#SingularityTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#SingularityTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#SingularityTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#ContainerTrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#SingularityTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#ContainerTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#Singularity"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#Singularity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#StationOwner -->
+    <!-- https://w3id.org/fdt/fdt-o#StationOwner -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#StationOwner">
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#StationOwner">
         <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#hasControllingRights"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#DataStation"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#hasControllingRights"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#DataStation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dct:description xml:lang="en">Station Owner represents the Agent(s) (organization or person) who is(are) responsible for the operations of the Data Station.</dct:description>
@@ -726,49 +726,49 @@
     
 
 
-    <!-- https://w3id.org/fdt#TPF -->
+    <!-- https://w3id.org/fdt/fdt-o#TPF -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#TPF">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#Query"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#TPF">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#Query"/>
         <rdfs:label xml:lang="en">Triple Pattern Fragments</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#Train -->
+    <!-- https://w3id.org/fdt/fdt-o#Train -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#Train">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#ComputationalArtifact"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#Train">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#ComputationalArtifact"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#generatesOutput"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#generatesOutput"/>
                 <owl:someValuesFrom rdf:resource="http://www.w3.org/ns/dcat#Dataset"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#hasRequirement"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#TrainRequirement"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#hasRequirement"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#TrainRequirement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#InteractionMechanism"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#TrainOwner -->
+    <!-- https://w3id.org/fdt/fdt-o#TrainOwner -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#TrainOwner">
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#TrainOwner">
         <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#hasControllingRights"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#Train"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#hasControllingRights"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dct:description xml:lang="en">Train Owner represents the agent(s) (organization or person) who sent a Train to a Data Station. Therefore, the Train is visiting a Station on behalf of the Train Owner.</dct:description>
@@ -776,31 +776,31 @@
     
 
 
-    <!-- https://w3id.org/fdt#TrainProvider -->
+    <!-- https://w3id.org/fdt/fdt-o#TrainProvider -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#TrainProvider">
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#TrainProvider">
         <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
         <dct:description xml:lang="en">Train Provider represents the agent(s) (organization or person) who created the Train.</dct:description>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#TrainRequirement -->
+    <!-- https://w3id.org/fdt/fdt-o#TrainRequirement -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#TrainRequirement">
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#TrainRequirement">
         <rdfs:label xml:lang="en">Train Requirement</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/fdt#TriplePatternFragmentTrain -->
+    <!-- https://w3id.org/fdt/fdt-o#TriplePatternFragmentTrain -->
 
-    <owl:Class rdf:about="https://w3id.org/fdt#TriplePatternFragmentTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt#QueryTrain"/>
+    <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#TriplePatternFragmentTrain">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#QueryTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#implementsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#TPF"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#TPF"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -851,7 +851,7 @@
     <!-- https://w3id.org/fdt/instances#API -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#API">
-        <rdf:type rdf:resource="https://w3id.org/fdt#API"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#API"/>
     </owl:NamedIndividual>
     
 
@@ -859,7 +859,7 @@
     <!-- https://w3id.org/fdt/instances#Docker -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Docker">
-        <rdf:type rdf:resource="https://w3id.org/fdt#Docker"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#Docker"/>
     </owl:NamedIndividual>
     
 
@@ -867,7 +867,7 @@
     <!-- https://w3id.org/fdt/instances#ExecutableContainer -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#ExecutableContainer">
-        <rdf:type rdf:resource="https://w3id.org/fdt#ExecutableContainer"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#ExecutableContainer"/>
     </owl:NamedIndividual>
     
 
@@ -875,7 +875,7 @@
     <!-- https://w3id.org/fdt/instances#FHIRAPI -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#FHIRAPI">
-        <rdf:type rdf:resource="https://w3id.org/fdt#FHIRAPI"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#FHIRAPI"/>
     </owl:NamedIndividual>
     
 
@@ -883,7 +883,7 @@
     <!-- https://w3id.org/fdt/instances#GraphQL -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#GraphQL">
-        <rdf:type rdf:resource="https://w3id.org/fdt#GraphQL"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#GraphQL"/>
     </owl:NamedIndividual>
     
 
@@ -891,7 +891,7 @@
     <!-- https://w3id.org/fdt/instances#Python -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Python">
-        <rdf:type rdf:resource="https://w3id.org/fdt#Python"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#Python"/>
     </owl:NamedIndividual>
     
 
@@ -899,7 +899,7 @@
     <!-- https://w3id.org/fdt/instances#Query -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Query">
-        <rdf:type rdf:resource="https://w3id.org/fdt#Query"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#Query"/>
     </owl:NamedIndividual>
     
 
@@ -907,7 +907,7 @@
     <!-- https://w3id.org/fdt/instances#R -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#R">
-        <rdf:type rdf:resource="https://w3id.org/fdt#R"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#R"/>
     </owl:NamedIndividual>
     
 
@@ -915,7 +915,7 @@
     <!-- https://w3id.org/fdt/instances#RESTAPI -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#RESTAPI">
-        <rdf:type rdf:resource="https://w3id.org/fdt#RESTAPI"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#RESTAPI"/>
     </owl:NamedIndividual>
     
 
@@ -923,7 +923,7 @@
     <!-- https://w3id.org/fdt/instances#SPARQL -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#SPARQL">
-        <rdf:type rdf:resource="https://w3id.org/fdt#SPARQL"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#SPARQL"/>
     </owl:NamedIndividual>
     
 
@@ -931,7 +931,7 @@
     <!-- https://w3id.org/fdt/instances#SQL -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#SQL">
-        <rdf:type rdf:resource="https://w3id.org/fdt#SQL"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#SQL"/>
     </owl:NamedIndividual>
     
 
@@ -939,7 +939,7 @@
     <!-- https://w3id.org/fdt/instances#Script -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Script">
-        <rdf:type rdf:resource="https://w3id.org/fdt#Script"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#Script"/>
     </owl:NamedIndividual>
     
 
@@ -947,7 +947,7 @@
     <!-- https://w3id.org/fdt/instances#Singularity -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#Singularity">
-        <rdf:type rdf:resource="https://w3id.org/fdt#Singularity"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#Singularity"/>
     </owl:NamedIndividual>
     
 
@@ -955,7 +955,7 @@
     <!-- https://w3id.org/fdt/instances#TPF -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt/instances#TPF">
-        <rdf:type rdf:resource="https://w3id.org/fdt#TPF"/>
+        <rdf:type rdf:resource="https://w3id.org/fdt/fdt-o#TPF"/>
     </owl:NamedIndividual>
     
 
@@ -971,9 +971,9 @@
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/fdt#SPARQLTrain"/>
-            <rdf:Description rdf:about="https://w3id.org/fdt#SQLTrain"/>
-            <rdf:Description rdf:about="https://w3id.org/fdt#TriplePatternFragmentTrain"/>
+            <rdf:Description rdf:about="https://w3id.org/fdt/fdt-o#SPARQLTrain"/>
+            <rdf:Description rdf:about="https://w3id.org/fdt/fdt-o#SQLTrain"/>
+            <rdf:Description rdf:about="https://w3id.org/fdt/fdt-o#TriplePatternFragmentTrain"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
