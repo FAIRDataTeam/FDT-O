@@ -17,6 +17,9 @@
      xmlns:schema="http://schema.org/">
     <owl:Ontology rdf:about="https://w3id.org/fdt#">
         <owl:versionIRI rdf:resource="https://w3id.org/fdt#"/>
+        <dct:creator rdf:resource="https://github.com/kburger"/>
+        <dct:creator rdf:resource="https://github.com/luizbonino"/>
+        <dct:creator rdf:resource="https://github.com/rajaram5"/>
         <dct:description xml:lang="en">This ontology describes the elements of the FAIR Data Train (FDT) and their relations. It serves as a reference model to annotate the metadata content of the FDTs.</dct:description>
         <dct:hasVersion xml:lang="en">0.2</dct:hasVersion>
         <dct:license rdf:resource="https://creativecommons.org/licenses/by/4.0/legalcode"/>
@@ -91,6 +94,15 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000051 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000051">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:label xml:lang="en">has part</rdfs:label>
+    </owl:ObjectProperty>
     
 
 
@@ -195,15 +207,6 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdfs:domain rdf:resource="https://w3id.org/fdt#DataStation"/>
         <rdfs:range rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/fdt#http://purl.obolibrary.org/obo/BFO_0000051 -->
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/fdt#http://purl.obolibrary.org/obo/BFO_0000051">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdfs:label xml:lang="en">has part</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -410,14 +413,14 @@
         <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#DataService"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#supportsInteractionMechanism"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdp-o#FAIRDataPoint"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/fdt#http://purl.obolibrary.org/obo/BFO_0000051"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/fdp/fdp-o#FAIRDataPoint"/>
+                <owl:onProperty rdf:resource="https://w3id.org/fdt#supportsInteractionMechanism"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/fdt#InteractionMechanism"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -841,11 +844,7 @@
 
     <!-- https://w3id.org/fdt# -->
 
-    <owl:NamedIndividual rdf:about="https://w3id.org/fdt#">
-        <dct:creator rdf:resource="https://github.com/kburger"/>
-        <dct:creator rdf:resource="https://github.com/luizbonino"/>
-        <dct:creator rdf:resource="https://github.com/rajaram5"/>
-    </owl:NamedIndividual>
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt#"/>
     
 
 
