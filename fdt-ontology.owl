@@ -21,12 +21,10 @@
         <dct:creator rdf:resource="https://github.com/luizbonino"/>
         <dct:creator rdf:resource="https://github.com/rajaram5"/>
         <dct:description xml:lang="en">This ontology describes the elements of the FAIR Data Train (FDT) and their relations. It serves as a reference model to annotate the metadata content of the FDTs.</dct:description>
-        <dct:hasVersion xml:lang="en">0.2</dct:hasVersion>
+        <dct:hasVersion xml:lang="en">0.3</dct:hasVersion>
         <dct:license rdf:resource="https://creativecommons.org/licenses/by/4.0/legalcode"/>
         <rdfs:label xml:lang="en">FAIR Data Train Ontology</rdfs:label>
-        <owl:versionInfo xml:lang="en">- Added agent types;
-- Added relations between agents and the resources they control;
-- Added text descriptions for the new concepts.</owl:versionInfo>
+        <owl:versionInfo xml:lang="en">- Refactored FHIR API and FHIR Train as sub-classes of REST API and REST Train, respectively.</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -145,6 +143,7 @@
     <!-- https://w3id.org/fdt/fdt-o#hasPayload -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#hasPayload">
+        <owl:inverseOf rdf:resource="https://w3id.org/fdt/fdt-o#isPayloadOf"/>
         <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
         <rdfs:range rdf:resource="https://w3id.org/fdt/fdt-o#Payload"/>
         <rdfs:comment>Relation which links computational artifacts to its payload</rdfs:comment>
@@ -187,6 +186,16 @@
         <rdfs:domain rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
         <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
         <dct:description xml:lang="en">This relation represents the relation in which a resource is controlled by an agent.</dct:description>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/fdt/fdt-o#isPayloadOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/fdt/fdt-o#isPayloadOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/fdt/fdt-o#Payload"/>
+        <rdfs:range rdf:resource="https://w3id.org/fdt/fdt-o#Train"/>
     </owl:ObjectProperty>
     
 
@@ -356,6 +365,7 @@
                 <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#API"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">API Train</rdfs:label>
     </owl:Class>
     
 
@@ -462,7 +472,8 @@
     <!-- https://w3id.org/fdt/fdt-o#FHIRAPI -->
 
     <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#FHIRAPI">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#API"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#RESTAPI"/>
+        <rdfs:comment xml:lang="en">The FHIR API is a specialisation of the REST API interaction mechanism in which the station only accept call to resources and respective parameters that are part of the FHIR specifications.</rdfs:comment>
         <rdfs:label xml:lang="en">FHIR API</rdfs:label>
     </owl:Class>
     
@@ -471,13 +482,15 @@
     <!-- https://w3id.org/fdt/fdt-o#FHIRTrain -->
 
     <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#FHIRTrain">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#APITrain"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/fdt/fdt-o#RESTTrain"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://w3id.org/fdt/fdt-o#implementsInteractionMechanism"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#FHIRAPI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dct:description xml:lang="en">The FHIRTrain is a specialisation of the RESTTrain which is constraint to the resource types and respective parameters.</dct:description>
+        <rdfs:label xml:lang="en">FHIR Train</rdfs:label>
     </owl:Class>
     
 
@@ -524,7 +537,7 @@
 
     <owl:Class rdf:about="https://w3id.org/fdt/fdt-o#Payload">
         <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
-        <rdfs:comment xml:lang="en">Actually payload of the Train, e.g. query string, script, docker image file</rdfs:comment>
+        <rdfs:comment xml:lang="en">Actually payload of the Train, e.g. query string, script, docker image identifier, API call.</rdfs:comment>
         <rdfs:comment>Payload</rdfs:comment>
     </owl:Class>
     
@@ -602,6 +615,7 @@
                 <owl:someValuesFrom rdf:resource="https://w3id.org/fdt/fdt-o#RESTAPI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">REST Train</rdfs:label>
     </owl:Class>
     
 
@@ -845,6 +859,16 @@
     <!-- https://w3id.org/fdt# -->
 
     <owl:NamedIndividual rdf:about="https://w3id.org/fdt#"/>
+    
+
+
+    <!-- https://w3id.org/fdt/fdt-o# -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/fdt/fdt-o#">
+        <dct:creator rdf:resource="https://github.com/kburger"/>
+        <dct:creator rdf:resource="https://github.com/luizbonino"/>
+        <dct:creator rdf:resource="https://github.com/rajaram5"/>
+    </owl:NamedIndividual>
     
 
 
