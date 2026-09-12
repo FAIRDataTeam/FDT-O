@@ -5,7 +5,7 @@
 @prefix : <http://example.com/trains/invalid/>.
 
 # INVALID: a train typed as a dataset with a distribution (the pre-amendment ADR-020 reading).
-:bad-train a fdt-o:Train, fdt-o:SPARQLTrain, dcat:Dataset;
+:bad-train a fdt-o:SPARQLTrain, dcat:Dataset;
   dcterms:title "Train wrongly modelled as a dataset";
   fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
   dcat:distribution :dist;

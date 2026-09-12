@@ -69,19 +69,19 @@
   ],[
     sh:path dcat:resource ;
     sh:not [ sh:class fdt-o:Train ] ;
-    sh:message "Trains are catalogued by a Garage, not by a station catalogue." ;
+    sh:message "Trains are catalogued by a Depot, not by a station catalogue." ;
   ] .
 
-:GarageCatalogShape a sh:NodeShape ;
-  sh:targetClass fdt-o:GarageCatalog ;
+:DepotCatalogShape a sh:NodeShape ;
+  sh:targetClass fdt-o:DepotCatalog ;
   sh:property [
     sh:path dcat:resource ;
     sh:nodeKind sh:IRI ;
     sh:minCount 1 ;
     sh:class fdt-o:Train ;
-    sh:message "ADR-020 (amended): a Garage catalogues trains as dcat:Resources (executables)." ;
+    sh:message "ADR-020 (amended): a Depot catalogues trains as dcat:Resources (executables)." ;
   ],[
     sh:path dcat:dataset ;
     sh:maxCount 0 ;
-    sh:message "A Garage catalogue holds no datasets — a train is never a dcat:Dataset." ;
+    sh:message "A Depot catalogue holds no datasets — a train is never a dcat:Dataset." ;
   ] .

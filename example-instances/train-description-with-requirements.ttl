@@ -9,7 +9,7 @@
 @prefix fdt-run: <https://w3id.org/fdt/run#>.
 @prefix : <http://example.com/trains/>.
 
-:sparql-train a fdt-o:Train, fdt-o:SPARQLTrain, odrl:Asset;   # v2: also an ODRL asset (open type list); never dcat:Dataset
+:sparql-train a fdt-o:SPARQLTrain;   # v3: the concrete class only — fdt-o:Train is abstract and entailed (ADR-029)
   dcterms:title "SPARQL query to retrieve COVID 19 data";
   fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
   fdt-o:isControlledBy [a fdt-o:TrainOwner;
@@ -44,8 +44,8 @@
 
 <http://example.com/mytrain/datasetRequirement/resultShape> a dcterms:Standard.
 
-# --- v2: a Garage catalogue listing the train as a dcat:Resource ---------------------------
-:garage-catalog a dcat:Catalog, fdt-o:GarageCatalog;
-  dcterms:title "Exemplar train garage";
+# --- a Depot catalogue listing the train as a dcat:Resource --------------------------------
+:depot-catalog a dcat:Catalog, fdt-o:DepotCatalog;
+  dcterms:title "Exemplar train depot";
   dcterms:publisher [ a foaf:Agent; foaf:name "Rajaram Kaliyaperumal" ];
   dcat:resource :sparql-train.

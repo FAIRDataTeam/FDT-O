@@ -10,10 +10,24 @@
 @prefix foaf:     <http://xmlns.com/foaf/0.1/> .
 @prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-# FDT-O v2 (11 Sep 2026). Changes against the prototype TrainShape:
-#  - rdf:type is no longer a CLOSED list (finding 4). A train must carry at least one concrete
-#    train type (qualifiedMinCount over the FDT-O train classes) but may carry further types —
-#    in particular odrl:Asset, which makes it the target of its provider's offer.
+# FDT-O v3 (13 Sep 2026, ADR-029). Changes against v2:
+#  - fdt-o:Train is abstract. This shape is what enforces that, because OWL has no abstract
+#    classes: a node whose only train type is fdt-o:Train fails the qualifiedMinCount below.
+#    The shape still targets fdt-o:Train, and a train typed only `a fdt-o:SPARQLTrain` is
+#    selected through rdfs:subClassOf* — which holds only when the class hierarchy is in the
+#    DATA graph. tests/validate.py puts it there; without it this shape silently selects
+#    nothing and every train "conforms" (the bug ADR-029's rename uncovered).
+#  - odrl:Asset is no longer expected on a train. A train plays the asset role as the target
+#    of a policy; asserting it here would put the role in every graph instead.
+#
+# Q18 (OPEN-QUESTIONS.md): the list below still admits the FAMILY classes — QueryTrain,
+# APITrain, ScriptTrain, ContainerTrain — as well as the leaves. Conservative default: v2
+# behaviour. If the families are abstract too, drop them from this list and mark them
+# dash:abstract in the ontology.
+#
+# From v2, unchanged:
+#  - rdf:type is not a CLOSED list (finding 4). A train carries at least one concrete train
+#    type and may carry further types.
 #  - A train is never a dcat:Dataset and never has a dcat:distribution (ADR-020 as amended).
 #  - fdt-o:hasPayload is required (a train without an artefact cannot be run) and its value is
 #    checked against PayloadShape when present in the graph.
@@ -28,7 +42,7 @@
     sh:nodeKind sh:IRI ;
     sh:qualifiedValueShape [ sh:in (fdt-o:APITrain fdt-o:ContainerTrain fdt-o:DockerTrain fdt-o:SingularityTrain fdt-o:FHIRTrain fdt-o:GraphQLTrain fdt-o:QueryTrain fdt-o:PythonTrain fdt-o:ScriptTrain fdt-o:RTrain fdt-o:RESTTrain fdt-o:SPARQLTrain fdt-o:SQLTrain fdt-o:TriplePatternFragmentTrain) ] ;
     sh:qualifiedMinCount 1 ;
-    sh:message "A train declares at least one concrete train type (query, API, script or container family); other types such as odrl:Asset are allowed." ;
+    sh:message "fdt-o:Train is abstract (ADR-029): a train declares the concrete class that says what it is — SPARQLTrain, DockerTrain, FHIRTrain and the rest. Further types are allowed; fdt-o:Train on its own is not one." ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[

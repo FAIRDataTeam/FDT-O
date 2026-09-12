@@ -1,7 +1,24 @@
 {
-  "train-typed-as-dataset.ttl": ["never typed dcat:Dataset", "dcat:distribution has domain dcat:Dataset"],
-  "train-without-concrete-type.ttl": ["at least one concrete train type", "executable artefact"],
-  "payload-without-url-or-content.ttl": ["either by fdt-o:payloadDownloadURL or inline", "sha256"],
-  "query-train-choreographed.ttl": ["ADR-013"],
-  "hosted-dataset-without-controller.ttl": ["names its data controller", "holds no datasets"]
+  "train-typed-as-dataset.ttl": [
+    "never typed dcat:Dataset",
+    "dcat:distribution has domain dcat:Dataset"
+  ],
+  "train-without-concrete-type.ttl": [
+    "fdt-o:Train is abstract",
+    "executable artefact"
+  ],
+  "payload-without-url-or-content.ttl": [
+    "either by fdt-o:payloadDownloadURL or inline",
+    "sha256"
+  ],
+  "query-train-choreographed.ttl": [
+    "ADR-013"
+  ],
+  "hosted-dataset-without-controller.ttl": [
+    "names its data controller",
+    "holds no datasets"
+  ],
+  "concrete-train-without-payload.ttl": [
+    "Every train has an executable artefact"
+  ]
 }

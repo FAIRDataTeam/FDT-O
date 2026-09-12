@@ -6,7 +6,7 @@
 @prefix : <http://example.com/trains/invalid/>.
 
 # INVALID: a SPARQL train claiming choreographed coordination (ADR-013).
-:chor-query a fdt-o:Train, fdt-o:SPARQLTrain;
+:chor-query a fdt-o:SPARQLTrain;
   dcterms:title "Choreographed SPARQL train";
   fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
   fdt-o:hasPayload :p; fdt-o:generatesOutput :out; dcat:theme <http://example.com/theme>;

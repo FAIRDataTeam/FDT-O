@@ -1,0 +1,26 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix : <http://example.com/linkagestation/>.
+
+# A linkage station (ADR-022): the hop that translates a pseudonym from one space into
+# another so two stations' records can be joined without either seeing the other's
+# identifiers. Fictional, like every party in these fixtures.
+#
+# :LinkageStationShape had no instance until now, so it was a shape nothing exercised.
+
+:linkage-station a fdt-o:LinkageStation;
+  dcterms:title "An exemplar linkage station";
+  dcterms:description """Translates study pseudonyms between two fictional cohorts. It holds no
+    records of its own: it answers identifier-translation requests and nothing else.""";
+  fdt-o:isControlledBy [a fdt-o:StationOwner;
+      foaf:name "Exemplar trusted third party (fictional)"];
+  fdt-o:supportsInteractionMechanism fdt-inst:IdentifierTranslation;
+  fdt-o:pseudonymSpace :cohort-a-pseudonym, :cohort-b-pseudonym.
+
+:cohort-a-pseudonym a fdt-o:JoinKey;
+  dcterms:title "Cohort A study pseudonym (fictional)".
+
+:cohort-b-pseudonym a fdt-o:JoinKey;
+  dcterms:title "Cohort B study pseudonym (fictional)".

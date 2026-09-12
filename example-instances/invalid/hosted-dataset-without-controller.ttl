@@ -3,6 +3,6 @@
 @prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
 @prefix : <http://example.com/datastation/invalid/>.
 
-# INVALID: hosted dataset without a data controller; garage catalogue listing a dataset.
+# INVALID: hosted dataset without a data controller; depot catalogue listing a dataset.
 :ds a dcat:Dataset, fdt-o:HostedDataset; dcterms:title "Orphan dataset".
-:garage a dcat:Catalog, fdt-o:GarageCatalog; dcterms:title "Garage with a dataset in it"; dcat:dataset :ds.
+:depot a dcat:Catalog, fdt-o:DepotCatalog; dcterms:title "Depot with a dataset in it"; dcat:dataset :ds.

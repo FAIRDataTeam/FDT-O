@@ -1,3 +1,14 @@
+# HISTORICAL — the v2 delta, kept as the record of the 11 September 2026 amendment.
+#
+# SUPERSEDED BY ontology/fdt-o.ttl, which has these terms merged and then changed by v3
+# (ADR-029): fdt-o:GarageCatalog is now fdt-o:DepotCatalog, and fdt-o:Train is no longer a
+# subclass of odrl:Asset. Both of those are still stated below as v2 stated them.
+#
+# Nothing validates against this file any more. fdt-commons' checker read it until 13
+# September 2026 and, because the delta carries no train subclass hierarchy, every shape
+# targeting fdt-o:Train was resolved against an incomplete graph. Do not point a validator
+# at it; read ontology/fdt-o.ttl instead.
+
 @prefix owl:      <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .

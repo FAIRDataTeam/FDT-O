@@ -1,4 +1,5 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dash: <http://datashapes.org/dash#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix fdp-o: <https://w3id.org/fdp/fdp-o#> .
@@ -36,11 +37,11 @@ skos:closeMatch a owl:AnnotationProperty .
         <https://github.com/luizbonino>,
         <https://github.com/rajaram5> ;
     dct:description "This ontology describes the elements of the FAIR Data Train (FDT) and their relations. It serves as a reference model to annotate the metadata content of the FDTs."@en ;
-    dct:hasVersion "2.0.0"@en ;
+    dct:hasVersion "3.0.0"@en ;
     dct:license <https://creativecommons.org/licenses/by/4.0/legalcode> ;
-    dct:modified "2026-09-12"^^xsd:date ;
-    owl:versionIRI <https://w3id.org/fdt/fdt-o/2.0.0> ;
-    owl:versionInfo "v2.0.0 — the FDT-O v2 delta merged: trains are executable assets and never dcat:Dataset (ADR-020 as amended); HostedDataset, StationCatalog, GarageCatalog, DataController, JoinKey, LinkageStation and AlignmentStation added; the IdentifierTranslation and VocabularyAlignment mechanisms declared. The term namespace remains https://w3id.org/fdt/fdt-o#; the shapes and examples, which had used https://w3id.org/fdt#, were rebound to it."@en ;
+    dct:modified "2026-09-13"^^xsd:date ;
+    owl:versionIRI <https://w3id.org/fdt/fdt-o/3.0.0> ;
+    owl:versionInfo "v3.0.0 (ADR-029), breaking, and taken before any w3id redirect publishes these IRIs. fdt-o:GarageCatalog is renamed fdt-o:DepotCatalog: the Train Garage is the Train Depot, and the rename goes into the ontology rather than stopping at the product name. fdt-o:Train becomes abstract — only its concrete subclasses have instances — and stops being a subclass of odrl:Asset: a train plays the asset role as the target of a policy, where access conditions apply, instead of carrying it everywhere. No aliases are kept for the old terms; a graph written against v2 must be rewritten."@en ;
     skos:historyNote "- Refactored FHIR API and FHIR Train as sub-classes of REST API and REST Train, respectively."@en .
 
 fdt-o:AlignmentStation a owl:Class ;
@@ -59,6 +60,11 @@ fdt-o:DockerTrain a owl:Class ;
         fdt-o:ContainerTrain ;
     owl:disjointWith fdt-o:SingularityTrain .
 
+fdt-o:DepotCatalog a owl:Class ;
+    rdfs:label "depot catalogue"@en ;
+    rdfs:subClassOf dcat:Catalog ;
+    skos:definition "The DCAT catalogue a Train Depot publishes about its trains, listed with dcat:resource (never dcat:dataset), each carrying its provider's odrl:Offer (ADR-020 as amended). A Depot is authoritative for what it publishes: the payload bytes, their digest, the declared parameters and output, and the owner's signing keys (ADR-029)."@en .
+
 fdt-o:FHIRTrain a owl:Class ;
     rdfs:label "FHIR Train"@en ;
     dct:description "The FHIRTrain is a specialisation of the RESTTrain which is constraint to the resource types and respective parameters."@en ;
@@ -66,11 +72,6 @@ fdt-o:FHIRTrain a owl:Class ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:FHIRAPI ],
         fdt-o:RESTTrain .
-
-fdt-o:GarageCatalog a owl:Class ;
-    rdfs:label "garage catalogue"@en ;
-    rdfs:subClassOf dcat:Catalog ;
-    skos:definition "The DCAT catalogue a Train Garage publishes about its trains, listed with dcat:resource (never dcat:dataset), each carrying its provider's odrl:Offer (ADR-020 as amended)."@en .
 
 fdt-o:GraphQLTrain a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -182,7 +183,7 @@ fdt-o:pseudonymSpace a owl:ObjectProperty ;
 fdt-o:publishesCatalog a owl:ObjectProperty ;
     rdfs:label "publishes catalogue"@en ;
     rdfs:range dcat:Catalog ;
-    skos:definition "Links a Data Station to its StationCatalog or a Train Garage to its GarageCatalog."@en .
+    skos:definition "Links a Data Station to its StationCatalog or a Train Depot to its DepotCatalog."@en .
 
 fdt-o:supportsCoordination a owl:ObjectProperty ;
     rdfs:label "supports coordination"@en ;
@@ -505,6 +506,7 @@ foaf:Agent a owl:Class ;
 fdt-o:InteractionMechanism a owl:Class .
 
 fdt-o:Train a owl:Class ;
+    dash:abstract true ;  # Q18: only this class is marked abstract; the families are not
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:hasRequirement ;
             owl:someValuesFrom fdt-o:TrainRequirement ],
@@ -515,10 +517,11 @@ fdt-o:Train a owl:Class ;
             owl:onProperty fdt-o:generatesOutput ;
             owl:someValuesFrom dcat:Dataset ],
         dcat:Resource,
-        odrl:Asset,
         fdt-o:ComputationalArtifact ;
     owl:disjointWith dcat:Dataset ;
-    skos:scopeNote "A train is an executable interaction (query, API call, script, container) packaged with its description. It is an ODRL asset and a DCAT resource; it is never a dcat:Dataset and never has a dcat:distribution — its artefact is its fdt-o:hasPayload (decision of 11 September 2026)."@en .
+    skos:scopeNote "A train is an executable interaction (query, API call, script, container) packaged with its description. It is a DCAT resource; it is never a dcat:Dataset and never has a dcat:distribution — its artefact is its fdt-o:hasPayload (decision of 11 September 2026)."@en ;
+    skos:scopeNote "Abstract (ADR-029): a train is classified by the concrete class that says what it is — fdt-o:SPARQLTrain, fdt-o:DockerTrain, fdt-o:FHIRTrain and the rest — and fdt-o:Train is entailed from that, never asserted alongside it. OWL has no abstract classes, so dash:abstract states the intent for tooling and fdts:TrainShape is what enforces it: a node whose only train type is fdt-o:Train is rejected."@en ;
+    skos:scopeNote "A train is not a subclass of odrl:Asset (ADR-029). It plays that role where access conditions apply: odrl:target has range odrl:Asset, so naming a train as the target of an offer, request or agreement gives it the role there and nowhere else. This keeps the role attached to the policy that confers it rather than asserting it of every train in every graph."@en .
 
 fdt-o:implementsInteractionMechanism a owl:ObjectProperty ;
     rdfs:domain fdt-o:Train ;

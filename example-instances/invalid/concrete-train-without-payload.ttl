@@ -1,0 +1,24 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix : <http://example.com/trains/invalid/>.
+
+# INVALID: a train with no payload, typed the v3 way — the concrete class ONLY, with
+# fdt-o:Train left to entailment.
+#
+# This fixture exists for the validator, not for the shape. :TrainShape targets fdt-o:Train,
+# and a node typed only fdt-o:SPARQLTrain is reached from that target through
+# rdfs:subClassOf* — a path SHACL evaluates in the DATA graph. While FDT-O's checker loaded
+# the ontology into the SHAPES graph, that path did not exist: this train, missing its
+# payload, its title and everything else, was reported as conforming, because :TrainShape
+# selected no focus nodes at all. Every v2 fixture asserted `a fdt-o:Train` explicitly and so
+# hid it. Making fdt-o:Train abstract (ADR-029) is what brought it out.
+#
+# So: if this file ever conforms, the class hierarchy has fallen out of the data graph and
+# the train shapes are checking nothing.
+:no-payload a fdt-o:SPARQLTrain;
+  dcterms:title "Concrete-typed train with no payload";
+  fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
+  fdt-o:generatesOutput :out;
+  dcat:theme <http://example.com/theme>.
