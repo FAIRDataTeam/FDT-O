@@ -3,8 +3,7 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix fdp-o: <https://w3id.org/fdp/fdp-o#> .
 @prefix fdt-inst: <https://w3id.org/fdt/instances#> .
-@prefix fdt-o: <https://w3id.org/fdt#> .
-@prefix fdt-o-legacy: <https://w3id.org/fdt/fdt-o#> .
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#> .
 @prefix fdt-run: <https://w3id.org/fdt/run#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
@@ -31,7 +30,7 @@ dct:publisher a owl:ObjectProperty .
 
 skos:closeMatch a owl:AnnotationProperty .
 
-<https://w3id.org/fdt> a owl:Ontology ;
+<https://w3id.org/fdt/fdt-o> a owl:Ontology ;
     rdfs:label "FAIR Data Train Ontology"@en ;
     dct:creator <https://github.com/kburger>,
         <https://github.com/luizbonino>,
@@ -40,26 +39,78 @@ skos:closeMatch a owl:AnnotationProperty .
     dct:hasVersion "2.0.0"@en ;
     dct:license <https://creativecommons.org/licenses/by/4.0/legalcode> ;
     dct:modified "2026-09-12"^^xsd:date ;
-    owl:versionIRI <https://w3id.org/fdt/2.0.0> ;
-    owl:versionInfo "v2.0.0 — the FDT-O v2 delta merged (trains are executable assets and never dcat:Dataset, ADR-020 as amended; HostedDataset, StationCatalog, GarageCatalog, DataController, JoinKey, LinkageStation, AlignmentStation); the term namespace unified on https://w3id.org/fdt# with deprecated equivalence bridges from the prototype's https://w3id.org/fdt/fdt-o#."@en ;
+    owl:versionIRI <https://w3id.org/fdt/fdt-o/2.0.0> ;
+    owl:versionInfo "v2.0.0 — the FDT-O v2 delta merged: trains are executable assets and never dcat:Dataset (ADR-020 as amended); HostedDataset, StationCatalog, GarageCatalog, DataController, JoinKey, LinkageStation and AlignmentStation added; the IdentifierTranslation and VocabularyAlignment mechanisms declared. The term namespace remains https://w3id.org/fdt/fdt-o#; the shapes and examples, which had used https://w3id.org/fdt#, were rebound to it."@en ;
     skos:historyNote "- Refactored FHIR API and FHIR Train as sub-classes of REST API and REST Train, respectively."@en .
-
-fdt-o: a owl:NamedIndividual .
 
 fdt-o:AlignmentStation a owl:Class ;
     rdfs:label "alignment station"@en ;
     rdfs:subClassOf fdt-o:DataStation ;
     skos:definition "A Data Station offering vocabulary, code-system and unit mappings, consulted by trains or visited as a hop (ADR-024)."@en .
 
+fdt-o:ComputationalEnvironmentRequirement a owl:Class ;
+    rdfs:label "Computational Environment Requirement"@en ;
+    rdfs:subClassOf fdt-o:TrainRequirement .
+
+fdt-o:DockerTrain a owl:Class ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty fdt-o:implementsInteractionMechanism ;
+            owl:someValuesFrom fdt-o:Docker ],
+        fdt-o:ContainerTrain ;
+    owl:disjointWith fdt-o:SingularityTrain .
+
+fdt-o:FHIRTrain a owl:Class ;
+    rdfs:label "FHIR Train"@en ;
+    dct:description "The FHIRTrain is a specialisation of the RESTTrain which is constraint to the resource types and respective parameters."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty fdt-o:implementsInteractionMechanism ;
+            owl:someValuesFrom fdt-o:FHIRAPI ],
+        fdt-o:RESTTrain .
+
 fdt-o:GarageCatalog a owl:Class ;
     rdfs:label "garage catalogue"@en ;
     rdfs:subClassOf dcat:Catalog ;
     skos:definition "The DCAT catalogue a Train Garage publishes about its trains, listed with dcat:resource (never dcat:dataset), each carrying its provider's odrl:Offer (ADR-020 as amended)."@en .
 
+fdt-o:GraphQLTrain a owl:Class ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty fdt-o:implementsInteractionMechanism ;
+            owl:someValuesFrom fdt-o:GraphQL ],
+        fdt-o:QueryTrain .
+
+fdt-o:InputRequirement a owl:Class ;
+    rdfs:label "Input Requirement"@en ;
+    rdfs:subClassOf fdt-o:TrainRequirement .
+
+fdt-o:PythonTrain a owl:Class ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty fdt-o:implementsInteractionMechanism ;
+            owl:someValuesFrom fdt-o:Python ],
+        fdt-o:ScriptTrain ;
+    owl:disjointWith fdt-o:RTrain .
+
 fdt-o:StationCatalog a owl:Class ;
     rdfs:label "station catalogue"@en ;
     rdfs:subClassOf dcat:Catalog ;
     skos:definition "The DCAT catalogue a Data Station publishes about its hosted datasets: one odrl:Offer per dataset, one dcat:Distribution per interaction mechanism, one dcat:DataService per station (DSP-conformant, ADR-019)."@en .
+
+fdt-o:StationOwner a owl:Class ;
+    dct:description "Station Owner represents the Agent(s) (organization or person) who is(are) responsible for the operations of the Data Station."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty fdt-o:hasControllingRights ;
+            owl:someValuesFrom fdt-o:DataStation ],
+        foaf:Agent .
+
+fdt-o:TrainOwner a owl:Class ;
+    dct:description "Train Owner represents the agent(s) (organization or person) who sent a Train to a Data Station. Therefore, the Train is visiting a Station on behalf of the Train Owner."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty fdt-o:hasControllingRights ;
+            owl:someValuesFrom fdt-o:Train ],
+        foaf:Agent .
+
+fdt-o:TrainProvider a owl:Class ;
+    dct:description "Train Provider represents the agent(s) (organization or person) who created the Train."@en ;
+    rdfs:subClassOf foaf:Agent .
 
 fdt-o:artifactDigest a owl:DatatypeProperty ;
     rdfs:label "artifact digest"@en ;
@@ -67,11 +118,36 @@ fdt-o:artifactDigest a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     skos:definition "Digest of the payload bytes (query text, image, archive) in the form 'sha256:<64 hex digits>', so a station can verify that what arrived matches what was offered."@en .
 
+fdt-o:capacityClass a owl:ObjectProperty ;
+    rdfs:label "capacity class"@en ;
+    rdfs:domain fdt-o:DataStation ;
+    rdfs:range fdt-o:CapacityClass ;
+    skos:definition "The capacity class a data station declares."@en .
+
+fdt-o:endDate a owl:DatatypeProperty ;
+    rdfs:domain fdt-o:DataStation ;
+    rdfs:range xsd:dateTime,
+        xsd:dateTimeStamp ;
+    rdfs:subPropertyOf dct:date ;
+    owl:propertyDisjointWith fdt-o:startDate .
+
 fdt-o:hasDataController a owl:ObjectProperty ;
     rdfs:label "has data controller"@en ;
     rdfs:domain fdt-o:HostedDataset ;
     rdfs:range fdt-o:DataController ;
     skos:definition "The data controller of a hosted dataset; the assigner of the odrl:Offers over it. Resolves the conflation of station owner, train owner and controller in fdt-o:isControlledBy."@en .
+
+fdt-o:hasPayload a owl:ObjectProperty ;
+    rdfs:label "has payload" ;
+    rdfs:comment "Relation which links computational artifacts to its payload" ;
+    rdfs:domain fdt-o:Train ;
+    rdfs:range fdt-o:Payload ;
+    owl:inverseOf fdt-o:isPayloadOf ;
+    skos:scopeNote "The train's executable artefact. Replaces any use of dcat:distribution on trains (dcat:distribution has domain dcat:Dataset)."@en .
+
+fdt-o:hasTrainType a owl:ObjectProperty ;
+    rdfs:domain fdt-o:Train ;
+    rdfs:subPropertyOf owl:topObjectProperty .
 
 fdt-o:hostsDataset a owl:ObjectProperty ;
     rdfs:label "hosts dataset"@en ;
@@ -83,6 +159,19 @@ fdt-o:joinKey a owl:ObjectProperty ;
     rdfs:domain fdt-o:HostedDataset ;
     rdfs:range fdt-o:JoinKey ;
     skos:definition "A join key the hosted dataset supports, so a Handler can check joinability before dispatch."@en .
+
+fdt-o:payloadContent a owl:DatatypeProperty ;
+    rdfs:domain fdt-o:Payload ;
+    rdfs:range xsd:string .
+
+fdt-o:payloadDownloadURL a owl:ObjectProperty ;
+    rdfs:label "payload download url" ;
+    rdfs:comment "Downloadable location of payload" ;
+    rdfs:domain fdt-o:Payload .
+
+fdt-o:payloadMediaType a owl:DatatypeProperty ;
+    rdfs:domain fdt-o:Payload ;
+    rdfs:range xsd:string .
 
 fdt-o:pseudonymSpace a owl:ObjectProperty ;
     rdfs:label "pseudonym space"@en ;
@@ -101,332 +190,23 @@ fdt-o:supportsCoordination a owl:ObjectProperty ;
     rdfs:range fdt-run:Coordination ;
     skos:definition "Coordination style(s) the train supports: fdt-run:Orchestrated (an external Handler drives the itinerary) and/or fdt-run:Choreographed (routing embedded in the train — script and container trains only, ADR-013)."@en .
 
-fdt-o-legacy:API a owl:Class ;
-    rdfs:seeAlso fdt-o:API ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:API ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:APITrain a owl:Class ;
-    rdfs:seeAlso fdt-o:APITrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:APITrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:ComputationalArtifact a owl:Class ;
-    rdfs:seeAlso fdt-o:ComputationalArtifact ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:ComputationalArtifact ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:ComputationalEnvironmentRequirement a owl:Class ;
-    rdfs:seeAlso fdt-o:ComputationalEnvironmentRequirement ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:ComputationalEnvironmentRequirement ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:ContainerTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:ContainerTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:ContainerTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:DataController a owl:Class ;
-    rdfs:seeAlso fdt-o:DataController ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:DataController ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:DataStation a owl:Class ;
-    rdfs:seeAlso fdt-o:DataStation ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:DataStation ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:Docker a owl:Class ;
-    rdfs:seeAlso fdt-o:Docker ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:Docker ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:DockerTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:DockerTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:DockerTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:ExecutableContainer a owl:Class ;
-    rdfs:seeAlso fdt-o:ExecutableContainer ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:ExecutableContainer ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:FHIRAPI a owl:Class ;
-    rdfs:seeAlso fdt-o:FHIRAPI ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:FHIRAPI ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:FHIRTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:FHIRTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:FHIRTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:GraphQL a owl:Class ;
-    rdfs:seeAlso fdt-o:GraphQL ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:GraphQL ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:GraphQLTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:GraphQLTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:GraphQLTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:InputRequirement a owl:Class ;
-    rdfs:seeAlso fdt-o:InputRequirement ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:InputRequirement ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:InteractionMechanism a owl:Class ;
-    rdfs:seeAlso fdt-o:InteractionMechanism ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:InteractionMechanism ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:Payload a owl:Class ;
-    rdfs:seeAlso fdt-o:Payload ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:Payload ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:Python a owl:Class ;
-    rdfs:seeAlso fdt-o:Python ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:Python ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:PythonTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:PythonTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:PythonTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:Query a owl:Class ;
-    rdfs:seeAlso fdt-o:Query ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:Query ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:QueryTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:QueryTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:QueryTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:R a owl:Class ;
-    rdfs:seeAlso fdt-o:R ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:R ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:RESTAPI a owl:Class ;
-    rdfs:seeAlso fdt-o:RESTAPI ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:RESTAPI ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:RESTTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:RESTTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:RESTTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:RTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:RTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:RTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:SPARQL a owl:Class ;
-    rdfs:seeAlso fdt-o:SPARQL ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:SPARQL ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:SPARQLTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:SPARQLTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:SPARQLTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:SQL a owl:Class ;
-    rdfs:seeAlso fdt-o:SQL ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:SQL ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:SQLTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:SQLTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:SQLTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:Script a owl:Class ;
-    rdfs:seeAlso fdt-o:Script ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:Script ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:ScriptTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:ScriptTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:ScriptTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:Singularity a owl:Class ;
-    rdfs:seeAlso fdt-o:Singularity ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:Singularity ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:SingularityTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:SingularityTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:SingularityTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:StationOwner a owl:Class ;
-    rdfs:seeAlso fdt-o:StationOwner ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:StationOwner ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:TPF a owl:Class ;
-    rdfs:seeAlso fdt-o:TPF ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:TPF ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:Train a owl:Class ;
-    rdfs:seeAlso fdt-o:Train ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:Train ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:TrainOwner a owl:Class ;
-    rdfs:seeAlso fdt-o:TrainOwner ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:TrainOwner ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:TrainProvider a owl:Class ;
-    rdfs:seeAlso fdt-o:TrainProvider ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:TrainProvider ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:TrainRequirement a owl:Class ;
-    rdfs:seeAlso fdt-o:TrainRequirement ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:TrainRequirement ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:TriplePatternFragmentTrain a owl:Class ;
-    rdfs:seeAlso fdt-o:TriplePatternFragmentTrain ;
-    owl:deprecated true ;
-    owl:equivalentClass fdt-o:TriplePatternFragmentTrain ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:endDate a owl:DatatypeProperty ;
-    rdfs:seeAlso fdt-o:endDate ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:endDate ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:generatesOutput a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:generatesOutput ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:generatesOutput ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:hasControllingRights a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:hasControllingRights ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:hasControllingRights ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:hasPayload a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:hasPayload ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:hasPayload ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:hasRequirement a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:hasRequirement ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:hasRequirement ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:hasTrainType a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:hasTrainType ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:hasTrainType ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:implementsInteractionMechanism a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:implementsInteractionMechanism ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:implementsInteractionMechanism ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:isControlledBy a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:isControlledBy ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:isControlledBy ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:isPayloadOf a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:isPayloadOf ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:isPayloadOf ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:payloadContent a owl:DatatypeProperty ;
-    rdfs:seeAlso fdt-o:payloadContent ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:payloadContent ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:payloadDownloadURL a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:payloadDownloadURL ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:payloadDownloadURL ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:payloadMediaType a owl:DatatypeProperty ;
-    rdfs:seeAlso fdt-o:payloadMediaType ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:payloadMediaType ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:startDate a owl:DatatypeProperty ;
-    rdfs:seeAlso fdt-o:startDate ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:startDate ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
-fdt-o-legacy:supportsInteractionMechanism a owl:ObjectProperty ;
-    rdfs:seeAlso fdt-o:supportsInteractionMechanism ;
-    owl:deprecated true ;
-    owl:equivalentProperty fdt-o:supportsInteractionMechanism ;
-    skos:historyNote "Retired in FDT-O v2 (12 Sep 2026): the term namespace was unified on https://w3id.org/fdt#, which the shapes and example instances already used. This IRI is kept as an equivalence bridge so prototype data keeps its meaning."@en .
-
 fdt-inst:API a owl:NamedIndividual,
         fdt-o:API .
+
+fdt-inst:CapacityL a owl:NamedIndividual,
+        fdt-o:CapacityClass ;
+    rdfs:label "Large capacity"@en ;
+    skos:definition "Large institutional or federated deployment; container workloads at scale."@en .
+
+fdt-inst:CapacityM a owl:NamedIndividual,
+        fdt-o:CapacityClass ;
+    rdfs:label "Medium capacity"@en ;
+    skos:definition "Institutional deployment; sustained multi-job load."@en .
+
+fdt-inst:CapacityS a owl:NamedIndividual,
+        fdt-o:CapacityClass ;
+    rdfs:label "Small capacity"@en ;
+    skos:definition "Personal or small-team deployment; single-node, modest compute."@en .
 
 fdt-inst:Docker a owl:NamedIndividual,
         fdt-o:Docker .
@@ -502,117 +282,6 @@ fdp-o:FAIRDataPoint a owl:Class ;
 fdp-o:MetadataService a owl:Class ;
     rdfs:subClassOf dcat:DataService .
 
-fdt-o:IdentifierTranslation a owl:Class ;
-    rdfs:label "Identifier translation"@en ;
-    rdfs:subClassOf fdt-o:InteractionMechanism ;
-    skos:definition "Translation of pseudonymous identifiers between two pseudonym spaces, the only mechanism a linkage station offers (ADR-022)."@en .
-
-fdt-o:LinkageStation a owl:Class ;
-    rdfs:label "linkage station"@en ;
-    rdfs:subClassOf fdt-o:DataStation ;
-    skos:definition "A Data Station whose interaction mechanism is identifier translation between organisational pseudonym spaces; visited as a hop under its own agreement; may wrap an existing trusted third party (ADR-022)."@en .
-
-fdt-o:VocabularyAlignment a owl:Class ;
-    rdfs:label "Vocabulary alignment"@en ;
-    rdfs:subClassOf fdt-o:InteractionMechanism ;
-    skos:definition "Alignment of coding systems or vocabularies across stations (ADR-024)."@en .
-
-dct:date a owl:DatatypeProperty ;
-    rdfs:subPropertyOf owl:topDataProperty .
-
-dcat:DataService a owl:Class ;
-    rdfs:subClassOf dcat:Resource .
-
-fdt-o:ComputationalEnvironmentRequirement a owl:Class ;
-    rdfs:label "Computational Environment Requirement"@en ;
-    rdfs:subClassOf fdt-o:TrainRequirement .
-
-fdt-o:DockerTrain a owl:Class ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty fdt-o:implementsInteractionMechanism ;
-            owl:someValuesFrom fdt-o:Docker ],
-        fdt-o:ContainerTrain ;
-    owl:disjointWith fdt-o:SingularityTrain .
-
-fdt-o:FHIRTrain a owl:Class ;
-    rdfs:label "FHIR Train"@en ;
-    dct:description "The FHIRTrain is a specialisation of the RESTTrain which is constraint to the resource types and respective parameters."@en ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty fdt-o:implementsInteractionMechanism ;
-            owl:someValuesFrom fdt-o:FHIRAPI ],
-        fdt-o:RESTTrain .
-
-fdt-o:GraphQLTrain a owl:Class ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty fdt-o:implementsInteractionMechanism ;
-            owl:someValuesFrom fdt-o:GraphQL ],
-        fdt-o:QueryTrain .
-
-fdt-o:InputRequirement a owl:Class ;
-    rdfs:label "Input Requirement"@en ;
-    rdfs:subClassOf fdt-o:TrainRequirement .
-
-fdt-o:JoinKey a owl:Class ;
-    rdfs:label "join key"@en ;
-    skos:definition "A key space datasets can be joined on: a pseudonym space, a spatial or administrative unit, a time axis (ADR-024)."@en .
-
-fdt-o:PythonTrain a owl:Class ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty fdt-o:implementsInteractionMechanism ;
-            owl:someValuesFrom fdt-o:Python ],
-        fdt-o:ScriptTrain ;
-    owl:disjointWith fdt-o:RTrain .
-
-fdt-o:StationOwner a owl:Class ;
-    dct:description "Station Owner represents the Agent(s) (organization or person) who is(are) responsible for the operations of the Data Station."@en ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty fdt-o:hasControllingRights ;
-            owl:someValuesFrom fdt-o:DataStation ],
-        foaf:Agent .
-
-fdt-o:TrainOwner a owl:Class ;
-    dct:description "Train Owner represents the agent(s) (organization or person) who sent a Train to a Data Station. Therefore, the Train is visiting a Station on behalf of the Train Owner."@en ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty fdt-o:hasControllingRights ;
-            owl:someValuesFrom fdt-o:Train ],
-        foaf:Agent .
-
-fdt-o:TrainProvider a owl:Class ;
-    dct:description "Train Provider represents the agent(s) (organization or person) who created the Train."@en ;
-    rdfs:subClassOf foaf:Agent .
-
-fdt-o:endDate a owl:DatatypeProperty ;
-    rdfs:domain fdt-o:DataStation ;
-    rdfs:range xsd:dateTime,
-        xsd:dateTimeStamp ;
-    rdfs:subPropertyOf dct:date ;
-    owl:propertyDisjointWith fdt-o:startDate .
-
-fdt-o:hasPayload a owl:ObjectProperty ;
-    rdfs:label "has payload" ;
-    rdfs:comment "Relation which links computational artifacts to its payload" ;
-    rdfs:domain fdt-o:Train ;
-    rdfs:range fdt-o:Payload ;
-    owl:inverseOf fdt-o:isPayloadOf ;
-    skos:scopeNote "The train's executable artefact. Replaces any use of dcat:distribution on trains (dcat:distribution has domain dcat:Dataset)."@en .
-
-fdt-o:hasTrainType a owl:ObjectProperty ;
-    rdfs:domain fdt-o:Train ;
-    rdfs:subPropertyOf owl:topObjectProperty .
-
-fdt-o:payloadContent a owl:DatatypeProperty ;
-    rdfs:domain fdt-o:Payload ;
-    rdfs:range xsd:string .
-
-fdt-o:payloadDownloadURL a owl:ObjectProperty ;
-    rdfs:label "payload download url" ;
-    rdfs:comment "Downloadable location of payload" ;
-    rdfs:domain fdt-o:Payload .
-
-fdt-o:payloadMediaType a owl:DatatypeProperty ;
-    rdfs:domain fdt-o:Payload ;
-    rdfs:range xsd:string .
-
 fdt-o:APITrain a owl:Class ;
     rdfs:label "API Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -633,10 +302,15 @@ fdt-o:DataController a owl:Class ;
         foaf:Agent ;
     skos:definition "The party that decides the conditions under which a hosted dataset may be used and approves agreements over it — an organisation or a natural person (ADR-011). Distinct from the StationOwner, who operates the station, and from the TrainOwner."@en .
 
-fdt-o:HostedDataset a owl:Class ;
-    rdfs:label "hosted dataset"@en ;
-    rdfs:subClassOf dcat:Dataset ;
-    skos:definition "A dataset hosted by a Data Station and governed by its data controller's offers. Distinguished from the dcat:Dataset descriptions a train uses for its declared inputs and outputs (fdt-o:hasRequirement / fdt-o:generatesOutput), which are descriptions of expected data, not hosted data."@en .
+fdt-o:IdentifierTranslation a owl:Class ;
+    rdfs:label "Identifier translation"@en ;
+    rdfs:subClassOf fdt-o:InteractionMechanism ;
+    skos:definition "Translation of pseudonymous identifiers between two pseudonym spaces, the only mechanism a linkage station offers (ADR-022)."@en .
+
+fdt-o:LinkageStation a owl:Class ;
+    rdfs:label "linkage station"@en ;
+    rdfs:subClassOf fdt-o:DataStation ;
+    skos:definition "A Data Station whose interaction mechanism is identifier translation between organisational pseudonym spaces; visited as a hop under its own agreement; may wrap an existing trusted third party (ADR-022)."@en .
 
 fdt-o:RESTTrain a owl:Class ;
     rdfs:label "REST Train"@en ;
@@ -675,6 +349,11 @@ fdt-o:TriplePatternFragmentTrain a owl:Class ;
             owl:someValuesFrom fdt-o:TPF ],
         fdt-o:QueryTrain .
 
+fdt-o:VocabularyAlignment a owl:Class ;
+    rdfs:label "Vocabulary alignment"@en ;
+    rdfs:subClassOf fdt-o:InteractionMechanism ;
+    skos:definition "Alignment of coding systems or vocabularies across stations (ADR-024)."@en .
+
 fdt-o:generatesOutput a owl:ObjectProperty ;
     rdfs:domain fdt-o:Train ;
     rdfs:range dcat:Dataset ;
@@ -702,6 +381,12 @@ fdt-o:supportsInteractionMechanism a owl:ObjectProperty ;
     rdfs:range fdt-o:InteractionMechanism ;
     rdfs:subPropertyOf owl:topObjectProperty .
 
+dct:date a owl:DatatypeProperty ;
+    rdfs:subPropertyOf owl:topDataProperty .
+
+dcat:DataService a owl:Class ;
+    rdfs:subClassOf dcat:Resource .
+
 fdt-o:ContainerTrain a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
@@ -720,6 +405,10 @@ fdt-o:FHIRAPI a owl:Class ;
 fdt-o:GraphQL a owl:Class ;
     rdfs:label "GraphQL"@en ;
     rdfs:subClassOf fdt-o:Query .
+
+fdt-o:JoinKey a owl:Class ;
+    rdfs:label "join key"@en ;
+    skos:definition "A key space datasets can be joined on: a pseudonym space, a spatial or administrative unit, a time axis (ADR-024)."@en .
 
 fdt-o:Python a owl:Class ;
     rdfs:subClassOf fdt-o:Script .
@@ -749,11 +438,13 @@ fdt-o:TPF a owl:Class ;
     rdfs:label "Triple Pattern Fragments"@en ;
     rdfs:subClassOf fdt-o:Query .
 
-dcat:Dataset a owl:Class ;
-    rdfs:subClassOf dcat:Resource .
-
 fdt-o:API a owl:Class ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
+
+fdt-o:HostedDataset a owl:Class ;
+    rdfs:label "hosted dataset"@en ;
+    rdfs:subClassOf dcat:Dataset ;
+    skos:definition "A dataset hosted by a Data Station and governed by its data controller's offers. Distinguished from the dcat:Dataset descriptions a train uses for its declared inputs and outputs (fdt-o:hasRequirement / fdt-o:generatesOutput), which are descriptions of expected data, not hosted data."@en .
 
 fdt-o:RESTAPI a owl:Class ;
     rdfs:label "REST API"@en ;
@@ -768,6 +459,10 @@ fdt-o:hasControllingRights a owl:ObjectProperty ;
     rdfs:range dcat:Resource ;
     owl:inverseOf fdt-o:isControlledBy .
 
+fdt-o:CapacityClass a owl:Class ;
+    rdfs:label "Capacity class"@en ;
+    skos:definition "Indicative scale of a data station's compute and storage capacity, published in its self-description so a Handler can route work it can actually run."@en .
+
 fdt-o:ExecutableContainer a owl:Class ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
 
@@ -780,12 +475,16 @@ fdt-o:QueryTrain a owl:Class ;
 fdt-o:Script a owl:Class ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
 
-dcat:Resource a owl:Class .
+dcat:Dataset a owl:Class ;
+    rdfs:subClassOf dcat:Resource .
 
-foaf:Agent a owl:Class ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty dct:creator ;
-            owl:someValuesFrom fdt-o:Train ] .
+fdt-o:Payload a owl:Class ;
+    rdfs:comment "Payload",
+        "Actually payload of the Train, e.g. query string, script, docker image identifier, API call."@en ;
+    rdfs:subClassOf dcat:Resource .
+
+fdt-o:Query a owl:Class ;
+    rdfs:subClassOf fdt-o:InteractionMechanism .
 
 fdt-o:DataStation a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -796,26 +495,25 @@ fdt-o:DataStation a owl:Class ;
             owl:someValuesFrom fdp-o:FAIRDataPoint ],
         dcat:DataService .
 
-fdt-o:Payload a owl:Class ;
-    rdfs:comment "Payload",
-        "Actually payload of the Train, e.g. query string, script, docker image identifier, API call."@en ;
-    rdfs:subClassOf dcat:Resource .
+dcat:Resource a owl:Class .
 
-fdt-o:Query a owl:Class ;
-    rdfs:subClassOf fdt-o:InteractionMechanism .
+foaf:Agent a owl:Class ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty dct:creator ;
+            owl:someValuesFrom fdt-o:Train ] .
 
 fdt-o:InteractionMechanism a owl:Class .
 
 fdt-o:Train a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty fdt-o:hasRequirement ;
+            owl:someValuesFrom fdt-o:TrainRequirement ],
+        [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:InteractionMechanism ],
         [ a owl:Restriction ;
             owl:onProperty fdt-o:generatesOutput ;
             owl:someValuesFrom dcat:Dataset ],
-        [ a owl:Restriction ;
-            owl:onProperty fdt-o:hasRequirement ;
-            owl:someValuesFrom fdt-o:TrainRequirement ],
         dcat:Resource,
         odrl:Asset,
         fdt-o:ComputationalArtifact ;

@@ -1,6 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
-@prefix fdt-o: <https://w3id.org/fdt#>.
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
 @prefix fdt-inst: <https://w3id.org/fdt/instances#>.
 @prefix : <http://example.com/trains/invalid/>.
 

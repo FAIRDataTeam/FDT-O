@@ -7,7 +7,7 @@
 @prefix dcat:     <http://www.w3.org/ns/dcat#> .
 @prefix odrl:     <http://www.w3.org/ns/odrl/2/> .
 @prefix foaf:     <http://xmlns.com/foaf/0.1/> .
-@prefix fdt-o:    <https://w3id.org/fdt#> .
+@prefix fdt-o:    <https://w3id.org/fdt/fdt-o#> .
 @prefix fdt-inst: <https://w3id.org/fdt/instances#> .
 @prefix fdt-run:  <https://w3id.org/fdt/run#> .
 
@@ -16,7 +16,7 @@
 # Axioms to be MERGED into the FDT-O ontology. They realise findings 1–5 of the fdt-commons
 # probe (fdt-commons/FINDINGS.md) and ADR-020 as amended ("trains are executables, not
 # datasets"). Everything here is in the namespace the FDT-O shapes and example instances
-# already use, <https://w3id.org/fdt#>. Terms that FDT-O already declares (Train, the train
+# already use, <https://w3id.org/fdt/fdt-o#>. Terms that FDT-O already declares (Train, the train
 # subclasses, DataStation, Payload, payloadDownloadURL, payloadContent, payloadMediaType,
 # isControlledBy, hasPayload, generatesOutput, hasRequirement, TrainOwner, StationOwner)
 # are NOT re-declared — only new axioms about them are stated.
@@ -144,3 +144,31 @@ fdt-o:pseudonymSpace a owl:ObjectProperty ;
   rdfs:domain fdt-o:LinkageStation ;
   rdfs:range fdt-o:JoinKey ;
   skos:definition "A pseudonym space the linkage station can translate from or to."@en .
+
+# ---- Capacity class (fdt-commons FINDINGS 16) ---------------------------------------
+# station-catalog.shapes.ttl restricts fdt-o:capacityClass to sh:in (CapacityS CapacityM
+# CapacityL) and network-and-stations.ttl asserts CapacityL on Noorderlicht, but neither the
+# property nor the three individuals were ever declared. sh:in enumerates permitted values
+# and never asks whether they exist, so no validator could report it.
+
+fdt-o:CapacityClass a owl:Class ;
+  rdfs:label "Capacity class"@en ;
+  skos:definition "Indicative scale of a data station's compute and storage capacity, published in its self-description so a Handler can route work it can actually run."@en .
+
+fdt-o:capacityClass a owl:ObjectProperty ;
+  rdfs:label "capacity class"@en ;
+  rdfs:domain fdt-o:DataStation ;
+  rdfs:range fdt-o:CapacityClass ;
+  skos:definition "The capacity class a data station declares."@en .
+
+fdt-inst:CapacityS a owl:NamedIndividual, fdt-o:CapacityClass ;
+  rdfs:label "Small capacity"@en ;
+  skos:definition "Personal or small-team deployment; single-node, modest compute."@en .
+
+fdt-inst:CapacityM a owl:NamedIndividual, fdt-o:CapacityClass ;
+  rdfs:label "Medium capacity"@en ;
+  skos:definition "Institutional deployment; sustained multi-job load."@en .
+
+fdt-inst:CapacityL a owl:NamedIndividual, fdt-o:CapacityClass ;
+  rdfs:label "Large capacity"@en ;
+  skos:definition "Large institutional or federated deployment; container workloads at scale."@en .

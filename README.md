@@ -19,19 +19,30 @@ the run-description vocabulary, the network vocabulary, the visit protocol — l
 | `tests/validate.py` | the checker (pySHACL) |
 | `legacy/` | the v0.3 prototype: `fdt-ontology.owl` and the `fdp-api` sidecar, superseded by `ontology/fdt-o.ttl` |
 
-## The namespace, and why it changed
+## The namespace
 
-The prototype declared its terms under `https://w3id.org/fdt/fdt-o#`, while **every** SHACL
-shape and example instance — in this repository, in the v2 delta and in `fdt-commons` — used
+FDT-O's terms are in **`https://w3id.org/fdt/fdt-o#`**, where the prototype declared them.
+The ontology IRI is `https://w3id.org/fdt/fdt-o` and its version IRI
+`https://w3id.org/fdt/fdt-o/2.0.0`, so the term namespace is the ontology IRI plus `#` — what
+a dereferencing consumer expects.
+
+This needed settling. The prototype declared its 54 terms here, while **every** SHACL shape
+and example instance — in this repository, in the v2 delta and in `fdt-commons` — used
 `https://w3id.org/fdt#`. The two namespaces had no term in common, so the shapes constrained
-terms the ontology did not declare, and no validator could notice: they simply found nothing
-to check. This was finding 1 of the `fdt-commons` probe.
+terms the ontology did not declare, and no validator could report it: a `sh:targetClass`
+naming an undeclared class simply selects no focus nodes, and SHACL answers "conforms"
+because it has nothing to look at. This was finding 1 of the `fdt-commons` probe, which
+understated it as "two namespaces".
 
-v2 settles on **`https://w3id.org/fdt#`**, the namespace already in use. All 54 prototype
-terms (40 classes, 14 properties) are declared there. The retired IRIs are kept as
-`owl:equivalentClass` / `owl:equivalentProperty` bridges marked `owl:deprecated`, each with
-a `skos:historyNote`, so data written against the prototype keeps its meaning and resolves
-to the current term. Nothing published against the old namespace breaks.
+Settled on 12 September 2026 by keeping the ontology's own namespace and rebinding the
+shapes, examples, vocabularies and contexts to it. `https://w3id.org/fdt#` was used for
+nothing but the `fdt-o:` prefix, so every expanded term IRI changed in the same way and
+nothing needed deprecating: the prototype has no real consumers, so the terms moved under the
+namespace rather than the namespace moving to meet them. No equivalence bridges are required.
+
+`tests/validate.py` now compares the two vocabularies directly — every `fdt-o:` term the
+shapes reference must be declared by the ontology — so this cannot recur silently. It reports
+42 referenced, 71 declared, 0 undeclared; before the merge the overlap was **zero**.
 
 ## What v2 changes
 
@@ -61,6 +72,11 @@ ADR-020 (as amended), ADR-022 and ADR-024.
   sat inside a `sh:property` with no `sh:path`, which conformant processors reject; it now
   sits on the node shape. `fdt-o:payloadMediaType` is declared and required, and
   `fdt-o:artifactDigest` (`sha256:<64 hex>`) is added.
+- **`fdt-o:capacityClass` and the three capacity individuals are declared** (`fdt-commons`
+  finding 16). `StationSelfDescriptionShape` restricted `fdt-o:capacityClass` to
+  `sh:in (CapacityS CapacityM CapacityL)` and a fixture used it, but neither the property
+  nor the individuals existed anywhere: `sh:in` enumerates permitted values and never asks
+  whether they are declared.
 - Shape IRIs moved from `http://fairdatapoint.org/` — a copy-paste leftover from the FDP
   shapes — to `https://w3id.org/fdt/shapes#`.
 - `shapes/exampleDataRequirementShape.ttl` and `shapes/exampleDatasetOutputShape.ttl` were

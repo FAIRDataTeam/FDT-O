@@ -4,7 +4,7 @@
 @prefix dct:      <http://purl.org/dc/terms/> .
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
-@prefix fdt-o:    <https://w3id.org/fdt#> .
+@prefix fdt-o:    <https://w3id.org/fdt/fdt-o#> .
 
 # FDT-O v2 (11 Sep 2026). Changes against the prototype PayloadShape (finding 2):
 #  - The prototype wrapped an sh:or of two property shapes inside a sh:property [...] that had

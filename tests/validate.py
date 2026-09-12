@@ -39,6 +39,50 @@ def validate(data_files, shape_files):
         sys.exit(f"ERROR: {e}. Install the checker: pip install -r requirements.txt")
     return run_pyshacl(data_files, shape_files)
 
+
+FDT_O_NS = "https://w3id.org/fdt/fdt-o#"
+
+
+def check_shape_terms_are_declared():
+    """Every fdt-o: term the shapes constrain must be declared by the ontology.
+
+    This is the check that would have caught finding 1. The ontology declared its terms under
+    https://w3id.org/fdt/fdt-o# while every shape used https://w3id.org/fdt# -- no term in
+    common -- and SHACL reported "conforms" throughout, because a sh:targetClass naming an
+    undeclared class simply selects no focus nodes. A validator cannot notice that it has
+    nothing to validate; this compares the two vocabularies directly.
+    """
+    from rdflib import Graph
+    from rdflib.namespace import OWL, RDF
+
+    onto = Graph()
+    onto.parse(ONTOLOGY, format="turtle")
+    declared = {
+        str(s)
+        for kind in (OWL.Class, OWL.ObjectProperty, OWL.DatatypeProperty,
+                     OWL.AnnotationProperty, OWL.NamedIndividual)
+        for s in onto.subjects(RDF.type, kind)
+        if str(s).startswith(FDT_O_NS)
+    }
+
+    shapes = Graph()
+    for f in sorted(glob.glob(os.path.join(ROOT, "shapes", "*.ttl"))):
+        shapes.parse(f, format="turtle")
+    for f in sorted(glob.glob(os.path.join(COMMONS, "shapes", "*.ttl"))):
+        if os.path.exists(f):
+            shapes.parse(f, format="turtle")
+
+    used = {str(o) for o in shapes.objects() if str(o).startswith(FDT_O_NS)}
+    used |= {str(p) for p in shapes.predicates() if str(p).startswith(FDT_O_NS)}
+
+    missing = sorted(used - declared)
+    print(f"[terms] shapes reference {len(used)} fdt-o: terms; "
+          f"ontology declares {len(declared)}; undeclared: {len(missing)}")
+    for m in missing:
+        print(f"    UNDECLARED: {m}")
+    return not missing
+
+
 def main():
     ok_all = True
     with open(os.path.join(HERE, "expectations.json")) as f: expect = json.load(f)
@@ -63,6 +107,8 @@ def main():
         if not conforms: print(text); ok_all = False
     else:
         print("fdt-commons examples not found next to this folder — cross-check skipped")
+
+    ok_all &= check_shape_terms_are_declared()
 
     print("\nALL AS EXPECTED" if ok_all else "\nFAILURES ABOVE")
     sys.exit(0 if ok_all else 1)
