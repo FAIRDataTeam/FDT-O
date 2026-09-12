@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix fdt-o: <https://w3id.org/fdt#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix fdt-run: <https://w3id.org/fdt/run#>.
+@prefix : <http://example.com/trains/invalid/>.
+
+# INVALID: a SPARQL train claiming choreographed coordination (ADR-013).
+:chor-query a fdt-o:Train, fdt-o:SPARQLTrain;
+  dcterms:title "Choreographed SPARQL train";
+  fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
+  fdt-o:hasPayload :p; fdt-o:generatesOutput :out; dcat:theme <http://example.com/theme>;
+  fdt-o:supportsCoordination fdt-run:Choreographed.
+:p a fdt-o:Payload; dcterms:title "q"; fdt-o:payloadMediaType "application/sparql-query"; fdt-o:payloadContent "ASK {}".

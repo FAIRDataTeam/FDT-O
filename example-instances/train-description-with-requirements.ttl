@@ -5,9 +5,11 @@
 @prefix fdt-inst: <https://w3id.org/fdt/instances#>.
 @prefix fdp-o: <https://w3id.org/fdp/fdp-o#>.
 @prefix obo: <http://purl.obolibrary.org/obo/>.
+@prefix odrl: <http://www.w3.org/ns/odrl/2/>.
+@prefix fdt-run: <https://w3id.org/fdt/run#>.
 @prefix : <http://example.com/trains/>.
 
-:sparql-train a fdt-o:Train, fdt-o:SPARQLTrain;
+:sparql-train a fdt-o:Train, fdt-o:SPARQLTrain, odrl:Asset;   # v2: also an ODRL asset (open type list); never dcat:Dataset
   dcterms:title "SPARQL query to retrieve COVID 19 data";
   fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
   fdt-o:isControlledBy [a fdt-o:TrainOwner;
@@ -17,6 +19,7 @@
   dcat:theme <http://edamontology.org/format_3790>, <http://purl.obolibrary.org/obo/DOID_0080600>,
     <http://purl.obolibrary.org/obo/APOLLO_SV_00000033>, <http://www.wikidata.org/entity/Q62522500>;
   fdt-o:hasPayload :sparql-train-payload;
+  fdt-o:supportsCoordination fdt-run:Orchestrated;              # v2: a query train is orchestrated only (ADR-013)
   fdp-o:hasMetadata :sparql-train-metadata;
   fdt-o:hasRequirement :datasetRequirement;
   fdt-o:generatesOutput :train-output.
@@ -40,3 +43,9 @@
   dcterms:conformsTo  <http://example.com/mytrain/datasetRequirement/resultShape> .
 
 <http://example.com/mytrain/datasetRequirement/resultShape> a dcterms:Standard.
+
+# --- v2: a Garage catalogue listing the train as a dcat:Resource ---------------------------
+:garage-catalog a dcat:Catalog, fdt-o:GarageCatalog;
+  dcterms:title "Exemplar train garage";
+  dcterms:publisher [ a foaf:Agent; foaf:name "Rajaram Kaliyaperumal" ];
+  dcat:resource :sparql-train.

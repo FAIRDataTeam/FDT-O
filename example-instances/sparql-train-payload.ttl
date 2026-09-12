@@ -1,8 +1,9 @@
 @prefix dct:      <http://purl.org/dc/terms/> .
 @prefix fdto: <https://w3id.org/fdt#>.
+# v2: the prototype URL carried a GitHub access token in its query string; removed.
 @prefix : <http://example.com/trains/>.
 
 :sparql-train-payload a fdto:Payload;
   dct:title "SPARQL query";
-  fdto:payloadDownloadURL <https://raw.githubusercontent.com/rajaram5/zin-waiting-list-project/main/queries/count-covid-cases-per-municipality.rq?token=GHSAT0AAAAAABL3ZMN7332QZJNC4NA5ZO5AYQTOM4Q>;
+  fdto:payloadDownloadURL <https://raw.githubusercontent.com/rajaram5/zin-waiting-list-project/main/queries/count-covid-cases-per-municipality.rq>;
   fdto:payloadMediaType "application/sparql-query".

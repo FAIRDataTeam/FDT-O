@@ -1,0 +1,8 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix fdt-o: <https://w3id.org/fdt#>.
+@prefix : <http://example.com/datastation/invalid/>.
+
+# INVALID: hosted dataset without a data controller; garage catalogue listing a dataset.
+:ds a dcat:Dataset, fdt-o:HostedDataset; dcterms:title "Orphan dataset".
+:garage a dcat:Catalog, fdt-o:GarageCatalog; dcterms:title "Garage with a dataset in it"; dcat:dataset :ds.

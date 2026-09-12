@@ -1,10 +1,19 @@
-@prefix :         <http://fairdatapoint.org/> .
+@prefix :         <https://w3id.org/fdt/shapes#> .
 @prefix dash:     <http://datashapes.org/dash#> .
 @prefix dcat:     <http://www.w3.org/ns/dcat#> .
 @prefix dct:      <http://purl.org/dc/terms/> .
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
-@prefix fdt-o: <https://w3id.org/fdt#>.
+@prefix fdt-o:    <https://w3id.org/fdt#> .
+
+# FDT-O v2 (11 Sep 2026). Changes against the prototype PayloadShape (finding 2):
+#  - The prototype wrapped an sh:or of two property shapes inside a sh:property [...] that had
+#    no sh:path — not valid SHACL (a property shape has exactly one sh:path). The sh:or now
+#    sits on the node shape, as intended: a payload is delivered EITHER by download URL OR inline.
+#  - fdt-o:payloadMediaType, used by the example instance but absent from the shape, is declared
+#    (required, one value) — a station needs it to pick the adapter.
+#  - fdt-o:artifactDigest (new in v2) is optional here and required by the fdt-commons
+#    TrainOfferShape when the train is offered through a Garage.
 
 :PayloadShape a sh:NodeShape ;
   sh:targetClass fdt-o:Payload ;
@@ -14,29 +23,40 @@
     sh:minCount 1 ;
     sh:maxCount  1 ;
     dash:editor dash:TextFieldEditor ;
-  ];
-  sh:property[
+  ],[
     sh:path dct:description ;
     sh:nodeKind sh:Literal ;
     sh:maxCount 1 ;
     dash:editor dash:TextAreaEditor ;
-  ];
-  sh:property[
+  ],[
+    sh:path fdt-o:payloadMediaType ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "IANA media type of the artefact (e.g. application/sparql-query, application/vnd.oci.image.index.v1+json)." ;
+    dash:editor dash:TextFieldEditor ;
+  ],[
+    sh:path fdt-o:payloadDownloadURL ;
+    sh:nodeKind sh:IRI ;
+    sh:maxCount 1 ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ],[
+    sh:path fdt-o:payloadContent ;
+    sh:nodeKind sh:Literal ;
+    sh:maxCount 1 ;
+    dash:editor dash:TextFieldEditor ;
+    dash:viewer dash:TextFieldEditor ;
+  ],[
+    sh:path fdt-o:artifactDigest ;
+    sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:pattern "^sha256:[0-9a-f]{64}$" ;
+    sh:message "Digest in the form sha256:<64 hex digits>." ;
+    dash:editor dash:TextFieldEditor ;
+  ] ;
   sh:or (
-      [
-        sh:path fdt-o:payloadDownloadURL ;
-        sh:nodeKind sh:IRI ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        dash:editor dash:URIEditor ;
-        dash:viewer dash:LabelViewer ;
-      ]
-      [
-        sh:path fdt-o:payloadContent ;
-        sh:nodeKind sh:Literal ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        dash:editor dash:TextFieldEditor ;
-        dash:viewer dash:TextFieldEditor ;
-      ]
-  )].
+    [ sh:path fdt-o:payloadDownloadURL ; sh:minCount 1 ]
+    [ sh:path fdt-o:payloadContent ;     sh:minCount 1 ]
+  ) ;
+  sh:message "A payload is delivered either by fdt-o:payloadDownloadURL or inline as fdt-o:payloadContent." .

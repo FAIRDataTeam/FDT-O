@@ -1,0 +1,87 @@
+@prefix :         <https://w3id.org/fdt/shapes#> .
+@prefix dash:     <http://datashapes.org/dash#> .
+@prefix dcat:     <http://www.w3.org/ns/dcat#> .
+@prefix dct:      <http://purl.org/dc/terms/> .
+@prefix sh:       <http://www.w3.org/ns/shacl#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix fdt-o:    <https://w3id.org/fdt#> .
+
+# FDT-O v2 (11 Sep 2026) — new shapes for the classes the delta ontology introduces
+# (findings 3 and 5). These are the STRUCTURAL rules that belong to the ontology; the
+# data-space rules (one odrl:Offer per hosted dataset, one dcat:Distribution per mechanism,
+# DSP data service) live in fdt-commons/shapes/station-catalog.shapes.ttl and build on these.
+
+:HostedDatasetShape a sh:NodeShape ;
+  sh:targetClass fdt-o:HostedDataset ;
+  sh:nodeKind sh:IRI ;
+  sh:property [
+    sh:path rdf:type ;
+    sh:not [ sh:hasValue fdt-o:Train ] ;
+    sh:message "A hosted dataset is never a train (fdt-o:Train owl:disjointWith dcat:Dataset)." ;
+  ],[
+    sh:path fdt-o:hasDataController ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:message "ADR-011: every hosted dataset names its data controller (an organisation or a natural person), the assigner of the offers over it." ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ],[
+    sh:path fdt-o:joinKey ;
+    sh:nodeKind sh:IRI ;
+    sh:class fdt-o:JoinKey ;
+    sh:message "ADR-024: join keys the dataset supports (pseudonym space, spatial/administrative unit, time axis)." ;
+  ],[
+    sh:path dct:title ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    dash:editor dash:TextFieldEditor ;
+  ] .
+
+:DataControllerShape a sh:NodeShape ;
+  sh:targetClass fdt-o:DataController ;
+  sh:property [
+    sh:path foaf:name ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    dash:editor dash:TextFieldEditor ;
+  ] .
+
+:JoinKeyShape a sh:NodeShape ;
+  sh:targetClass fdt-o:JoinKey ;
+  sh:property [
+    sh:path dct:title ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] .
+
+:StationCatalogShape a sh:NodeShape ;
+  sh:targetClass fdt-o:StationCatalog ;
+  sh:property [
+    sh:path dcat:dataset ;
+    sh:nodeKind sh:IRI ;
+    sh:class fdt-o:HostedDataset ;
+    sh:message "A station catalogue lists hosted datasets (fdt-o:HostedDataset)." ;
+  ],[
+    sh:path dcat:resource ;
+    sh:not [ sh:class fdt-o:Train ] ;
+    sh:message "Trains are catalogued by a Garage, not by a station catalogue." ;
+  ] .
+
+:GarageCatalogShape a sh:NodeShape ;
+  sh:targetClass fdt-o:GarageCatalog ;
+  sh:property [
+    sh:path dcat:resource ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:class fdt-o:Train ;
+    sh:message "ADR-020 (amended): a Garage catalogues trains as dcat:Resources (executables)." ;
+  ],[
+    sh:path dcat:dataset ;
+    sh:maxCount 0 ;
+    sh:message "A Garage catalogue holds no datasets — a train is never a dcat:Dataset." ;
+  ] .

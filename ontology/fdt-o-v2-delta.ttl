@@ -1,0 +1,146 @@
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct:      <http://purl.org/dc/terms/> .
+@prefix dcat:     <http://www.w3.org/ns/dcat#> .
+@prefix odrl:     <http://www.w3.org/ns/odrl/2/> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix fdt-o:    <https://w3id.org/fdt#> .
+@prefix fdt-inst: <https://w3id.org/fdt/instances#> .
+@prefix fdt-run:  <https://w3id.org/fdt/run#> .
+
+# FDT-O v2 — delta (11 September 2026)
+#
+# Axioms to be MERGED into the FDT-O ontology. They realise findings 1–5 of the fdt-commons
+# probe (fdt-commons/FINDINGS.md) and ADR-020 as amended ("trains are executables, not
+# datasets"). Everything here is in the namespace the FDT-O shapes and example instances
+# already use, <https://w3id.org/fdt#>. Terms that FDT-O already declares (Train, the train
+# subclasses, DataStation, Payload, payloadDownloadURL, payloadContent, payloadMediaType,
+# isControlledBy, hasPayload, generatesOutput, hasRequirement, TrainOwner, StationOwner)
+# are NOT re-declared — only new axioms about them are stated.
+#
+# Finding 1 (two namespaces) cannot be settled from this delta alone: it needs the ontology
+# file itself, which was not among the FDT-O files at hand (only shapes/ and
+# example-instances/). See README.md.
+
+<https://w3id.org/fdt/v2-delta> a owl:Ontology ;
+  dct:title "FDT-O v2 delta — trains as executable assets, hosted datasets, catalogues, controllers, station types"@en ;
+  dct:created "2026-09-11"^^xsd:date ;
+  dct:description "Additions to the FAIR Data Train Ontology decided on 11 September 2026 (ADR-011, ADR-017, ADR-020 amended, ADR-022, ADR-024). To be merged into the FDT-O ontology; the shapes in ../shapes assume these axioms."@en ;
+  rdfs:seeAlso <https://w3id.org/fdt/profile#>, <https://w3id.org/fdt/run#> .
+
+# ---------------------------------------------------------------------------------------
+# 1. Trains are executable assets, never datasets (ADR-020 as amended; finding 4)
+# ---------------------------------------------------------------------------------------
+
+fdt-o:Train
+  rdfs:subClassOf odrl:Asset ;        # the target of its provider's odrl:Offer
+  rdfs:subClassOf dcat:Resource ;     # what a Garage catalogues via dcat:resource
+  owl:disjointWith dcat:Dataset ;     # a train is something a station RUNS, not something it HOSTS
+  skos:scopeNote "A train is an executable interaction (query, API call, script, container) packaged with its description. It is an ODRL asset and a DCAT resource; it is never a dcat:Dataset and never has a dcat:distribution — its artefact is its fdt-o:hasPayload (decision of 11 September 2026)."@en .
+
+fdt-o:hasPayload
+  rdfs:domain fdt-o:Train ;
+  rdfs:range  fdt-o:Payload ;
+  skos:scopeNote "The train's executable artefact. Replaces any use of dcat:distribution on trains (dcat:distribution has domain dcat:Dataset)."@en .
+
+fdt-o:artifactDigest a owl:DatatypeProperty ;
+  rdfs:label "artifact digest"@en ;
+  rdfs:domain fdt-o:Payload ;
+  rdfs:range xsd:string ;
+  skos:definition "Digest of the payload bytes (query text, image, archive) in the form 'sha256:<64 hex digits>', so a station can verify that what arrived matches what was offered."@en .
+
+fdt-o:supportsCoordination a owl:ObjectProperty ;
+  rdfs:label "supports coordination"@en ;
+  rdfs:domain fdt-o:Train ;
+  rdfs:range fdt-run:Coordination ;
+  skos:definition "Coordination style(s) the train supports: fdt-run:Orchestrated (an external Handler drives the itinerary) and/or fdt-run:Choreographed (routing embedded in the train — script and container trains only, ADR-013)."@en .
+
+# Parameters a train accepts are described with fdt-run:parameter / fdt-run:Parameter
+# (fdt-commons run vocabulary); no separate FDT-O property is introduced.
+
+# ---------------------------------------------------------------------------------------
+# 2. Hosted datasets and catalogues (finding 3; ADR-019, ADR-020)
+# ---------------------------------------------------------------------------------------
+
+fdt-o:HostedDataset a owl:Class ;
+  rdfs:subClassOf dcat:Dataset ;
+  rdfs:label "hosted dataset"@en ;
+  skos:definition "A dataset hosted by a Data Station and governed by its data controller's offers. Distinguished from the dcat:Dataset descriptions a train uses for its declared inputs and outputs (fdt-o:hasRequirement / fdt-o:generatesOutput), which are descriptions of expected data, not hosted data."@en .
+
+fdt-o:StationCatalog a owl:Class ;
+  rdfs:subClassOf dcat:Catalog ;
+  rdfs:label "station catalogue"@en ;
+  skos:definition "The DCAT catalogue a Data Station publishes about its hosted datasets: one odrl:Offer per dataset, one dcat:Distribution per interaction mechanism, one dcat:DataService per station (DSP-conformant, ADR-019)."@en .
+
+fdt-o:GarageCatalog a owl:Class ;
+  rdfs:subClassOf dcat:Catalog ;
+  rdfs:label "garage catalogue"@en ;
+  skos:definition "The DCAT catalogue a Train Garage publishes about its trains, listed with dcat:resource (never dcat:dataset), each carrying its provider's odrl:Offer (ADR-020 as amended)."@en .
+
+fdt-o:hostsDataset a owl:ObjectProperty ;
+  rdfs:label "hosts dataset"@en ;
+  rdfs:domain fdt-o:DataStation ;
+  rdfs:range fdt-o:HostedDataset .
+
+fdt-o:publishesCatalog a owl:ObjectProperty ;
+  rdfs:label "publishes catalogue"@en ;
+  rdfs:range dcat:Catalog ;
+  skos:definition "Links a Data Station to its StationCatalog or a Train Garage to its GarageCatalog."@en .
+
+# ---------------------------------------------------------------------------------------
+# 3. Data controllers (finding 5; ADR-011; register A1/A7)
+# ---------------------------------------------------------------------------------------
+
+fdt-o:DataController a owl:Class ;
+  rdfs:subClassOf foaf:Agent ;
+  rdfs:label "data controller"@en ;
+  skos:definition "The party that decides the conditions under which a hosted dataset may be used and approves agreements over it — an organisation or a natural person (ADR-011). Distinct from the StationOwner, who operates the station, and from the TrainOwner."@en .
+
+fdt-o:hasDataController a owl:ObjectProperty ;
+  rdfs:label "has data controller"@en ;
+  rdfs:domain fdt-o:HostedDataset ;
+  rdfs:range fdt-o:DataController ;
+  skos:definition "The data controller of a hosted dataset; the assigner of the odrl:Offers over it. Resolves the conflation of station owner, train owner and controller in fdt-o:isControlledBy."@en .
+
+# ---------------------------------------------------------------------------------------
+# 4. Station types (ADR-022, ADR-024) and join keys
+# ---------------------------------------------------------------------------------------
+
+fdt-o:LinkageStation a owl:Class ;
+  rdfs:subClassOf fdt-o:DataStation ;
+  rdfs:label "linkage station"@en ;
+  skos:definition "A Data Station whose interaction mechanism is identifier translation between organisational pseudonym spaces; visited as a hop under its own agreement; may wrap an existing trusted third party (ADR-022)."@en .
+
+fdt-o:AlignmentStation a owl:Class ;
+  rdfs:subClassOf fdt-o:DataStation ;
+  rdfs:label "alignment station"@en ;
+  skos:definition "A Data Station offering vocabulary, code-system and unit mappings, consulted by trains or visited as a hop (ADR-024)."@en .
+
+# The two mechanism individuals below are typed owl:NamedIndividual only: the class FDT-O uses
+# for fdt-inst:SPARQL, fdt-inst:Docker, … is not visible in the files at hand — add it on merge.
+fdt-inst:IdentifierTranslation a owl:NamedIndividual ;
+  rdfs:label "identifier translation"@en ;
+  skos:definition "Interaction mechanism of a LinkageStation: translate a set of pseudonyms from one pseudonym space into another."@en .
+
+fdt-inst:VocabularyAlignment a owl:NamedIndividual ;
+  rdfs:label "vocabulary alignment"@en ;
+  skos:definition "Interaction mechanism of an AlignmentStation: map codes, terms or units between vocabularies."@en .
+
+fdt-o:JoinKey a owl:Class ;
+  rdfs:label "join key"@en ;
+  skos:definition "A key space datasets can be joined on: a pseudonym space, a spatial or administrative unit, a time axis (ADR-024)."@en .
+
+fdt-o:joinKey a owl:ObjectProperty ;
+  rdfs:label "join key"@en ;
+  rdfs:domain fdt-o:HostedDataset ;
+  rdfs:range fdt-o:JoinKey ;
+  skos:definition "A join key the hosted dataset supports, so a Handler can check joinability before dispatch."@en .
+
+fdt-o:pseudonymSpace a owl:ObjectProperty ;
+  rdfs:label "pseudonym space"@en ;
+  rdfs:domain fdt-o:LinkageStation ;
+  rdfs:range fdt-o:JoinKey ;
+  skos:definition "A pseudonym space the linkage station can translate from or to."@en .
