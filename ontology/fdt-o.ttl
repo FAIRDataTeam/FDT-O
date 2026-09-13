@@ -45,7 +45,7 @@ skos:closeMatch a owl:AnnotationProperty .
     dct:license <https://creativecommons.org/licenses/by/4.0/legalcode> ;
     dct:modified "2026-09-13"^^xsd:date ;
     owl:versionIRI <https://w3id.org/fdt/fdt-o/4.0.0> ;
-    owl:versionInfo "v4.0.0 (ADR-030, ADR-033), mostly additive. Three things enter. (1) fdt-o:DatasetPart: a controller may offer part of a hosted dataset, with its own IRI, its own controller and its own offers, so that the catalogue advertises what is actually available instead of a whole dataset narrowed invisibly by a constraint. fdt-o:GovernedData is the common superclass of the whole and the part, so that a rule about data an offer may target is written once. (2) The input-requirement structure becomes normative: a train declares the data it needs as a SHACL model, and that — not a theme or a label — is what decides whether a station can run it. fdt-o:Mapping and fdt-o:RMLMapping let a station whose data is not RDF publish the mapping its shape is generated from. (3) The train families QueryTrain, APITrain, ScriptTrain and ContainerTrain become abstract like fdt-o:Train itself: they name a kind of mechanism, not a kind of train, and only the leaves say what a train is. That last one is breaking for any graph whose train is typed with a family alone."@en ;
+    owl:versionInfo "v4.0.0 (ADR-030, ADR-033), mostly additive. Three things enter. (1) fdt-o:DatasetPart: a controller may offer part of a hosted dataset, with its own IRI, its own controller and its own offers, so that the catalogue advertises what is actually available instead of a whole dataset narrowed invisibly by a constraint. fdt-o:GovernedData is the common superclass of the whole and the part, so that a rule about data an offer may target is written once. (2) The input-requirement structure becomes normative: a train declares the data it needs as a SHACL model, and that — not a theme or a label — is what decides whether a station can run it. fdt-o:Mapping and fdt-o:RMLMapping let a station whose data is not RDF publish the mapping its shape is generated from. (3) The train families QueryTrain, APITrain, ScriptTrain and ContainerTrain become abstract like fdt-o:Train itself: they name a kind of mechanism, not a kind of train, and only the leaves say what a train is. That last one is breaking for any graph whose train is typed with a family alone. Two corrections land with ADR-036, both additive. fdt-o:TrainProvider — present since the legacy OWL, described as the agent who created the Train, and until now unlabelled, unused and not defined through hasControllingRights — gains the label 'Train Creator', a definition of what a creator is answerable for, and the same hasControllingRights restriction the other three parties have. And the dct:creator restriction moves from foaf:Agent, where it said that every agent has a train as its creator, to fdt-o:Train, where it says a train has an agent as its creator (finding 68)."@en ;
     skos:historyNote "v3.0.0 (ADR-029), breaking, and taken before any w3id redirect published these IRIs. fdt-o:GarageCatalog was renamed fdt-o:DepotCatalog: the Train Garage is the Train Depot, and the rename went into the ontology rather than stopping at the product name. fdt-o:Train became abstract — only its concrete subclasses have instances — and stopped being a subclass of odrl:Asset: a train plays the asset role as the target of a policy, where access conditions apply, instead of carrying it everywhere. No aliases were kept for the old terms."@en ;
     skos:historyNote "- Refactored FHIR API and FHIR Train as sub-classes of REST API and REST Train, respectively."@en .
 
@@ -142,8 +142,13 @@ fdt-o:TrainOwner a owl:Class ;
         foaf:Agent .
 
 fdt-o:TrainProvider a owl:Class ;
+    rdfs:label "Train Creator"@en ;
     dct:description "Train Provider represents the agent(s) (organization or person) who created the Train."@en ;
-    rdfs:subClassOf foaf:Agent .
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty fdt-o:hasControllingRights ;
+            owl:someValuesFrom fdt-o:Train ],
+        foaf:Agent ;
+    skos:definition "The party that created a train and is answerable for it: the code, the declared parameters, the declared output, and the odrl:Offer under which anyone may take it (ADR-036). Distinct from the fdt-o:TrainOwner, who takes a train and sends it to stations — a train visits a station on behalf of its owner, not its creator — and from the agent operating the Train Depot that publishes it. The label says 'Train Creator' and the IRI says 'Provider': the term predates the distinction, is used by nothing, and was left in place rather than renamed, because a published IRI is a promise and 'who made this' is what it always meant."@en .
 
 fdt-o:artifactDigest a owl:DatatypeProperty ;
     rdfs:label "artifact digest"@en ;
@@ -564,16 +569,19 @@ fdt-o:DataStation a owl:Class ;
 
 dcat:Resource a owl:Class .
 
-foaf:Agent a owl:Class ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty dct:creator ;
-            owl:someValuesFrom fdt-o:Train ] .
+foaf:Agent a owl:Class .
 
 fdt-o:InteractionMechanism a owl:Class .
 
 fdt-o:Train a owl:Class ;
     dash:abstract true ;  # v4 (Q18, answered): the four families are abstract too — see fdt-o:QueryTrain
     rdfs:subClassOf [ a owl:Restriction ;
+            # Finding 68: this restriction was on foaf:Agent, which said that every agent —
+            # every data controller, every station owner — has a train as its creator. It is
+            # the train that has a creator (ADR-036), and this is the class it belongs on.
+            owl:onProperty dct:creator ;
+            owl:someValuesFrom foaf:Agent ],
+        [ a owl:Restriction ;
             owl:onProperty fdt-o:hasRequirement ;
             owl:someValuesFrom fdt-o:TrainRequirement ],
         [ a owl:Restriction ;
