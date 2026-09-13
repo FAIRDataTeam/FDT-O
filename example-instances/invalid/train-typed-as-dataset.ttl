@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix : <http://example.com/trains/invalid/>.
+
+# INVALID: a train typed as a dataset with a distribution (the pre-amendment ADR-020 reading).
+:bad-train a fdt-o:SPARQLTrain, dcat:Dataset;
+  dcterms:title "Train wrongly modelled as a dataset";
+  fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
+  dcat:distribution :dist;
+  fdt-o:hasPayload :payload;
+  fdt-o:generatesOutput :out;
+  dcat:theme <http://example.com/theme>.
+:payload a fdt-o:Payload; dcterms:title "q"; fdt-o:payloadMediaType "application/sparql-query"; fdt-o:payloadContent "SELECT * WHERE { ?s ?p ?o }".

@@ -2,7 +2,7 @@
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
-@prefix covid19: <http://covid19.squirrel.link/ontology#>
+@prefix covid19: <http://covid19.squirrel.link/ontology#> .
 
 :covidDatasetShape a sh:NodeShape ;
   sh:targetClass covid19:Dataset;

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/>.
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix : <http://example.com/trains/invalid/>.
+
+# INVALID: fdt-o:Train alone. The class is abstract (ADR-029) — a train says which concrete
+# kind it is — and this one also has no payload.
+:vague-train a fdt-o:Train;
+  dcterms:title "Train typed only as the abstract class, and without a payload";
+  fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
+  fdt-o:generatesOutput :out;
+  dcat:theme <http://example.com/theme>.

@@ -1,0 +1,42 @@
+{
+  "train-typed-as-dataset.ttl": [
+    "never typed dcat:Dataset",
+    "dcat:distribution has domain dcat:Dataset"
+  ],
+  "train-without-concrete-type.ttl": [
+    "are abstract",
+    "executable artefact"
+  ],
+  "train-family-only-type.ttl": [
+    "they name a mechanism family, not a train"
+  ],
+  "train-without-input-requirement.ttl": [
+    "a train declares the data it needs"
+  ],
+  "input-requirement-that-names-no-shape.ttl": [
+    "A requirement that names no shape"
+  ],
+  "payload-without-url-or-content.ttl": [
+    "either by fdt-o:payloadDownloadURL or inline",
+    "sha256"
+  ],
+  "query-train-choreographed.ttl": [
+    "ADR-013"
+  ],
+  "hosted-dataset-without-controller.ttl": [
+    "names its data controller",
+    "holds no datasets"
+  ],
+  "concrete-train-without-payload.ttl": [
+    "Every train has an executable artefact"
+  ],
+  "dataset-part-without-a-whole.ttl": [
+    "a part names exactly one dataset it is part of",
+    "a part is a view of a hosted dataset, not of another part",
+    "parts sit one level below the dataset"
+  ],
+  "mapped-data-without-a-shape.ttl": [
+    "a mapping with no shape beside it matches nothing",
+    "A mapping nobody can fetch"
+  ]
+}

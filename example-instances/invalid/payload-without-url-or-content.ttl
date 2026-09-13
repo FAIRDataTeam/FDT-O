@@ -1,0 +1,9 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix : <http://example.com/trains/invalid/>.
+
+# INVALID: neither payloadDownloadURL nor payloadContent; malformed digest.
+:empty-payload a fdt-o:Payload;
+  dct:title "Payload with nothing in it";
+  fdt-o:payloadMediaType "application/sparql-query";
+  fdt-o:artifactDigest "md5:abc".
