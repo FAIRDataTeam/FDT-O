@@ -1,0 +1,80 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix : <http://example.com/parts/>.
+
+# ADR-033 — a controller may offer PART of a dataset, and the catalogue says so.
+#
+# The cohort below is the case the alternatives could not express. The whole dataset is
+# controlled by the study office; the questionnaire answers inside it were given by the
+# participants and remain theirs. Narrowing an offer with a constraint would have kept one
+# controller and one offer, and the catalogue would have advertised a dataset nobody could
+# actually obtain in full. Here the part has its own IRI, its own controller and its own
+# offer, so what is on offer is what the catalogue says is on offer — and the participants'
+# agent (the Individual Gateway) has something to attach to.
+#
+# The station's records are not RDF. It publishes the RML mapping that produces its RDF view
+# and the shape generated from that mapping (ADR-030), so a train's input requirement can be
+# matched against it without anyone hand-writing a description of data they cannot see.
+#
+# Every party here is fictional.
+
+:station a fdt-o:DataStation;
+  dcterms:title "Exemplar cohort station";
+  fdt-o:isControlledBy [a fdt-o:StationOwner; foaf:name "Exemplar cohort study office (fictional)"];
+  fdt-o:supportsInteractionMechanism fdt-inst:SPARQL;
+  fdt-o:hostsDataset :cohort;
+  fdt-o:publishesCatalog :catalog.
+
+:catalog a dcat:Catalog, fdt-o:StationCatalog;
+  dcterms:title "Catalogue of the exemplar cohort station";
+  dcterms:publisher :station;
+  dcat:dataset :cohort, :cohort-questionnaires, :cohort-measurements.
+
+:cohort a dcat:Dataset, fdt-o:HostedDataset;
+  dcterms:title "Exemplar longitudinal cohort, waves 1-4 (fictional)";
+  dcterms:description """Baseline and follow-up records of a fictional cohort. Held in the
+    study office's relational system; the RDF view below is what a visiting train sees.""";
+  fdt-o:hasDataController :study-office;
+  fdt-o:mappedBy :cohort-mapping;
+  dcterms:conformsTo <http://example.com/parts/shapes/cohortShape>;
+  fdt-o:joinKey :participant-pseudonym;
+  fdt-o:hasDatasetPart :cohort-questionnaires, :cohort-measurements.
+
+# The part whose controller is NOT the controller of the whole. This is why parts exist.
+:cohort-questionnaires a fdt-o:DatasetPart;
+  dcterms:title "Participant questionnaire answers (waves 1-4)";
+  dcterms:description """Answers the participants gave themselves. The study office hosts them;
+    each participant decides who may use their own, through their Individual Gateway.""";
+  fdt-o:isPartOfDataset :cohort;
+  fdt-o:hasDataController :participants;
+  dcterms:conformsTo <http://example.com/parts/shapes/questionnaireShape>;
+  fdt-o:joinKey :participant-pseudonym.
+
+# A part with the same controller as the whole: the narrowing is one of scope, not of
+# authority. It is still a part rather than a constraint, so that the catalogue advertises it.
+:cohort-measurements a fdt-o:DatasetPart;
+  dcterms:title "Physical measurements (waves 1-4)";
+  fdt-o:isPartOfDataset :cohort;
+  fdt-o:hasDataController :study-office;
+  dcterms:conformsTo <http://example.com/parts/shapes/measurementShape>;
+  fdt-o:joinKey :participant-pseudonym.
+
+:cohort-mapping a fdt-o:RMLMapping;
+  dcterms:title "RML mapping of the cohort's relational source to RDF";
+  dcterms:description """Generates the shapes the three datasets above declare. A generated
+    shape cannot drift from its mapping; a hand-written one can, and only a failed visit
+    reveals the gap (ADR-030).""";
+  dcat:accessURL <http://example.com/parts/mappings/cohort.rml.ttl>.
+
+:study-office a fdt-o:DataController, foaf:Organization;
+  foaf:name "Exemplar cohort study office (fictional controller)".
+
+:participants a fdt-o:DataController, foaf:Organization;
+  foaf:name "Exemplar cohort participants, acting through their Individual Gateways (fictional controller)".
+
+:participant-pseudonym a fdt-o:JoinKey;
+  dcterms:title "Cohort participant pseudonym (fictional)".

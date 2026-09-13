@@ -1,0 +1,28 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix obo: <http://purl.obolibrary.org/obo/>.
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix : <http://example.com/trains/invalid/>.
+
+# INVALID (FDT-O v4, ADR-030): an input requirement with a description but no model.
+#
+# This is the failure the shape exists to catch, and the one that would otherwise be invisible.
+# The train looks like it has declared its inputs: there is an fdt-o:InputRequirement, it has a
+# part, the part has a title and a description a human can read. There is no dct:conformsTo, so
+# there is nothing to match against — every station covers it, and the mismatch only shows up
+# at the station, after an agreement was negotiated for a visit that could never have run.
+
+:vague-train a fdt-o:SPARQLTrain;
+  dcterms:title "Train whose input requirement is prose";
+  fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
+  fdt-o:hasPayload :some-payload;
+  fdt-o:hasRequirement :req;
+  fdt-o:generatesOutput :out;
+  dcat:theme <http://example.com/theme>.
+
+:req a fdt-o:InputRequirement; obo:BFO_0000051 :needed.
+:needed a dcat:Dataset;
+  dcterms:title "Patient records with diagnoses and admission times";
+  dcterms:description """Any dataset with a diagnosis code and an admission timestamp per
+    episode. Ask the station if you are not sure.""".

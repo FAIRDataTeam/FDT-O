@@ -1,0 +1,55 @@
+@prefix :         <https://w3id.org/fdt/shapes#> .
+@prefix dash:     <http://datashapes.org/dash#> .
+@prefix dcat:     <http://www.w3.org/ns/dcat#> .
+@prefix dct:      <http://purl.org/dc/terms/> .
+@prefix obo:      <http://purl.obolibrary.org/obo/> .
+@prefix sh:       <http://www.w3.org/ns/shacl#> .
+@prefix fdt-o:    <https://w3id.org/fdt/fdt-o#> .
+
+# FDT-O v4 (13 Sep 2026) — ADR-030. What a train's input requirement has to carry.
+#
+# The structure is not new: fdt-o:hasRequirement, fdt-o:InputRequirement and a dcat:Dataset
+# description that dct:conformsTo a shape have been in FDT-O since v2, and
+# example-instances/train-description-with-requirements.ttl has carried a worked example with
+# a real SHACL shape the whole time. What was new in v4 is that anything checks it, and that
+# a train must have one.
+#
+# Why it matters that this is required rather than illustrative: station selection used to run
+# on fdt-run:targetQuery, a string with no grammar that nothing read. Selection is not a search
+# over labels — it is the question of whether a station holds the data the train needs in order
+# to run at all. That question is answerable only if the train has stated what it needs, and
+# stated it in a form a machine can compare against what a station publishes. A requirement
+# that names no shape is worse than none: it looks like a declaration and constrains nothing,
+# so every station matches it and the failure only appears on arrival.
+#
+# The MATCH itself — structural coverage of the train's shape by the station's — is not
+# expressible in SHACL: it is a relation between two shapes graphs, not a constraint on one
+# node. fdt-commons/tools/coverage.py is the normative implementation, and `make check` runs
+# it over the fixtures.
+
+:InputRequirementShape a sh:NodeShape ;
+  sh:targetClass fdt-o:InputRequirement ;
+  sh:nodeKind sh:IRI ;
+  sh:property [
+    sh:path obo:BFO_0000051 ;                      # has part
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:node :RequiredDatasetShape ;
+    sh:message "ADR-030: an input requirement has as part (obo:BFO_0000051) the description of the data the train needs." ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ] .
+
+# Not targeted by class: this shape is reached through the requirement above, because the node
+# it describes is a plain dcat:Dataset — the same class a train's declared OUTPUT uses, and the
+# same class hosted data specialises. Targeting dcat:Dataset here would put the rule on every
+# dataset in every graph.
+:RequiredDatasetShape a sh:NodeShape ;
+  sh:property [
+    sh:path dct:conformsTo ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:message "ADR-030: the data a train requires is declared as a semantic data model — a SHACL shape, which a station's own published shape must cover. A requirement that names no shape matches every station and tells a consumer nothing about why a station was left out." ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ] .

@@ -1,0 +1,25 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix : <http://example.com/parts/invalid/>.
+
+# INVALID (FDT-O v4, ADR-033): a part that names no whole, and a part of a part.
+#
+# A part is a governed VIEW of a hosted dataset. One that names nothing it is part of is a
+# dataset with the wrong class on it: there is no dataset whose scope it narrows, so a consumer
+# reading the catalogue cannot tell what they would actually be getting, and the station cannot
+# tell which distribution reaches it.
+
+:orphan a fdt-o:DatasetPart;
+  dcterms:title "Part of nothing in particular";
+  fdt-o:hasDataController :controller;
+  fdt-o:hasDatasetPart :sub-orphan.
+
+:sub-orphan a fdt-o:DatasetPart;
+  dcterms:title "Part of a part";
+  fdt-o:hasDataController :controller;
+  fdt-o:isPartOfDataset :orphan.
+
+:controller a fdt-o:DataController, foaf:Organization;
+  foaf:name "Exemplar controller (fictional)".

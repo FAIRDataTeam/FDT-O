@@ -3,11 +3,13 @@
 This ontology describes the elements of the FAIR Data Train (FDT) and their relations. It
 serves as a reference model to annotate the metadata content of the FDTs.
 
-**Version 3.0.0** (13 September 2026) renames the Train Garage to the Train Depot, makes
-`fdt-o:Train` abstract and drops `fdt-o:Train ⊑ odrl:Asset` (ADR-029). It is breaking, and
-deliberately so: no `w3id.org` redirect publishes these IRIs yet, so the rename will never be
-cheaper. No aliases are kept — a graph written against v2 must be rewritten.
-Version 2.0.0 (12 September 2026) merged the FDT-O v2 delta and settled the namespace.
+**Version 4.0.0** (13 September 2026) adds dataset parts (ADR-033), makes a train's
+declaration of the data it needs normative (ADR-030), and marks the four train families
+abstract. Version 3.0.0 (13 September 2026) renamed the Train Garage to the Train Depot, made
+`fdt-o:Train` abstract and dropped `fdt-o:Train ⊑ odrl:Asset` (ADR-029). Version 2.0.0
+(12 September 2026) merged the FDT-O v2 delta and settled the namespace. Both v3 and v4 are
+breaking and deliberately so: no `w3id.org` redirect publishes these IRIs yet, so the changes
+will never be cheaper. No aliases are kept.
 The structural vocabulary lives here; the data-space layer on top of it — the ODRL profile,
 the run-description vocabulary, the network vocabulary, the visit protocol — lives in
 [`fdt-commons`](https://github.com/FAIRDataTeam/fdt-commons).
@@ -16,9 +18,9 @@ the run-description vocabulary, the network vocabulary, the visit protocol — l
 
 | Path | What it holds |
 |---|---|
-| `ontology/fdt-o.ttl` | **the ontology** — v3, in one namespace |
+| `ontology/fdt-o.ttl` | **the ontology** — v4, in one namespace |
 | `ontology/fdt-o-v2-delta.ttl` | the v2 delta on its own, historical; nothing validates against it |
-| `shapes/` | SHACL shapes: `TrainShape`, `PayloadShape`, `DatastationShape`, `HostedDatasetAndCatalogShapes`, `MetadataRecordShape`, and two illustrative example shapes |
+| `shapes/` | SHACL shapes: `TrainShape`, `PayloadShape`, `DatastationShape`, `HostedDatasetAndCatalogShapes`, `InputRequirementShape`, `MetadataRecordShape`, and two illustrative example shapes |
 | `example-instances/` | valid instances, and `invalid/` counter-examples that must fail |
 | `tests/validate.py` | the checker (pySHACL) |
 | `legacy/` | the v0.3 prototype: `fdt-ontology.owl` and the `fdp-api` sidecar, superseded by `ontology/fdt-o.ttl` |
@@ -27,7 +29,7 @@ the run-description vocabulary, the network vocabulary, the visit protocol — l
 
 FDT-O's terms are in **`https://w3id.org/fdt/fdt-o#`**, where the prototype declared them.
 The ontology IRI is `https://w3id.org/fdt/fdt-o` and its version IRI
-`https://w3id.org/fdt/fdt-o/3.0.0`, so the term namespace is the ontology IRI plus `#` — what
+`https://w3id.org/fdt/fdt-o/4.0.0`, so the term namespace is the ontology IRI plus `#` — what
 a dereferencing consumer expects.
 
 This needed settling. The prototype declared its 54 terms here, while **every** SHACL shape
@@ -46,9 +48,42 @@ namespace rather than the namespace moving to meet them. No equivalence bridges 
 
 `tests/validate.py` now compares the two vocabularies directly — every `fdt-o:` term the
 shapes reference must be declared by the ontology — so this cannot recur silently. It reports
-42 referenced, 71 declared, 0 undeclared; before the merge the overlap was **zero**.
+47 referenced, 78 declared, 0 undeclared; before the merge the overlap was **zero**.
 
-## What v3 changes
+## What v4 changes
+
+ADR-030 and ADR-033, and Q18. Mostly additive; the last item is not.
+
+- **A controller may offer part of a dataset** (ADR-033). `fdt-o:DatasetPart` has its own IRI,
+  its own `fdt-o:hasDataController` and its own `odrl:Offer`s, and it is listed in the station
+  catalogue beside the whole. The alternative was to narrow an offer with a constraint and
+  enforce it at PEP 3 — which works, and leaves the catalogue advertising a dataset nobody can
+  actually obtain in full. It also cannot express the case that matters most: **a part whose
+  controller is not the controller of the whole**, which is how a dataset with mixed provenance
+  is governed at all, and where a person's Individual Gateway attaches.
+- **`fdt-o:GovernedData`** is the common superclass of the whole and the part, so a rule about
+  data an offer may target is written once. Without it, every such rule keeps saying
+  `fdt-o:HostedDataset`, stops applying to parts, and reports "conforms" over data nobody
+  checked.
+- **A train declares the data it needs, and that is what selects a station** (ADR-030).
+  `fdt-o:hasRequirement` was optional and unshaped, so no train in either repository's fixtures
+  declared anything, and station selection had nothing to work from but themes and labels.
+  `:TrainShape` now requires at least one `fdt-o:InputRequirement` and `:InputRequirementShape`
+  says what one carries: a `dcat:Dataset` description that `dct:conformsTo` a SHACL shape.
+  `fdt-o:Mapping` and `fdt-o:RMLMapping` let a station whose data is not RDF publish the
+  mapping its shape is generated from — a generated shape cannot drift from its mapping, and a
+  hand-written one can.
+- **The four train families are abstract too** (Q18): `fdt-o:QueryTrain`, `fdt-o:APITrain`,
+  `fdt-o:ScriptTrain`, `fdt-o:ContainerTrain`. A family names a kind of mechanism, not a kind of
+  train — `fdt-o:QueryTrain` says a train speaks *some* query language and not which, and
+  choosing an adapter is the one thing a station does with a train's class. **This is the
+  breaking part**: a graph whose train is typed with a family alone must name the leaf instead.
+
+The match itself — structural coverage of a train's shape by a station's — is a relation
+between two shapes graphs, not a constraint on one node, so no SHACL shape can express it.
+`fdt-commons/tools/coverage.py` is the normative implementation and `make check` runs it.
+
+## What v3 changed
 
 ADR-029.
 
@@ -129,10 +164,15 @@ pip install -r requirements.txt
 python3 tests/validate.py
 ```
 
-Three passes: the example instances conform to the shapes; each `example-instances/invalid/`
-file fails on the rule it was written to break; and the `fdt-commons` fixtures conform to
-these shapes with zero divergence — the cross-check that keeps the two repositories honest.
-The last pass needs a `fdt-commons` checkout beside this one.
+Five passes: the example instances conform to the shapes; each `example-instances/invalid/`
+file fails on the rule it was written to break; the `fdt-commons` fixtures conform to these
+shapes with zero divergence — the cross-check that keeps the two repositories honest; every
+`fdt-o:` term the shapes reference is declared by the ontology; and **every shape selects at
+least one focus node somewhere in the corpus**, because a shape whose target selects nothing
+reports "conforms" and always will. That last pass checks its own detector against a shape
+built to come out dead, so a "0 dead" line cannot itself be vacuous.
+
+The cross-check needs a `fdt-commons` checkout beside this one.
 
 ## Licence
 

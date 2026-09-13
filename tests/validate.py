@@ -138,8 +138,15 @@ def check_every_shape_is_exercised():
     Shapes outside the FDT namespace are not counted: shapes/exampleDatasetOutputShape.ttl
     ships a shape in http://example.com/ as an illustration of what a train's declared output
     shape looks like, and it is not FDT-O's to exercise.
+
+    **The check checks itself.** A pass that reports "0 dead" is indistinguishable from a pass
+    whose detector is broken, and this one has exactly the shape of the bug it hunts: remove the
+    line that computes `dead` and it goes on printing a reassuring number forever. So a probe
+    shape targeting a class that certainly has no instances is put through the same selection,
+    and the pass fails if the machinery does not flag it. The probe is never on disk and never in
+    the reported count.
     """
-    from rdflib import Graph
+    from rdflib import Graph, URIRef
     from rdflib.namespace import RDF, RDFS, SH
 
     hierarchy = class_hierarchy()
@@ -151,6 +158,14 @@ def check_every_shape_is_exercised():
         data.parse(f, format="turtle")
     data += hierarchy
 
+    #: A shape that must come out dead. Same namespace, same selection path, a class nothing
+    #: declares — so if this is not flagged, the detector below is not working and the "0 dead"
+    #: it would print means nothing.
+    probe = URIRef(FDT_SHAPES_NS + "DeliberatelyDeadProbeShape")
+    probe_class = URIRef("https://example.invalid/no-such-class")
+    shapes.add((probe, SH.targetClass, probe_class))
+
+
     selected = {}
     for shape, cls in shapes.subject_objects(SH.targetClass):
         if not str(shape).startswith(FDT_SHAPES_NS):
@@ -160,6 +175,12 @@ def check_every_shape_is_exercised():
         selected.setdefault(str(shape), set()).update(nodes)
 
     dead = sorted(name for name, nodes in selected.items() if not nodes)
+    if str(probe) not in dead:
+        print("[targets] the probe shape was NOT reported dead: this check's own detector is "
+              "broken, and the count it prints means nothing")
+        return False
+    dead.remove(str(probe))
+    del selected[str(probe)]
     print(f"[targets] {len(selected)} FDT shapes; "
           f"focus nodes in the corpus: {sum(len(n) for n in selected.values())}; "
           f"shapes selecting nothing: {len(dead)}")

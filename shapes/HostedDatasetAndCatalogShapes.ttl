@@ -2,6 +2,7 @@
 @prefix dash:     <http://datashapes.org/dash#> .
 @prefix dcat:     <http://www.w3.org/ns/dcat#> .
 @prefix dct:      <http://purl.org/dc/terms/> .
+@prefix odrl:     <http://www.w3.org/ns/odrl/2/> .
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -12,32 +13,108 @@
 # (findings 3 and 5). These are the STRUCTURAL rules that belong to the ontology; the
 # data-space rules (one odrl:Offer per hosted dataset, one dcat:Distribution per mechanism,
 # DSP data service) live in fdt-commons/shapes/station-catalog.shapes.ttl and build on these.
+#
+# FDT-O v4 (13 Sep 2026, ADR-033): a controller may offer PART of a dataset. The rules that
+# were written on fdt-o:HostedDataset — a controller, a title, join keys, and never a train —
+# are rules about *data an offer may target*, and they hold of a part as much as of a whole.
+# They move to :GovernedDataShape, which selects both; :HostedDatasetShape keeps only what is
+# true of a whole. Writing them once is the point of fdt-o:GovernedData existing: the way this
+# goes wrong is a rule that still says fdt-o:HostedDataset, silently stops applying to parts,
+# and reports "conforms" over data nobody checked.
 
-:HostedDatasetShape a sh:NodeShape ;
-  sh:targetClass fdt-o:HostedDataset ;
+:GovernedDataShape a sh:NodeShape ;
+  sh:targetClass fdt-o:GovernedData ;
   sh:nodeKind sh:IRI ;
   sh:property [
     sh:path rdf:type ;
     sh:not [ sh:hasValue fdt-o:Train ] ;
-    sh:message "A hosted dataset is never a train (fdt-o:Train owl:disjointWith dcat:Dataset)." ;
+    sh:message "Data is never a train (fdt-o:Train owl:disjointWith dcat:Dataset)." ;
   ],[
     sh:path fdt-o:hasDataController ;
     sh:nodeKind sh:IRI ;
     sh:minCount 1 ;
-    sh:message "ADR-011: every hosted dataset names its data controller (an organisation or a natural person), the assigner of the offers over it." ;
+    sh:message "ADR-011: every hosted dataset — and every part of one — names its data controller (an organisation or a natural person), the assigner of the offers over it." ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[
     sh:path fdt-o:joinKey ;
     sh:nodeKind sh:IRI ;
     sh:class fdt-o:JoinKey ;
-    sh:message "ADR-024: join keys the dataset supports (pseudonym space, spatial/administrative unit, time axis)." ;
+    sh:message "ADR-024: join keys the data supports (pseudonym space, spatial/administrative unit, time axis)." ;
+  ],[
+    sh:path fdt-o:mappedBy ;
+    sh:nodeKind sh:IRI ;
+    sh:class fdt-o:Mapping ;
+    sh:message "ADR-030: the mapping that produces the RDF view of this data, published so the shape derived from it can be checked against it." ;
   ],[
     sh:path dct:title ;
     sh:nodeKind sh:Literal ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
     dash:editor dash:TextFieldEditor ;
+  ] .
+
+# A mapping explains nothing on its own: it exists so that a shape can be GENERATED from it
+# rather than written twice (ADR-030). Data that publishes a mapping and no shape has told a
+# consumer how its source becomes RDF and not what the result looks like, which is the half
+# that matching needs.
+:MappedDataDeclaresAShape a sh:NodeShape ;
+  sh:targetClass fdt-o:GovernedData ;
+  sh:or ( [ sh:path fdt-o:mappedBy ; sh:maxCount 0 ]
+          [ sh:path dct:conformsTo ; sh:minCount 1 ] ) ;
+  sh:message "ADR-030: data that declares an fdt-o:mappedBy mapping also declares, with dct:conformsTo, the shape the mapped view conforms to. The mapping is how that shape is generated; a mapping with no shape beside it matches nothing." .
+
+:HostedDatasetShape a sh:NodeShape ;
+  sh:targetClass fdt-o:HostedDataset ;
+  sh:property [
+    sh:path fdt-o:hasDatasetPart ;
+    sh:nodeKind sh:IRI ;
+    sh:class fdt-o:DatasetPart ;
+    sh:message "ADR-033: the parts of this dataset that are offered in their own right (fdt-o:DatasetPart)." ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ] .
+
+:DatasetPartShape a sh:NodeShape ;
+  sh:targetClass fdt-o:DatasetPart ;
+  # Two rules, not one, and each carries its own message. Written as a single constraint the
+  # two failures are indistinguishable: a part naming nothing and a part naming another part
+  # both report "a part is carved out of exactly one hosted dataset", so dropping either half
+  # of the rule leaves the counter-example still failing on the other half, with the same
+  # sentence, and nothing notices. (It survived a mutation run written exactly that way.)
+  sh:property [
+    sh:path fdt-o:isPartOfDataset ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "ADR-033: a part names exactly one dataset it is part of. A part that names no whole is a dataset with the wrong class on it: there is nothing whose scope it narrows, so a consumer cannot tell what they would be getting and the station cannot tell which distribution reaches it." ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ],[
+    sh:path fdt-o:isPartOfDataset ;
+    sh:class fdt-o:HostedDataset ;
+    sh:message "ADR-033: a part is a view of a hosted dataset, not of another part. Parts sit one level below the dataset so that the scope of an offer is readable without walking a tree." ;
+  ],[
+    sh:path fdt-o:hasDatasetPart ;
+    sh:maxCount 0 ;
+    sh:message "A part is not subdivided further in v1: parts sit one level below the dataset, so that the scope of an offer is readable without walking a tree." ;
+  ] .
+
+:MappingShape a sh:NodeShape ;
+  sh:targetClass fdt-o:Mapping ;
+  sh:nodeKind sh:IRI ;
+  sh:property [
+    sh:path dct:title ;
+    sh:nodeKind sh:Literal ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    dash:editor dash:TextFieldEditor ;
+  ],[
+    sh:path dcat:accessURL ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:message "ADR-030: a mapping is published so that the shape generated from it can be checked against it. A mapping nobody can fetch is an assertion that the station's shape is true, which is what publishing it was supposed to replace." ;
+    dash:editor dash:URIEditor ;
   ] .
 
 :DataControllerShape a sh:NodeShape ;
@@ -64,8 +141,8 @@
   sh:property [
     sh:path dcat:dataset ;
     sh:nodeKind sh:IRI ;
-    sh:class fdt-o:HostedDataset ;
-    sh:message "A station catalogue lists hosted datasets (fdt-o:HostedDataset)." ;
+    sh:class fdt-o:GovernedData ;
+    sh:message "A station catalogue lists the data an offer may target: hosted datasets (fdt-o:HostedDataset) and the parts of them that are offered in their own right (fdt-o:DatasetPart, ADR-033)." ;
   ],[
     sh:path dcat:resource ;
     sh:not [ sh:class fdt-o:Train ] ;

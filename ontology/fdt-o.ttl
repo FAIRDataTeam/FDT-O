@@ -23,7 +23,11 @@ dct:Agent a owl:Class ;
 
 dct:description a owl:AnnotationProperty .
 
+dct:hasPart a owl:ObjectProperty .
+
 dct:hasVersion a owl:AnnotationProperty .
+
+dct:isPartOf a owl:ObjectProperty .
 
 dct:license a owl:AnnotationProperty .
 
@@ -37,11 +41,12 @@ skos:closeMatch a owl:AnnotationProperty .
         <https://github.com/luizbonino>,
         <https://github.com/rajaram5> ;
     dct:description "This ontology describes the elements of the FAIR Data Train (FDT) and their relations. It serves as a reference model to annotate the metadata content of the FDTs."@en ;
-    dct:hasVersion "3.0.0"@en ;
+    dct:hasVersion "4.0.0"@en ;
     dct:license <https://creativecommons.org/licenses/by/4.0/legalcode> ;
     dct:modified "2026-09-13"^^xsd:date ;
-    owl:versionIRI <https://w3id.org/fdt/fdt-o/3.0.0> ;
-    owl:versionInfo "v3.0.0 (ADR-029), breaking, and taken before any w3id redirect publishes these IRIs. fdt-o:GarageCatalog is renamed fdt-o:DepotCatalog: the Train Garage is the Train Depot, and the rename goes into the ontology rather than stopping at the product name. fdt-o:Train becomes abstract — only its concrete subclasses have instances — and stops being a subclass of odrl:Asset: a train plays the asset role as the target of a policy, where access conditions apply, instead of carrying it everywhere. No aliases are kept for the old terms; a graph written against v2 must be rewritten."@en ;
+    owl:versionIRI <https://w3id.org/fdt/fdt-o/4.0.0> ;
+    owl:versionInfo "v4.0.0 (ADR-030, ADR-033), mostly additive. Three things enter. (1) fdt-o:DatasetPart: a controller may offer part of a hosted dataset, with its own IRI, its own controller and its own offers, so that the catalogue advertises what is actually available instead of a whole dataset narrowed invisibly by a constraint. fdt-o:GovernedData is the common superclass of the whole and the part, so that a rule about data an offer may target is written once. (2) The input-requirement structure becomes normative: a train declares the data it needs as a SHACL model, and that — not a theme or a label — is what decides whether a station can run it. fdt-o:Mapping and fdt-o:RMLMapping let a station whose data is not RDF publish the mapping its shape is generated from. (3) The train families QueryTrain, APITrain, ScriptTrain and ContainerTrain become abstract like fdt-o:Train itself: they name a kind of mechanism, not a kind of train, and only the leaves say what a train is. That last one is breaking for any graph whose train is typed with a family alone."@en ;
+    skos:historyNote "v3.0.0 (ADR-029), breaking, and taken before any w3id redirect published these IRIs. fdt-o:GarageCatalog was renamed fdt-o:DepotCatalog: the Train Garage is the Train Depot, and the rename went into the ontology rather than stopping at the product name. fdt-o:Train became abstract — only its concrete subclasses have instances — and stopped being a subclass of odrl:Asset: a train plays the asset role as the target of a policy, where access conditions apply, instead of carrying it everywhere. No aliases were kept for the old terms."@en ;
     skos:historyNote "- Refactored FHIR API and FHIR Train as sub-classes of REST API and REST Train, respectively."@en .
 
 fdt-o:AlignmentStation a owl:Class ;
@@ -59,6 +64,14 @@ fdt-o:DockerTrain a owl:Class ;
             owl:someValuesFrom fdt-o:Docker ],
         fdt-o:ContainerTrain ;
     owl:disjointWith fdt-o:SingularityTrain .
+
+fdt-o:DatasetPart a owl:Class ;
+    rdfs:label "dataset part"@en ;
+    rdfs:subClassOf dcat:Dataset,
+        fdt-o:GovernedData ;
+    skos:definition "An explicitly identified part of a hosted dataset, with its own IRI, its own data controller and its own odrl:Offers (ADR-033). A controller who will release outcomes but not free-text notes, or 2019-2024 but not 2025, publishes the part and offers that; the catalogue then advertises what is actually on offer instead of a whole dataset narrowed by a constraint nobody browsing can see."@en ;
+    skos:scopeNote "A part is not an fdt-o:HostedDataset. The station hosts the whole; the part is a governed view of it, and a rule about what an offer may target names fdt-o:GovernedData so that both qualify."@en ;
+    skos:scopeNote "The interesting case — and the one a constraint on somebody else's offer cannot express at all — is a part whose data controller differs from the controller of the whole: a cohort holding both institutional and individually-controlled records. It is how such a dataset is governed at all, and it is where the Individual Gateway attaches, a person controlling a part of somebody else's dataset."@en .
 
 fdt-o:DepotCatalog a owl:Class ;
     rdfs:label "depot catalogue"@en ;
@@ -79,9 +92,28 @@ fdt-o:GraphQLTrain a owl:Class ;
             owl:someValuesFrom fdt-o:GraphQL ],
         fdt-o:QueryTrain .
 
+fdt-o:GovernedData a owl:Class ;
+    rdfs:label "governed data"@en ;
+    rdfs:subClassOf dcat:Dataset ;
+    skos:definition "Data held at a Data Station that a data controller governs and an odrl:Offer may target: a whole fdt-o:HostedDataset, or an fdt-o:DatasetPart of one (ADR-033). It exists so that the rules common to both — a controller, a title, what the data conforms to — are stated once, and so that a shape constraining the target of a station's offer does not have to name fdt-o:HostedDataset and thereby silently exclude every part."@en .
+
 fdt-o:InputRequirement a owl:Class ;
     rdfs:label "Input Requirement"@en ;
-    rdfs:subClassOf fdt-o:TrainRequirement .
+    rdfs:subClassOf fdt-o:TrainRequirement ;
+    skos:definition "The data a train requires in order to run, declared as a semantic data model rather than as a search term (ADR-030). It has as part (obo:BFO_0000051) a dcat:Dataset description that dct:conformsTo a SHACL shape."@en ;
+    skos:scopeNote "This is what selects stations. A train that needs a diagnosis code and an admission timestamp cannot run where those do not exist, whatever the catalogue says about the theme. A station matches when the shape it publishes for its own data covers this one — every target class and property path the train requires is declared there too, with a compatible datatype or node kind — which is decidable, cheap to run over an index, and able to name the property that was missing."@en ;
+    skos:scopeNote "Only the data half is here. Mechanism, network and processing location are stated separately by the plan (fdt-run:StationSelector), because they fail differently: 'no station holds your data' and 'no station in this network may process in the EU' are different facts, and a completeness statement has to be able to tell them apart (ADR-026, ADR-030)."@en .
+
+fdt-o:Mapping a owl:Class ;
+    rdfs:label "mapping"@en ;
+    rdfs:subClassOf dcat:Resource ;
+    skos:definition "A published mapping from a station's source data to RDF, so that data which is not natively RDF can be described by a SHACL shape and matched against a train's input requirement (ADR-030)."@en .
+
+fdt-o:RMLMapping a owl:Class ;
+    rdfs:label "RML mapping"@en ;
+    rdfs:subClassOf fdt-o:Mapping ;
+    skos:definition "A mapping expressed in RML (https://rml.io/), which generalises R2RML from relational sources to CSV, JSON, XML and others, so that one mapping language covers every station rather than one per format."@en ;
+    skos:scopeNote "RML is a W3C Community Group specification, not a Recommendation, and that dependency is recorded rather than hidden (ADR-030). The mitigation is that a mapping is a station-side artefact: a station that cannot express its source in RML publishes a hand-written shape instead and takes responsibility for keeping it true. A generated shape cannot drift from its mapping; a hand-written one can, and only a failed visit reveals the gap."@en .
 
 fdt-o:PythonTrain a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -134,9 +166,10 @@ fdt-o:endDate a owl:DatatypeProperty ;
 
 fdt-o:hasDataController a owl:ObjectProperty ;
     rdfs:label "has data controller"@en ;
-    rdfs:domain fdt-o:HostedDataset ;
+    rdfs:domain fdt-o:GovernedData ;
     rdfs:range fdt-o:DataController ;
-    skos:definition "The data controller of a hosted dataset; the assigner of the odrl:Offers over it. Resolves the conflation of station owner, train owner and controller in fdt-o:isControlledBy."@en .
+    skos:definition "The data controller of a hosted dataset or of a part of one; the assigner of the odrl:Offers over it. Resolves the conflation of station owner, train owner and controller in fdt-o:isControlledBy."@en ;
+    skos:scopeNote "v4: the domain is fdt-o:GovernedData, not fdt-o:HostedDataset, because a part may have a different controller from its whole (ADR-033) and that case is the reason parts exist."@en .
 
 fdt-o:hasPayload a owl:ObjectProperty ;
     rdfs:label "has payload" ;
@@ -155,11 +188,32 @@ fdt-o:hostsDataset a owl:ObjectProperty ;
     rdfs:domain fdt-o:DataStation ;
     rdfs:range fdt-o:HostedDataset .
 
+fdt-o:hasDatasetPart a owl:ObjectProperty ;
+    rdfs:label "has dataset part"@en ;
+    rdfs:domain fdt-o:HostedDataset ;
+    rdfs:range fdt-o:DatasetPart ;
+    rdfs:subPropertyOf dct:hasPart ;
+    owl:inverseOf fdt-o:isPartOfDataset ;
+    skos:definition "A part of this hosted dataset that is offered in its own right (ADR-033)."@en .
+
+fdt-o:isPartOfDataset a owl:ObjectProperty ;
+    rdfs:label "is part of dataset"@en ;
+    rdfs:domain fdt-o:DatasetPart ;
+    rdfs:range fdt-o:HostedDataset ;
+    rdfs:subPropertyOf dct:isPartOf ;
+    skos:definition "The hosted dataset this part is carved out of. Exactly one: a part is a view of one dataset at one station, and two stations' data are two datasets."@en .
+
 fdt-o:joinKey a owl:ObjectProperty ;
     rdfs:label "join key"@en ;
-    rdfs:domain fdt-o:HostedDataset ;
+    rdfs:domain fdt-o:GovernedData ;
     rdfs:range fdt-o:JoinKey ;
-    skos:definition "A join key the hosted dataset supports, so a Handler can check joinability before dispatch."@en .
+    skos:definition "A join key the data supports, so a Handler can check joinability before dispatch. v4: the domain is fdt-o:GovernedData — a part is joinable in its own right."@en .
+
+fdt-o:mappedBy a owl:ObjectProperty ;
+    rdfs:label "mapped by"@en ;
+    rdfs:domain fdt-o:GovernedData ;
+    rdfs:range fdt-o:Mapping ;
+    skos:definition "The mapping that produces the RDF view of this data (ADR-030). Where it is present, the SHACL shape the data dct:conformsTo is expected to be generated from it rather than written by hand, and the mapping is published so that anyone can check the shape against it."@en .
 
 fdt-o:payloadContent a owl:DatatypeProperty ;
     rdfs:domain fdt-o:Payload ;
@@ -284,11 +338,13 @@ fdp-o:MetadataService a owl:Class ;
     rdfs:subClassOf dcat:DataService .
 
 fdt-o:APITrain a owl:Class ;
+    dash:abstract true ;
     rdfs:label "API Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:API ],
-        fdt-o:Train .
+        fdt-o:Train ;
+    skos:scopeNote "Abstract (Q18, v4): a family names a kind of interaction mechanism, not a kind of train. A train is typed by the leaf that says what it is — fdt-o:RESTTrain, fdt-o:FHIRTrain — and the family is entailed from that, never asserted alone. OWL has no abstract classes, so dash:abstract states the intent for tooling and fdts:TrainShape is what enforces it."@en .
 
 fdt-o:ComputationalArtifact a owl:Class ;
     rdfs:label "Computational Artifact"@en ;
@@ -362,7 +418,10 @@ fdt-o:generatesOutput a owl:ObjectProperty ;
 
 fdt-o:hasRequirement a owl:ObjectProperty ;
     rdfs:label "has requirement"@en ;
-    rdfs:subPropertyOf owl:topObjectProperty .
+    rdfs:domain fdt-o:Train ;
+    rdfs:range fdt-o:TrainRequirement ;
+    rdfs:subPropertyOf owl:topObjectProperty ;
+    skos:definition "A requirement the train places on where it runs. v4 makes at least one fdt-o:InputRequirement obligatory (ADR-030): a train that does not say what data it needs cannot be matched to a station, and every selector that tried to work without one had to guess from labels."@en .
 
 fdt-o:isControlledBy a owl:ObjectProperty ;
     dct:description "This relation represents the relation in which a resource is controlled by an agent."@en ;
@@ -389,10 +448,12 @@ dcat:DataService a owl:Class ;
     rdfs:subClassOf dcat:Resource .
 
 fdt-o:ContainerTrain a owl:Class ;
+    dash:abstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:ExecutableContainer ],
-        fdt-o:Train .
+        fdt-o:Train ;
+    skos:scopeNote "Abstract (Q18, v4): a family names a kind of interaction mechanism, not a kind of train. A train is typed by the leaf that says what it is — fdt-o:DockerTrain, fdt-o:SingularityTrain — and the family is entailed from that, never asserted alone. OWL has no abstract classes, so dash:abstract states the intent for tooling and fdts:TrainShape is what enforces it."@en .
 
 fdt-o:Docker a owl:Class ;
     rdfs:label "Docker Container"@en ;
@@ -426,10 +487,12 @@ fdt-o:SQL a owl:Class ;
     rdfs:subClassOf fdt-o:Query .
 
 fdt-o:ScriptTrain a owl:Class ;
+    dash:abstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:Script ],
-        fdt-o:Train .
+        fdt-o:Train ;
+    skos:scopeNote "Abstract (Q18, v4): a family names a kind of interaction mechanism, not a kind of train. A train is typed by the leaf that says what it is — fdt-o:PythonTrain, fdt-o:RTrain — and the family is entailed from that, never asserted alone. OWL has no abstract classes, so dash:abstract states the intent for tooling and fdts:TrainShape is what enforces it."@en .
 
 fdt-o:Singularity a owl:Class ;
     rdfs:label "Singularity Container"@en ;
@@ -444,7 +507,8 @@ fdt-o:API a owl:Class ;
 
 fdt-o:HostedDataset a owl:Class ;
     rdfs:label "hosted dataset"@en ;
-    rdfs:subClassOf dcat:Dataset ;
+    rdfs:subClassOf dcat:Dataset,
+        fdt-o:GovernedData ;
     skos:definition "A dataset hosted by a Data Station and governed by its data controller's offers. Distinguished from the dcat:Dataset descriptions a train uses for its declared inputs and outputs (fdt-o:hasRequirement / fdt-o:generatesOutput), which are descriptions of expected data, not hosted data."@en .
 
 fdt-o:RESTAPI a owl:Class ;
@@ -468,10 +532,12 @@ fdt-o:ExecutableContainer a owl:Class ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
 
 fdt-o:QueryTrain a owl:Class ;
+    dash:abstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:Query ],
-        fdt-o:Train .
+        fdt-o:Train ;
+    skos:scopeNote "Abstract (Q18, v4): a family names a kind of interaction mechanism, not a kind of train. A train is typed by the leaf that says what it is — fdt-o:SPARQLTrain, fdt-o:SQLTrain, fdt-o:GraphQLTrain, fdt-o:TriplePatternFragmentTrain — and the family is entailed from that, never asserted alone. OWL has no abstract classes, so dash:abstract states the intent for tooling and fdts:TrainShape is what enforces it."@en .
 
 fdt-o:Script a owl:Class ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
@@ -506,7 +572,7 @@ foaf:Agent a owl:Class ;
 fdt-o:InteractionMechanism a owl:Class .
 
 fdt-o:Train a owl:Class ;
-    dash:abstract true ;  # Q18: only this class is marked abstract; the families are not
+    dash:abstract true ;  # v4 (Q18, answered): the four families are abstract too — see fdt-o:QueryTrain
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:hasRequirement ;
             owl:someValuesFrom fdt-o:TrainRequirement ],
@@ -520,7 +586,7 @@ fdt-o:Train a owl:Class ;
         fdt-o:ComputationalArtifact ;
     owl:disjointWith dcat:Dataset ;
     skos:scopeNote "A train is an executable interaction (query, API call, script, container) packaged with its description. It is a DCAT resource; it is never a dcat:Dataset and never has a dcat:distribution — its artefact is its fdt-o:hasPayload (decision of 11 September 2026)."@en ;
-    skos:scopeNote "Abstract (ADR-029): a train is classified by the concrete class that says what it is — fdt-o:SPARQLTrain, fdt-o:DockerTrain, fdt-o:FHIRTrain and the rest — and fdt-o:Train is entailed from that, never asserted alongside it. OWL has no abstract classes, so dash:abstract states the intent for tooling and fdts:TrainShape is what enforces it: a node whose only train type is fdt-o:Train is rejected."@en ;
+    skos:scopeNote "Abstract (ADR-029): a train is classified by the concrete class that says what it is — fdt-o:SPARQLTrain, fdt-o:DockerTrain, fdt-o:FHIRTrain and the rest — and fdt-o:Train is entailed from that, never asserted alongside it. OWL has no abstract classes, so dash:abstract states the intent for tooling and fdts:TrainShape is what enforces it: a node whose only train type is fdt-o:Train is rejected. v4 extends this to the four families (fdt-o:QueryTrain, fdt-o:APITrain, fdt-o:ScriptTrain, fdt-o:ContainerTrain), which are abstract for the same reason."@en ;
     skos:scopeNote "A train is not a subclass of odrl:Asset (ADR-029). It plays that role where access conditions apply: odrl:target has range odrl:Asset, so naming a train as the target of an offer, request or agreement gives it the role there and nowhere else. This keeps the role attached to the policy that confers it rather than asserting it of every train in every graph."@en .
 
 fdt-o:implementsInteractionMechanism a owl:ObjectProperty ;

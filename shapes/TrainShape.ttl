@@ -20,10 +20,16 @@
 #  - odrl:Asset is no longer expected on a train. A train plays the asset role as the target
 #    of a policy; asserting it here would put the role in every graph instead.
 #
-# Q18 (OPEN-QUESTIONS.md): the list below still admits the FAMILY classes — QueryTrain,
-# APITrain, ScriptTrain, ContainerTrain — as well as the leaves. Conservative default: v2
-# behaviour. If the families are abstract too, drop them from this list and mark them
-# dash:abstract in the ontology.
+# FDT-O v4 (13 Sep 2026, ADR-030 and ADR-033, Q18 answered). Changes against v3:
+#  - Q18 is answered: the FAMILIES are abstract too. fdt-o:QueryTrain, fdt-o:APITrain,
+#    fdt-o:ScriptTrain and fdt-o:ContainerTrain are gone from the list below, so a train
+#    typed `a fdt-o:QueryTrain` and nothing else is now rejected exactly as one typed
+#    `a fdt-o:Train` alone always was. A family names a kind of mechanism; only a leaf says
+#    what a train is.
+#  - A train declares the data it needs (ADR-030). fdt-o:hasRequirement was optional and
+#    unshaped, so every train in the corpus declared nothing and station selection had
+#    nothing to work from but themes and labels. At least one fdt-o:InputRequirement is now
+#    required, and :InputRequirementShape says what one has to carry.
 #
 # From v2, unchanged:
 #  - rdf:type is not a CLOSED list (finding 4). A train carries at least one concrete train
@@ -40,9 +46,9 @@
   sh:property [
     sh:path rdf:type ;
     sh:nodeKind sh:IRI ;
-    sh:qualifiedValueShape [ sh:in (fdt-o:APITrain fdt-o:ContainerTrain fdt-o:DockerTrain fdt-o:SingularityTrain fdt-o:FHIRTrain fdt-o:GraphQLTrain fdt-o:QueryTrain fdt-o:PythonTrain fdt-o:ScriptTrain fdt-o:RTrain fdt-o:RESTTrain fdt-o:SPARQLTrain fdt-o:SQLTrain fdt-o:TriplePatternFragmentTrain) ] ;
+    sh:qualifiedValueShape [ sh:in (fdt-o:DockerTrain fdt-o:SingularityTrain fdt-o:FHIRTrain fdt-o:GraphQLTrain fdt-o:PythonTrain fdt-o:RTrain fdt-o:RESTTrain fdt-o:SPARQLTrain fdt-o:SQLTrain fdt-o:TriplePatternFragmentTrain) ] ;
     sh:qualifiedMinCount 1 ;
-    sh:message "fdt-o:Train is abstract (ADR-029): a train declares the concrete class that says what it is — SPARQLTrain, DockerTrain, FHIRTrain and the rest. Further types are allowed; fdt-o:Train on its own is not one." ;
+    sh:message "fdt-o:Train and its four families are abstract (ADR-029; Q18, FDT-O v4): a train declares the concrete class that says what it is — SPARQLTrain, SQLTrain, GraphQLTrain, TriplePatternFragmentTrain, RESTTrain, FHIRTrain, PythonTrain, RTrain, DockerTrain, SingularityTrain. Further types are allowed; fdt-o:Train, fdt-o:QueryTrain, fdt-o:APITrain, fdt-o:ScriptTrain and fdt-o:ContainerTrain are not among them — they name a mechanism family, not a train." ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[
@@ -73,6 +79,9 @@
   ],[
     sh:path fdt-o:hasRequirement ;
     sh:nodeKind sh:IRI ;
+    sh:qualifiedValueShape [ sh:class fdt-o:InputRequirement ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "ADR-030: a train declares the data it needs, as an fdt-o:InputRequirement carrying a SHACL model. It is what decides whether a station can run the train at all — a train that needs a diagnosis code and an admission timestamp cannot run where those do not exist, whatever the catalogue says about the theme." ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[

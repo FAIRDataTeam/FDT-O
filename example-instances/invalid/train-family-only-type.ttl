@@ -1,0 +1,25 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix obo: <http://purl.obolibrary.org/obo/>.
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix : <http://example.com/trains/invalid/>.
+
+# INVALID (FDT-O v4, Q18): typed with a FAMILY and nothing else.
+#
+# Everything else about this train is in order — payload, mechanism, output, theme, title and
+# an input requirement with a real shape — so the only thing it can fail on is its type.
+# fdt-o:QueryTrain says the train speaks some query language; it does not say which, and a
+# station cannot tell whether it can run SPARQL, SQL, GraphQL or triple pattern fragments from
+# that. Until v4 this validated cleanly, which is the whole reason Q18 was asked.
+
+:family-train a fdt-o:QueryTrain;
+  dcterms:title "Train typed with a mechanism family instead of a concrete class";
+  fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
+  fdt-o:hasPayload :some-payload;
+  fdt-o:hasRequirement :req;
+  fdt-o:generatesOutput :out;
+  dcat:theme <http://example.com/theme>.
+
+:req a fdt-o:InputRequirement; obo:BFO_0000051 :needed.
+:needed a dcat:Dataset; dcterms:conformsTo <http://example.com/shapes/needed>.
