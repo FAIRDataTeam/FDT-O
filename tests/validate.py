@@ -200,7 +200,18 @@ def main():
     for f in INVALID:
         name = os.path.basename(f)
         conforms, text, tool = validate([f], SHAPES)
-        wanted = expect.get(name, [])
+        # A counter-example with no expectation was checked by `all([])`, which is True — so it
+        # passed for failing at all, on any rule, including one it was not written for. That is
+        # the hole `fdt-commons` closed in its own corpus (finding 75) and it was open here: an
+        # invalid file somebody adds without an entry would have gone green for the wrong
+        # reason, which is worse than no check, because it looks like one.
+        if name not in expect:
+            print(f"[expectations] invalid/{name}: NO EXPECTED MESSAGE. Say which rule this file "
+                  f"is meant to break, in tests/expectations.json, or it passes for failing on "
+                  f"any rule at all.")
+            ok_all = False
+            continue
+        wanted = expect[name]
         hit = all(w in text for w in wanted)
         status = "non-conforming — as expected" if (not conforms and hit) else ("CONFORMS (should fail)" if conforms else "fails, but not on the expected rule")
         print(f"[{tool}] invalid/{name}: {status}")
