@@ -43,9 +43,9 @@ skos:closeMatch a owl:AnnotationProperty .
     dct:description "This ontology describes the elements of the FAIR Data Train (FDT) and their relations. It serves as a reference model to annotate the metadata content of the FDTs."@en ;
     dct:hasVersion "4.0.0"@en ;
     dct:license <https://creativecommons.org/licenses/by/4.0/legalcode> ;
-    dct:modified "2026-09-13"^^xsd:date ;
+    dct:modified "2026-09-17"^^xsd:date ;
     owl:versionIRI <https://w3id.org/fdt/fdt-o/4.0.0> ;
-    owl:versionInfo "v4.0.0 (ADR-030, ADR-033), mostly additive. Three things enter. (1) fdt-o:DatasetPart: a controller may offer part of a hosted dataset, with its own IRI, its own controller and its own offers, so that the catalogue advertises what is actually available instead of a whole dataset narrowed invisibly by a constraint. fdt-o:GovernedData is the common superclass of the whole and the part, so that a rule about data an offer may target is written once. (2) The input-requirement structure becomes normative: a train declares the data it needs as a SHACL model, and that — not a theme or a label — is what decides whether a station can run it. fdt-o:Mapping and fdt-o:RMLMapping let a station whose data is not RDF publish the mapping its shape is generated from. (3) The train families QueryTrain, APITrain, ScriptTrain and ContainerTrain become abstract like fdt-o:Train itself: they name a kind of mechanism, not a kind of train, and only the leaves say what a train is. That last one is breaking for any graph whose train is typed with a family alone. Two corrections land with ADR-036, both additive. fdt-o:TrainProvider — present since the legacy OWL, described as the agent who created the Train, and until now unlabelled, unused and not defined through hasControllingRights — gains the label 'Train Creator', a definition of what a creator is answerable for, and the same hasControllingRights restriction the other three parties have. And the dct:creator restriction moves from foaf:Agent, where it said that every agent has a train as its creator, to fdt-o:Train, where it says a train has an agent as its creator (finding 68)."@en ;
+    owl:versionInfo "v4.0.0 (ADR-030, ADR-033), mostly additive. Three things enter. (1) fdt-o:DatasetPart: a controller may offer part of a hosted dataset, with its own IRI, its own controller and its own offers, so that the catalogue advertises what is actually available instead of a whole dataset narrowed invisibly by a constraint. fdt-o:GovernedData is the common superclass of the whole and the part, so that a rule about data an offer may target is written once. (2) The input-requirement structure becomes normative: a train declares the data it needs as a SHACL model, and that — not a theme or a label — is what decides whether a station can run it. fdt-o:Mapping and fdt-o:RMLMapping let a station whose data is not RDF publish the mapping its shape is generated from. (3) The train families QueryTrain, APITrain, ScriptTrain and ContainerTrain become abstract like fdt-o:Train itself: they name a kind of mechanism, not a kind of train, and only the leaves say what a train is. That last one is breaking for any graph whose train is typed with a family alone. Two corrections land with ADR-036, both additive. fdt-o:TrainProvider — present since the legacy OWL, described as the agent who created the Train, and until now unlabelled, unused and not defined through hasControllingRights — gains the label 'Train Creator', a definition of what a creator is answerable for, and the same hasControllingRights restriction the other three parties have. And the dct:creator restriction moves from foaf:Agent, where it said that every agent has a train as its creator, to fdt-o:Train, where it says a train has an agent as its creator (finding 68). 17 Sep 2026, editorial and additive within the unreleased 4.0.0: 44 of the 48 unlabelled terms gain an rdfs:label (Q22, WP-2.12). Every one of them is a transcription of the term's own name — classes in Title Case after fdt-o:FHIRTrain and fdt-o:ComputationalArtifact, properties in lower case after fdt-o:hasPayload and fdt-o:hasRequirement, and each of the fourteen fdt-inst: interaction mechanisms taking the label its own class already carries, so no label coins a word the ontology did not already use. Four terms are left unlabelled deliberately and not by oversight. fdt-o:hasControllingRights, fdt-o:isPayloadOf and fdt-o:generatesOutput need a definition written by the party that owns the meaning instead of a label read off the IRI (Q22), and fdt-o:hasTrainType names a relation whose object class this ontology does not declare and whose job rdf:type now does (ADR-029, Q18), so a label would make a term look settled that is not. Drafts for all four are in the metaproject's OPEN-QUESTIONS.md under Q22. fdt-o:TrainProvider is why they wait: its IRI says 'Provider' and the role is 'Train Creator', so no transcription could have produced the right label."@en ;
     skos:historyNote "v3.0.0 (ADR-029), breaking, and taken before any w3id redirect published these IRIs. fdt-o:GarageCatalog was renamed fdt-o:DepotCatalog: the Train Garage is the Train Depot, and the rename went into the ontology rather than stopping at the product name. fdt-o:Train became abstract — only its concrete subclasses have instances — and stopped being a subclass of odrl:Asset: a train plays the asset role as the target of a policy, where access conditions apply, instead of carrying it everywhere. No aliases were kept for the old terms."@en ;
     skos:historyNote "- Refactored FHIR API and FHIR Train as sub-classes of REST API and REST Train, respectively."@en .
 
@@ -59,6 +59,7 @@ fdt-o:ComputationalEnvironmentRequirement a owl:Class ;
     rdfs:subClassOf fdt-o:TrainRequirement .
 
 fdt-o:DockerTrain a owl:Class ;
+    rdfs:label "Docker Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:Docker ],
@@ -87,6 +88,7 @@ fdt-o:FHIRTrain a owl:Class ;
         fdt-o:RESTTrain .
 
 fdt-o:GraphQLTrain a owl:Class ;
+    rdfs:label "GraphQL Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:GraphQL ],
@@ -116,6 +118,7 @@ fdt-o:RMLMapping a owl:Class ;
     skos:scopeNote "RML is a W3C Community Group specification, not a Recommendation, and that dependency is recorded rather than hidden (ADR-030). The mitigation is that a mapping is a station-side artefact: a station that cannot express its source in RML publishes a hand-written shape instead and takes responsibility for keeping it true. A generated shape cannot drift from its mapping; a hand-written one can, and only a failed visit reveals the gap."@en .
 
 fdt-o:PythonTrain a owl:Class ;
+    rdfs:label "Python Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:Python ],
@@ -128,6 +131,7 @@ fdt-o:StationCatalog a owl:Class ;
     skos:definition "The DCAT catalogue a Data Station publishes about its hosted datasets: one odrl:Offer per dataset, one dcat:Distribution per interaction mechanism, one dcat:DataService per station (DSP-conformant, ADR-019)."@en .
 
 fdt-o:StationOwner a owl:Class ;
+    rdfs:label "Station Owner"@en ;
     dct:description "Station Owner represents the Agent(s) (organization or person) who is(are) responsible for the operations of the Data Station."@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:hasControllingRights ;
@@ -135,6 +139,7 @@ fdt-o:StationOwner a owl:Class ;
         foaf:Agent .
 
 fdt-o:TrainOwner a owl:Class ;
+    rdfs:label "Train Owner"@en ;
     dct:description "Train Owner represents the agent(s) (organization or person) who sent a Train to a Data Station. Therefore, the Train is visiting a Station on behalf of the Train Owner."@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:hasControllingRights ;
@@ -163,6 +168,7 @@ fdt-o:capacityClass a owl:ObjectProperty ;
     skos:definition "The capacity class a data station declares."@en .
 
 fdt-o:endDate a owl:DatatypeProperty ;
+    rdfs:label "end date"@en ;
     rdfs:domain fdt-o:DataStation ;
     rdfs:range xsd:dateTime,
         xsd:dateTimeStamp ;
@@ -221,6 +227,7 @@ fdt-o:mappedBy a owl:ObjectProperty ;
     skos:definition "The mapping that produces the RDF view of this data (ADR-030). Where it is present, the SHACL shape the data dct:conformsTo is expected to be generated from it rather than written by hand, and the mapping is published so that anyone can check the shape against it."@en .
 
 fdt-o:payloadContent a owl:DatatypeProperty ;
+    rdfs:label "payload content"@en ;
     rdfs:domain fdt-o:Payload ;
     rdfs:range xsd:string .
 
@@ -230,6 +237,7 @@ fdt-o:payloadDownloadURL a owl:ObjectProperty ;
     rdfs:domain fdt-o:Payload .
 
 fdt-o:payloadMediaType a owl:DatatypeProperty ;
+    rdfs:label "payload media type"@en ;
     rdfs:domain fdt-o:Payload ;
     rdfs:range xsd:string .
 
@@ -251,7 +259,8 @@ fdt-o:supportsCoordination a owl:ObjectProperty ;
     skos:definition "Coordination style(s) the train supports: fdt-run:Orchestrated (an external Handler drives the itinerary) and/or fdt-run:Choreographed (routing embedded in the train — script and container trains only, ADR-013)."@en .
 
 fdt-inst:API a owl:NamedIndividual,
-        fdt-o:API .
+        fdt-o:API ;
+    rdfs:label "API"@en .
 
 fdt-inst:CapacityL a owl:NamedIndividual,
         fdt-o:CapacityClass ;
@@ -269,16 +278,20 @@ fdt-inst:CapacityS a owl:NamedIndividual,
     skos:definition "Personal or small-team deployment; single-node, modest compute."@en .
 
 fdt-inst:Docker a owl:NamedIndividual,
-        fdt-o:Docker .
+        fdt-o:Docker ;
+    rdfs:label "Docker Container"@en .
 
 fdt-inst:ExecutableContainer a owl:NamedIndividual,
-        fdt-o:ExecutableContainer .
+        fdt-o:ExecutableContainer ;
+    rdfs:label "Executable Container"@en .
 
 fdt-inst:FHIRAPI a owl:NamedIndividual,
-        fdt-o:FHIRAPI .
+        fdt-o:FHIRAPI ;
+    rdfs:label "FHIR API"@en .
 
 fdt-inst:GraphQL a owl:NamedIndividual,
-        fdt-o:GraphQL .
+        fdt-o:GraphQL ;
+    rdfs:label "GraphQL"@en .
 
 fdt-inst:IdentifierTranslation a owl:NamedIndividual,
         fdt-o:IdentifierTranslation ;
@@ -286,31 +299,40 @@ fdt-inst:IdentifierTranslation a owl:NamedIndividual,
     skos:definition "Interaction mechanism of a LinkageStation: translate a set of pseudonyms from one pseudonym space into another."@en .
 
 fdt-inst:Python a owl:NamedIndividual,
-        fdt-o:Python .
+        fdt-o:Python ;
+    rdfs:label "Python"@en .
 
 fdt-inst:Query a owl:NamedIndividual,
-        fdt-o:Query .
+        fdt-o:Query ;
+    rdfs:label "Query"@en .
 
 fdt-inst:R a owl:NamedIndividual,
-        fdt-o:R .
+        fdt-o:R ;
+    rdfs:label "R"@en .
 
 fdt-inst:RESTAPI a owl:NamedIndividual,
-        fdt-o:RESTAPI .
+        fdt-o:RESTAPI ;
+    rdfs:label "REST API"@en .
 
 fdt-inst:SPARQL a owl:NamedIndividual,
-        fdt-o:SPARQL .
+        fdt-o:SPARQL ;
+    rdfs:label "SPARQL"@en .
 
 fdt-inst:SQL a owl:NamedIndividual,
-        fdt-o:SQL .
+        fdt-o:SQL ;
+    rdfs:label "SQL"@en .
 
 fdt-inst:Script a owl:NamedIndividual,
-        fdt-o:Script .
+        fdt-o:Script ;
+    rdfs:label "Script"@en .
 
 fdt-inst:Singularity a owl:NamedIndividual,
-        fdt-o:Singularity .
+        fdt-o:Singularity ;
+    rdfs:label "Singularity Container"@en .
 
 fdt-inst:TPF a owl:NamedIndividual,
-        fdt-o:TPF .
+        fdt-o:TPF ;
+    rdfs:label "Triple Pattern Fragments"@en .
 
 fdt-inst:VocabularyAlignment a owl:NamedIndividual,
         fdt-o:VocabularyAlignment ;
@@ -382,30 +404,35 @@ fdt-o:RESTTrain a owl:Class ;
         fdt-o:APITrain .
 
 fdt-o:RTrain a owl:Class ;
+    rdfs:label "R Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:R ],
         fdt-o:ScriptTrain .
 
 fdt-o:SPARQLTrain a owl:Class ;
+    rdfs:label "SPARQL Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:SPARQL ],
         fdt-o:QueryTrain .
 
 fdt-o:SQLTrain a owl:Class ;
+    rdfs:label "SQL Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:SQL ],
         fdt-o:QueryTrain .
 
 fdt-o:SingularityTrain a owl:Class ;
+    rdfs:label "Singularity Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:Singularity ],
         fdt-o:ContainerTrain .
 
 fdt-o:TriplePatternFragmentTrain a owl:Class ;
+    rdfs:label "Triple Pattern Fragment Train"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
             owl:someValuesFrom fdt-o:TPF ],
@@ -429,6 +456,7 @@ fdt-o:hasRequirement a owl:ObjectProperty ;
     skos:definition "A requirement the train places on where it runs. v4 makes at least one fdt-o:InputRequirement obligatory (ADR-030): a train that does not say what data it needs cannot be matched to a station, and every selector that tried to work without one had to guess from labels."@en .
 
 fdt-o:isControlledBy a owl:ObjectProperty ;
+    rdfs:label "is controlled by"@en ;
     dct:description "This relation represents the relation in which a resource is controlled by an agent."@en ;
     rdfs:domain dcat:Resource ;
     rdfs:range foaf:Agent .
@@ -439,9 +467,11 @@ fdt-o:isPayloadOf a owl:ObjectProperty ;
     rdfs:subPropertyOf owl:topObjectProperty .
 
 fdt-o:startDate a owl:DatatypeProperty ;
+    rdfs:label "start date"@en ;
     rdfs:subPropertyOf dct:date .
 
 fdt-o:supportsInteractionMechanism a owl:ObjectProperty ;
+    rdfs:label "supports interaction mechanism"@en ;
     rdfs:domain fdt-o:DataStation ;
     rdfs:range fdt-o:InteractionMechanism ;
     rdfs:subPropertyOf owl:topObjectProperty .
@@ -453,6 +483,7 @@ dcat:DataService a owl:Class ;
     rdfs:subClassOf dcat:Resource .
 
 fdt-o:ContainerTrain a owl:Class ;
+    rdfs:label "Container Train"@en ;
     dash:abstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
@@ -478,9 +509,11 @@ fdt-o:JoinKey a owl:Class ;
     skos:definition "A key space datasets can be joined on: a pseudonym space, a spatial or administrative unit, a time axis (ADR-024)."@en .
 
 fdt-o:Python a owl:Class ;
+    rdfs:label "Python"@en ;
     rdfs:subClassOf fdt-o:Script .
 
 fdt-o:R a owl:Class ;
+    rdfs:label "R"@en ;
     rdfs:subClassOf fdt-o:Script .
 
 fdt-o:SPARQL a owl:Class ;
@@ -492,6 +525,7 @@ fdt-o:SQL a owl:Class ;
     rdfs:subClassOf fdt-o:Query .
 
 fdt-o:ScriptTrain a owl:Class ;
+    rdfs:label "Script Train"@en ;
     dash:abstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
@@ -508,6 +542,7 @@ fdt-o:TPF a owl:Class ;
     rdfs:subClassOf fdt-o:Query .
 
 fdt-o:API a owl:Class ;
+    rdfs:label "API"@en ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
 
 fdt-o:HostedDataset a owl:Class ;
@@ -534,9 +569,11 @@ fdt-o:CapacityClass a owl:Class ;
     skos:definition "Indicative scale of a data station's compute and storage capacity, published in its self-description so a Handler can route work it can actually run."@en .
 
 fdt-o:ExecutableContainer a owl:Class ;
+    rdfs:label "Executable Container"@en ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
 
 fdt-o:QueryTrain a owl:Class ;
+    rdfs:label "Query Train"@en ;
     dash:abstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:implementsInteractionMechanism ;
@@ -545,20 +582,24 @@ fdt-o:QueryTrain a owl:Class ;
     skos:scopeNote "Abstract (Q18, v4): a family names a kind of interaction mechanism, not a kind of train. A train is typed by the leaf that says what it is — fdt-o:SPARQLTrain, fdt-o:SQLTrain, fdt-o:GraphQLTrain, fdt-o:TriplePatternFragmentTrain — and the family is entailed from that, never asserted alone. OWL has no abstract classes, so dash:abstract states the intent for tooling and fdts:TrainShape is what enforces it."@en .
 
 fdt-o:Script a owl:Class ;
+    rdfs:label "Script"@en ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
 
 dcat:Dataset a owl:Class ;
     rdfs:subClassOf dcat:Resource .
 
 fdt-o:Payload a owl:Class ;
+    rdfs:label "Payload"@en ;
     rdfs:comment "Payload",
         "Actually payload of the Train, e.g. query string, script, docker image identifier, API call."@en ;
     rdfs:subClassOf dcat:Resource .
 
 fdt-o:Query a owl:Class ;
+    rdfs:label "Query"@en ;
     rdfs:subClassOf fdt-o:InteractionMechanism .
 
 fdt-o:DataStation a owl:Class ;
+    rdfs:label "Data Station"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty fdt-o:supportsInteractionMechanism ;
             owl:someValuesFrom fdt-o:InteractionMechanism ],
@@ -571,9 +612,11 @@ dcat:Resource a owl:Class .
 
 foaf:Agent a owl:Class .
 
-fdt-o:InteractionMechanism a owl:Class .
+fdt-o:InteractionMechanism a owl:Class ;
+    rdfs:label "Interaction Mechanism"@en .
 
 fdt-o:Train a owl:Class ;
+    rdfs:label "Train"@en ;
     dash:abstract true ;  # v4 (Q18, answered): the four families are abstract too — see fdt-o:QueryTrain
     rdfs:subClassOf [ a owl:Restriction ;
             # Finding 68: this restriction was on foaf:Agent, which said that every agent —
@@ -598,6 +641,7 @@ fdt-o:Train a owl:Class ;
     skos:scopeNote "A train is not a subclass of odrl:Asset (ADR-029). It plays that role where access conditions apply: odrl:target has range odrl:Asset, so naming a train as the target of an offer, request or agreement gives it the role there and nowhere else. This keeps the role attached to the policy that confers it rather than asserting it of every train in every graph."@en .
 
 fdt-o:implementsInteractionMechanism a owl:ObjectProperty ;
+    rdfs:label "implements interaction mechanism"@en ;
     rdfs:domain fdt-o:Train ;
     rdfs:range fdt-o:InteractionMechanism ;
     rdfs:subPropertyOf owl:topObjectProperty .
