@@ -1,23 +1,30 @@
-@prefix :         <http://fairdatapoint.org/> .
+@prefix :         <https://w3id.org/fdt/shapes#> .
 @prefix dash:     <http://datashapes.org/dash#> .
 @prefix dcat:     <http://www.w3.org/ns/dcat#> .
 @prefix dct:      <http://purl.org/dc/terms/> .
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
-@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
-@prefix fdt-o: <https://w3id.org/fdt#>.
-@prefix fdp-o: <https://w3id.org/fdp/fdp-o#>.
-@prefix foaf:     <http://xmlns.com/foaf/0.1/>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#> .
+@prefix fdt-o:    <https://w3id.org/fdt/fdt-o#> .
+@prefix fdp-o:    <https://w3id.org/fdp/fdp-o#> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
 @prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# FDT-O v2 (11 Sep 2026). Changes against the prototype DatastationShape:
+#  - Mechanism list extended with fdt-inst:IdentifierTranslation and fdt-inst:VocabularyAlignment
+#    (linkage and alignment stations, ADR-022/024).
+#  - fdt-o:hostsDataset (→ HostedDatasetShape) and fdt-o:publishesCatalog added, optional.
+#  - LinkageStationShape: a linkage station declares the pseudonym spaces it translates between.
+#  - Shape IRIs moved to https://w3id.org/fdt/shapes#.
 
 :DataStationShape a sh:NodeShape ;
   sh:targetClass fdt-o:DataStation ;
   sh:property [
     sh:path fdt-o:supportsInteractionMechanism ;
     sh:name "Supported Interaction Mechanism" ;
-    sh:in (fdt-inst:API fdt-inst:ExecutableContainer fdt-inst:Docker fdt-inst:FHIRAPI fdt-inst:GraphQL fdt-inst:Query fdt-inst:Python fdt-inst:Script fdt-inst:R fdt-inst:RESTAPI fdt-inst:SPARQL fdt-inst:SQL fdt-inst:Singularity fdt-inst:TPF);
-    sh:nodeKind sh:IRI;
-    sh:minCount 1;
+    sh:in (fdt-inst:API fdt-inst:ExecutableContainer fdt-inst:Docker fdt-inst:FHIRAPI fdt-inst:GraphQL fdt-inst:Query fdt-inst:Python fdt-inst:Script fdt-inst:R fdt-inst:RESTAPI fdt-inst:SPARQL fdt-inst:SQL fdt-inst:Singularity fdt-inst:TPF fdt-inst:IdentifierTranslation fdt-inst:VocabularyAlignment) ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
     dash:editor dash:URIEditor ;
   ],[
     sh:path fdt-o:isControlledBy ;
@@ -40,9 +47,36 @@
     sh:maxCount 1 ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
-  ].
+  ],[
+    sh:path fdt-o:hostsDataset ;
+    sh:nodeKind sh:IRI ;
+    sh:class fdt-o:HostedDataset ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ],[
+    sh:path fdt-o:publishesCatalog ;
+    sh:nodeKind sh:IRI ;
+    sh:class fdt-o:StationCatalog ;
+    sh:maxCount 1 ;
+    dash:editor dash:URIEditor ;
+    dash:viewer dash:LabelViewer ;
+  ] .
 
-  :AgentShape a sh:NodeShape ;
+:LinkageStationShape a sh:NodeShape ;
+  sh:targetClass fdt-o:LinkageStation ;
+  sh:property [
+    sh:path fdt-o:supportsInteractionMechanism ;
+    sh:hasValue fdt-inst:IdentifierTranslation ;
+    sh:message "A linkage station's mechanism is identifier translation (ADR-022)." ;
+  ],[
+    sh:path fdt-o:pseudonymSpace ;
+    sh:nodeKind sh:IRI ;
+    sh:class fdt-o:JoinKey ;
+    sh:minCount 2 ;
+    sh:message "A linkage station translates between at least two pseudonym spaces." ;
+  ] .
+
+:AgentShape a sh:NodeShape ;
   sh:targetClass foaf:Agent ;
   sh:property [
     sh:path foaf:name;
@@ -52,7 +86,7 @@
     dash:editor dash:TextFieldEditor ;
   ] .
 
-  :StationOwnerShape a sh:NodeShape ;
+:StationOwnerShape a sh:NodeShape ;
   sh:targetClass fdt-o:StationOwner ;
   sh:property [
     sh:path foaf:name;

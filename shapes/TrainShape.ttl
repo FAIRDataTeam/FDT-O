@@ -1,28 +1,69 @@
-@prefix :         <http://fairdatapoint.org/> .
+@prefix :         <https://w3id.org/fdt/shapes#> .
 @prefix dash:     <http://datashapes.org/dash#> .
 @prefix dcat:     <http://www.w3.org/ns/dcat#> .
 @prefix dct:      <http://purl.org/dc/terms/> .
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
-@prefix fdt-o: <https://w3id.org/fdt#>.
-@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
-@prefix fdp-o: <https://w3id.org/fdp/fdp-o#>.
-@prefix foaf:     <http://xmlns.com/foaf/0.1/>.
+@prefix fdt-o:    <https://w3id.org/fdt/fdt-o#> .
+@prefix fdt-inst: <https://w3id.org/fdt/instances#> .
+@prefix fdp-o:    <https://w3id.org/fdp/fdp-o#> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
 @prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# FDT-O v3 (13 Sep 2026, ADR-029). Changes against v2:
+#  - fdt-o:Train is abstract. This shape is what enforces that, because OWL has no abstract
+#    classes: a node whose only train type is fdt-o:Train fails the qualifiedMinCount below.
+#    The shape still targets fdt-o:Train, and a train typed only `a fdt-o:SPARQLTrain` is
+#    selected through rdfs:subClassOf* — which holds only when the class hierarchy is in the
+#    DATA graph. tests/validate.py puts it there; without it this shape silently selects
+#    nothing and every train "conforms" (the bug ADR-029's rename uncovered).
+#  - odrl:Asset is no longer expected on a train. A train plays the asset role as the target
+#    of a policy; asserting it here would put the role in every graph instead.
+#
+# FDT-O v4 (13 Sep 2026, ADR-030 and ADR-033, Q18 answered). Changes against v3:
+#  - Q18 is answered: the FAMILIES are abstract too. fdt-o:QueryTrain, fdt-o:APITrain,
+#    fdt-o:ScriptTrain and fdt-o:ContainerTrain are gone from the list below, so a train
+#    typed `a fdt-o:QueryTrain` and nothing else is now rejected exactly as one typed
+#    `a fdt-o:Train` alone always was. A family names a kind of mechanism; only a leaf says
+#    what a train is.
+#  - A train declares the data it needs (ADR-030). fdt-o:hasRequirement was optional and
+#    unshaped, so every train in the corpus declared nothing and station selection had
+#    nothing to work from but themes and labels. At least one fdt-o:InputRequirement is now
+#    required, and :InputRequirementShape says what one has to carry.
+#
+# From v2, unchanged:
+#  - rdf:type is not a CLOSED list (finding 4). A train carries at least one concrete train
+#    type and may carry further types.
+#  - A train is never a dcat:Dataset and never has a dcat:distribution (ADR-020 as amended).
+#  - fdt-o:hasPayload is required (a train without an artefact cannot be run) and its value is
+#    checked against PayloadShape when present in the graph.
+#  - Shape IRIs moved from http://fairdatapoint.org/ (copy-paste leftover) to https://w3id.org/fdt/shapes#.
+#  - dash: annotations kept for the FDT-O editors.
 
 :TrainShape a sh:NodeShape ;
   sh:targetClass fdt-o:Train ;
-  sh:property  [
+  sh:nodeKind sh:IRI ;
+  sh:property [
     sh:path rdf:type ;
-    sh:nodeKind sh:IRI;
-    sh:in (fdt-o:Train fdt-o:APITrain fdt-o:ContainerTrain fdt-o:DockerTrain fdt-o:SingularityTrain fdt-o:FHIRTrain fdt-o:GraphQLTrain fdt-o:QueryTrain fdt-o:PythonTrain fdt-o:ScriptTrain fdt-o:RTrain fdt-o:RESTTrain fdt-o:SPARQLTrain fdt-o:SQLTrain fdt-o:TriplePatternFragmentTrain);
+    sh:nodeKind sh:IRI ;
+    sh:qualifiedValueShape [ sh:in (fdt-o:DockerTrain fdt-o:SingularityTrain fdt-o:FHIRTrain fdt-o:GraphQLTrain fdt-o:PythonTrain fdt-o:RTrain fdt-o:RESTTrain fdt-o:SPARQLTrain fdt-o:SQLTrain fdt-o:TriplePatternFragmentTrain) ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "fdt-o:Train and its four families are abstract (ADR-029; Q18, FDT-O v4): a train declares the concrete class that says what it is — SPARQLTrain, SQLTrain, GraphQLTrain, TriplePatternFragmentTrain, RESTTrain, FHIRTrain, PythonTrain, RTrain, DockerTrain, SingularityTrain. Further types are allowed; fdt-o:Train, fdt-o:QueryTrain, fdt-o:APITrain, fdt-o:ScriptTrain and fdt-o:ContainerTrain are not among them — they name a mechanism family, not a train." ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[
+    sh:path rdf:type ;
+    sh:not [ sh:hasValue dcat:Dataset ] ;
+    sh:message "ADR-020 (amended 11 Sep 2026): a train is an executable — never typed dcat:Dataset." ;
+  ],[
+    sh:path dcat:distribution ;
+    sh:maxCount 0 ;
+    sh:message "A train's artefact is its fdt-o:hasPayload; dcat:distribution has domain dcat:Dataset." ;
+  ],[
     sh:path fdt-o:implementsInteractionMechanism ;
-    sh:in (fdt-inst:API fdt-inst:ExecutableContainer fdt-inst:Docker fdt-inst:FHIRAPI fdt-inst:GraphQL fdt-inst:Query fdt-inst:Python fdt-inst:Script fdt-inst:R fdt-inst:RESTAPI fdt-inst:SPARQL fdt-inst:SQL fdt-inst:Singularity fdt-inst:TPF);
-    sh:nodeKind sh:IRI;
-    sh:minCount 1;
+    sh:in (fdt-inst:API fdt-inst:ExecutableContainer fdt-inst:Docker fdt-inst:FHIRAPI fdt-inst:GraphQL fdt-inst:Query fdt-inst:Python fdt-inst:Script fdt-inst:R fdt-inst:RESTAPI fdt-inst:SPARQL fdt-inst:SQL fdt-inst:Singularity fdt-inst:TPF fdt-inst:IdentifierTranslation fdt-inst:VocabularyAlignment) ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
     dash:editor dash:URIEditor ;
   ],[
     sh:path fdt-o:isControlledBy ;
@@ -31,19 +72,29 @@
   ],[
     sh:path fdt-o:hasPayload ;
     sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:message "Every train has an executable artefact (fdt-o:Payload)." ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[
     sh:path fdt-o:hasRequirement ;
     sh:nodeKind sh:IRI ;
+    sh:qualifiedValueShape [ sh:class fdt-o:InputRequirement ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "ADR-030: a train declares the data it needs, as an fdt-o:InputRequirement carrying a SHACL model. It is what decides whether a station can run the train at all — a train that needs a diagnosis code and an admission timestamp cannot run where those do not exist, whatever the catalogue says about the theme." ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
   ],[
-    sh:path fdt-o:generatesOutput;
+    sh:path fdt-o:generatesOutput ;
     sh:nodeKind sh:IRI ;
     sh:minCount 1 ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
+  ],[
+    sh:path fdt-o:supportsCoordination ;
+    sh:nodeKind sh:IRI ;
+    sh:in (<https://w3id.org/fdt/run#Orchestrated> <https://w3id.org/fdt/run#Choreographed>) ;
+    dash:editor dash:URIEditor ;
   ],[
     sh:path dcat:theme ;
     sh:nodeKind sh:IRI ;
@@ -72,9 +123,19 @@
     sh:maxCount 1 ;
     dash:editor dash:URIEditor ;
     dash:viewer dash:LabelViewer ;
-  ].
+  ] .
 
-  :AgentShape a sh:NodeShape ;
+# Query and API trains can only be orchestrated (ADR-013): a query has no place to carry routing.
+:QueryOrApiTrainCoordinationShape a sh:NodeShape ;
+  sh:targetClass fdt-o:QueryTrain, fdt-o:SPARQLTrain, fdt-o:SQLTrain, fdt-o:GraphQLTrain, fdt-o:TriplePatternFragmentTrain,
+                 fdt-o:APITrain, fdt-o:RESTTrain, fdt-o:FHIRTrain ;
+  sh:property [
+    sh:path fdt-o:supportsCoordination ;
+    sh:not [ sh:hasValue <https://w3id.org/fdt/run#Choreographed> ] ;
+    sh:message "ADR-013: query and API trains support Orchestrated coordination only." ;
+  ] .
+
+:AgentShape a sh:NodeShape ;
   sh:targetClass foaf:Agent ;
   sh:property [
     sh:path foaf:name;
@@ -83,8 +144,8 @@
     sh:maxCount  1 ;
     dash:editor dash:TextFieldEditor ;
   ] .
-  
-  :TrainOwnerShape a sh:NodeShape ;
+
+:TrainOwnerShape a sh:NodeShape ;
   sh:targetClass fdt-o:TrainOwner ;
   sh:property [
     sh:path foaf:name;

@@ -1,0 +1,18 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix fdt-o: <https://w3id.org/fdt/fdt-o#>.
+@prefix fdt-inst: <https://w3id.org/fdt/instances#>.
+@prefix : <http://example.com/trains/invalid/>.
+
+# INVALID (FDT-O v4, ADR-030): a train that does not say what data it needs.
+#
+# It is concrete, it has a payload, it names its mechanism and its output. What no station can
+# answer is whether it holds the data this train reads — so a plan naming it can only select
+# stations by theme and hope, which is exactly what fdt-run:targetQuery used to do.
+
+:silent-train a fdt-o:SPARQLTrain;
+  dcterms:title "Train that declares no input requirement";
+  fdt-o:implementsInteractionMechanism fdt-inst:SPARQL;
+  fdt-o:hasPayload :some-payload;
+  fdt-o:generatesOutput :out;
+  dcat:theme <http://example.com/theme>.
